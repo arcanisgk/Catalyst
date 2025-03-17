@@ -1,0 +1,80 @@
+{
+  "name": "wnunez/catalyst",
+  "description": "Catalyst PHP Framework.",
+  "type": "project",
+  "keywords": [
+    "catalyst",
+    "framework",
+    "mvc",
+    "rapid-development",
+    "dry",
+    "oop",
+    "php"
+  ],
+  "homepage": "https://catalyst.lh-2.net",
+  "license": "MIT",
+  "config": {
+    "optimize-autoloader": true,
+    "platform": {
+      "php": "8.3"
+    },
+    "platform-check": false,
+    "sort-packages": true,
+    "process-timeout": 0
+  },
+  "autoload": {
+    "files": [
+      "app/Assets/resources/loaders/bug-loader.php",
+      "app/Assets/resources/loaders/init-loader.php",
+      "app/Assets/resources/loaders/init-function.php"
+    ],
+    "psr-4": {
+      "App\\": "app/",
+      "Tests\\": "test/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Walter Nuñez",
+      "email": "wnunez@lh-2.net"
+    },
+    {
+      "name": "Catalyst Community",
+      "homepage": "https://catalyst.lh-2.net/contributors"
+    }
+  ],
+  "require": {
+    "php": ">=8.3",
+    "phpmailer/phpmailer": ">=6.9.3",
+    "robthree/twofactorauth": ">=3.0.2",
+    "mpdf/mpdf": ">=8.2.5",
+    "arcanisgk/web-cli-detector": ">=1.07",
+    "cboden/ratchet": ">=0.4.4",
+    "ext-mbstring": "*",
+    "ext-xml": "*",
+    "ext-json": "*",
+    "ext-pdo": "*",
+    "ext-fileinfo": "*",
+    "ext-ctype": "*",
+    "ext-dom": "*",
+    "ext-libxml": "*",
+    "ext-gd": "*"
+  },
+  "scripts": {
+    "post-update-cmd": [
+      "@composer dump-autoload"
+    ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "support": {
+    "issues": "https://catalyst.lh-2.net/help-desk",
+    "forum": "https://catalyst.lh-2.net/forum",
+    "source": "https://github.com/arcanisgk/Catalyst"
+  },
+  "scripts-descriptions": {
+    "serve": "Start the PHP development server",
+    "check": "Check PHP syntax in project files",
+    "clear-cache": "Clear application cache"
+  }
+}

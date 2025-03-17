@@ -1,0 +1,6 @@
+.idea/*
+/vendor/*
+*.log
+/public/.well-known/mta-sts.txt
+/composer.lock
+/public/run-unit-test.php
