@@ -23,6 +23,11 @@ namespace App\Assets\Helpers\Error;
 use Exception;
 use App\Assets\Framework\Traits\{SingletonTrait, OutputCleanerTrait};
 
+/**************************************************************************************
+ * Class that handles registered Errors.
+ *
+ * @package App\Assets\Helpers\Error;
+ */
 class ErrorHandler
 {
     use SingletonTrait;

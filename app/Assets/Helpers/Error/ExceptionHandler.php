@@ -24,6 +24,11 @@ use Exception;
 use App\Assets\Framework\Traits\{SingletonTrait, OutputCleanerTrait};
 use Throwable;
 
+/**************************************************************************************
+ * Class that handles registered Exceptions.
+ *
+ * @package App\Assets\Helpers\Error;
+ */
 class ExceptionHandler
 {
     use SingletonTrait;

@@ -124,8 +124,37 @@ if (!defined('IS_DEVELOPMENT')) {
      * and creates a boolean constant 'IS_DEVELOPMENT' accordingly
      */
     define('IS_DEVELOPMENT', defined('APP_ENV') && APP_ENV === 'development');
-}
 
+
+    if (IS_DEVELOPMENT && !IS_CLI) {
+        // OPcache (more comprehensive settings)
+        ini_set('opcache.enable', '0');
+        ini_set('opcache.enable_cli', '0');
+        ini_set('opcache.revalidate_freq', '0');
+        ini_set('opcache.validate_timestamps', '1');
+        ini_set('opcache.save_comments', '1');
+
+        // PHP realpath cache
+        ini_set('realpath_cache_size', '0');
+        ini_set('realpath_cache_ttl', '0');
+
+        // APCu (if installed)
+        ini_set('apc.enabled', '0');
+        ini_set('apc.enable_cli', '0');
+
+        // Session caching
+        ini_set('session.cache_limiter', 'nocache');
+
+        // Response headers for preventing browser caching
+        header_remove('Pragma');
+        header_remove('Cache-Control');
+        header_remove('Expires');
+        header('Pragma: no-cache');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Expires: 0');
+
+    }
+}
 
 if (!defined('IS_PRODUCTION')) {
     /**
@@ -137,3 +166,32 @@ if (!defined('IS_PRODUCTION')) {
     define('IS_PRODUCTION', defined('APP_ENV') && APP_ENV === 'production');
 }
 
+if (!defined('GET_ENVIRONMENT')) {
+    /**
+     * Defines a constant to indicate whether the application is running in development mode
+     *
+     * Checks if the APP_ENV environment variable is set to 'development'
+     * and creates a boolean constant 'IS_DEVELOPMENT' accordingly
+     */
+    define('GET_ENVIRONMENT', defined('APP_ENV') ? APP_ENV : 'unknown');
+}
+
+if (!defined('DEF_LANG')) {
+    /**
+     * Defines a constant to indicate whether the application is running in development mode
+     *
+     * Checks if the APP_ENV environment variable is set to 'development'
+     * and creates a boolean constant 'IS_DEVELOPMENT' accordingly
+     */
+    define('DEF_LANG', defined('APP_LANG') ? APP_LANG : 'en');
+}
+
+if (!defined('DEF_URL')) {
+    /**
+     * Defines a constant to indicate whether the application is running in development mode
+     *
+     * Checks if the APP_ENV environment variable is set to 'development'
+     * and creates a boolean constant 'IS_DEVELOPMENT' accordingly
+     */
+    define('DEF_URL', defined('APP_URL') ? APP_URL : 'localhost');
+}

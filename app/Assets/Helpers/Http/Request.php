@@ -2,29 +2,78 @@
 
 declare(strict_types=1);
 
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
 namespace App\Assets\Helpers\Http;
 
 use App\Assets\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 
-/**
+/**************************************************************************************
  * Request class for handling HTTP request data
  *
  * Provides methods for accessing and sanitizing request data
  * from various sources ($_GET, $_POST, $_REQUEST, etc.)
+ *
+ * @package App\Assets\Helpers\Http;
  */
 class Request
 {
     use SingletonTrait;
 
+    /**
+     * @var array
+     */
     private array $get = [];
+
+    /**
+     * @var array
+     */
     private array $post = [];
+
+    /**
+     * @var array
+     */
     private array $cookie = [];
+
+    /**
+     * @var array
+     */
     private array $files = [];
+
+    /**
+     * @var array
+     */
     private array $server = [];
+
+    /**
+     * @var string|null
+     */
     private ?string $inputContent = null;
+
+    /**
+     * @var string|mixed
+     */
     private string $requestMethod;
+
+    /**
+     * @var string|mixed
+     */
     private string $contentType;
 
     /**
@@ -180,5 +229,15 @@ class Request
         }
 
         return $input;
+    }
+
+    /**
+     * Get the current request URI
+     *
+     * @return string Request URI
+     */
+    public function getUri(): string
+    {
+        return $_SERVER['REQUEST_URI'] ?? '/';
     }
 }

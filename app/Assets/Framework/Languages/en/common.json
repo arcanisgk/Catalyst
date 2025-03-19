@@ -1,0 +1,66 @@
+{
+  "app": {
+    "name": "Catalyst Framework",
+    "version": "1.0.0",
+    "tagline": "A modern PHP framework for rapid application development"
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "messages": {
+    "welcome": "Welcome to Catalyst Framework",
+    "success": "Operation completed successfully",
+    "error": "An error occurred",
+    "not_found": "The requested resource was not found",
+    "loading": "Loading..."
+  },
+  "footer": {
+    "copyright": "© :year Catalyst Framework",
+    "rights": "All rights reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "min_length": "This field must be at least :min characters",
+    "max_length": "This field cannot exceed :max characters",
+    "password_match": "Passwords do not match",
+    "invalid_value": "Invalid value"
+  },
+  "dates": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "days_ago": {
+      "one": ":count day ago",
+      "many": ":count days ago"
+    },
+    "months": [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ],
+    "weekdays": [
+      "Sunday", "Monday", "Tuesday", "Wednesday",
+      "Thursday", "Friday", "Saturday"
+    ]
+  }
+}

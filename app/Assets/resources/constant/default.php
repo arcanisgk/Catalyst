@@ -18,17 +18,33 @@ declare(strict_types=1);
  *
  */
 
+
+/**
+ * Check PHP version requirement
+ */
+if (!version_compare(phpversion(), '8.3', '>=')) {
+    die("This project requires PHP version 8.3 or higher");
+}
+
 /**
  * Set default timezone for the application
  */
 date_default_timezone_set('America/Panama');
 
-/**
- * Directory Separator
- *
- * Description: This constant represents the directory separator for the file system paths.
- */
-const DS = DIRECTORY_SEPARATOR;
+if (!defined('RUNTIME_START')) {
+    /**
+     * Defines a constant with runtime performance metrics
+     *
+     * Captures the current timestamp, memory usage, and peak memory usage
+     * at the start of script execution for performance tracking and profiling
+     */
+    define('RUNTIME_START', [
+        'TIME' => microtime(true),
+        'MEMORY' => memory_get_usage(),
+        'MEMORY_PEAK' => memory_get_peak_usage(),
+    ]);
+}
+
 
 $path = implode(DS, array_slice(explode(DS, dirname(__DIR__)), 0, -3));
 if (!defined('PD')) {
@@ -57,4 +73,3 @@ if (!defined('CT')) {
      */
     define('CT', time());
 }
-

@@ -1,0 +1,46 @@
+Project-Root/
+├── app/                          # Application code
+│   ├── Assets/                   # Framework assets and resources
+│   │   ├── Framework/            # Core framework components
+│   │   │   ├── Controllers/      # Base controller classes
+│   │   │   ├── Core/             # Core framework functionality
+│   │   │   ├── Exceptions/       # Framework specific exceptions
+│   │   │   ├── Models/           # Base model classes
+│   │   │   ├── Traits/           # Reusable traits
+│   │   │   └── Views/            # Framework view templates
+│   │   │       └── Errors/       # Error page templates
+│   │   │
+│   │   ├── Helpers/              # Helper classes and utilities
+│   │   │   ├── Debug/            # Debugging tools
+│   │   │   ├── Error/            # Error handling system
+│   │   │   ├── Http/             # HTTP request/response handling
+│   │   │   ├── IO/               # Input/Output operations
+│   │   │   ├── Log/              # Logging system
+│   │   │   └── ToolBox/          # Misc utility tools
+│   │   │
+│   │   └── resources/            # Framework resources
+│   │       ├── bin/              # Executable scripts
+│   │       ├── config/           # Configuration files
+│   │       ├── constant/         # Constant definitions
+│   │       └── loaders/          # System initialization loaders
+│   │
+│   ├── Entity/                   # Domain entities
+│   │   ├── Default/              # Default entity objects
+│   │   └── Project/              # Project-specific entities
+│   │
+│   └── Repository/               # Data access layer
+│       ├── Default/              # Default repositories
+│       └── Project/              # Project-specific repositories
+│
+├── logs/                         # Application logs
+│   ├── email/                    # Email activity logs
+│   ├── errors/                   # Error logs
+│   ├── events/                   # Event logs
+│   └── info/                     # General information logs
+│
+├── public/                       # Publicly accessible files
+│   ├── assets/                   # Web assets (CSS, JS, images)
+│   ├── resources/                # Public resources
+│   └── uploads/                  # User uploaded files
+│
+└── test/                         # Test files

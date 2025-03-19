@@ -1,0 +1,54 @@
+{
+  "title": "Bienvenido a Catalyst",
+  "subtitle": "Un framework PHP moderno para desarrollo rápido de aplicaciones",
+  "hero": {
+    "heading": "Construye Mejores Aplicaciones Web",
+    "text": "Catalyst proporciona una sintaxis limpia y elegante que te ayuda a construir aplicaciones increíbles sin obstaculizar tu trabajo.",
+    "button": "Comenzar"
+  },
+  "features": {
+    "title": "Características Principales",
+    "list": [
+      {
+        "title": "Sistema de Rutas Elegante",
+        "description": "Define rutas con una sintaxis limpia y expresiva"
+      },
+      {
+        "title": "Middleware Potente",
+        "description": "Filtra peticiones HTTP con middleware personalizable"
+      },
+      {
+        "title": "Manejo Flexible de Respuestas",
+        "description": "Crea y envía varios tipos de respuestas con facilidad"
+      },
+      {
+        "title": "Rápido y Ligero",
+        "description": "Optimizado para rendimiento sin carga innecesaria"
+      }
+    ]
+  },
+  "benefits": {
+    "title": "¿Por Qué Elegir Catalyst?",
+    "text": "Catalyst combina simplicidad, rendimiento y flexibilidad para ayudarte a construir aplicaciones web modernas de manera rápida y eficiente.",
+    "items": {
+      "one": "Beneficio",
+      "many": "Beneficios"
+    }
+  },
+  "getting_started": {
+    "title": "Primeros Pasos",
+    "steps": [
+      "Configura tu proyecto",
+      "Establece tu información empresarial",
+      "Comienza a construir de inmediato"
+    ],
+    "button": "Leer la Documentación"
+  },
+  "testimonials": {
+    "title": "Lo Que Dicen los Desarrolladores",
+    "count": {
+      "one": ":count desarrollador",
+      "many": ":count desarrolladores"
+    }
+  }
+}

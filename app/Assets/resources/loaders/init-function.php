@@ -97,7 +97,18 @@ function log_user(string $event, string $message, array $context = []): void
  */
 function ex(...$var): void
 {
-    Dumper::dump(['data' => $var]);
+    if (IS_DEVELOPMENT) {
+        // Get backtrace information to determine caller
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+        $caller = [
+            'file' => $backtrace['file'] ?? 'unknown',
+            'line' => $backtrace['line'] ?? 0
+        ];
+
+        Dumper::dump(['data' => $var, 'caller' => $caller]);
+    } else {
+        echo "Dump is disabled in production mode.";
+    }
 }
 
 /**
@@ -108,7 +119,19 @@ function ex(...$var): void
  */
 function ex_c(...$var): never
 {
-    Dumper::dump(['data' => $var]);
+    if (IS_DEVELOPMENT) {
+        // Get backtrace information to determine caller
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+        $caller = [
+            'file' => $backtrace['file'] ?? 'unknown',
+            'line' => $backtrace['line'] ?? 0
+        ];
+
+        Dumper::dump(['data' => $var, 'caller' => $caller]);
+    } else {
+        echo "Dump is disabled in production mode.";
+    }
     exit;
 }
+
 

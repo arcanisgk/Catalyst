@@ -23,8 +23,10 @@ namespace App\Assets\Helpers\Error;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 
-/**
+/**************************************************************************************
  * Class to handle logging of errors caught by BugCatcher
+ *
+ * @package App\Assets\Helpers\Error;
  */
 class BugLogger
 {

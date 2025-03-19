@@ -1,6 +1,11 @@
 .idea/*
-/vendor/*
+/.cody/*
+vendor/*
 *.log
 /public/.well-known/mta-sts.txt
 /composer.lock
 /public/run-unit-test.php
+/app/Assets/resources/config/development/*.json
+/app/Assets/resources/config/production/*.json
+/app/Assets/resources/config/test/
+

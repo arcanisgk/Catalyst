@@ -1,0 +1,53 @@
+{
+  "title": "Contáctanos",
+  "subtitle": "Ponte en contacto con nosotros",
+  "intro": "Nos encantaría saber de ti. Por favor completa el formulario a continuación y te responderemos lo antes posible.",
+  "form": {
+    "name": {
+      "label": "Tu Nombre",
+      "placeholder": "Ingresa tu nombre completo"
+    },
+    "email": {
+      "label": "Correo Electrónico",
+      "placeholder": "Ingresa tu dirección de correo"
+    },
+    "subject": {
+      "label": "Asunto",
+      "placeholder": "¿De qué se trata?"
+    },
+    "message": {
+      "label": "Mensaje",
+      "placeholder": "Escribe tu mensaje aquí..."
+    },
+    "submit": "Enviar Mensaje"
+  },
+  "contact_info": {
+    "title": "Información de Contacto",
+    "address": "123 Calle Framework, Ciudad Web, Internet",
+    "email": "contacto@ejemplo.com",
+    "phone": "+1 (123) 456-7890",
+    "hours": "Lunes - Viernes: 9:00 AM - 5:00 PM"
+  },
+  "messages": {
+    "success": "Tu mensaje ha sido enviado. ¡Gracias por contactarnos!",
+    "error": "Hubo un error al enviar tu mensaje. Por favor intenta de nuevo.",
+    "validation": "Por favor corrige los errores en el formulario antes de enviarlo."
+  },
+  "validation": {
+    "name": {
+      "required": "Por favor ingresa tu nombre",
+      "min_length": "El nombre debe tener al menos 2 caracteres"
+    },
+    "email": {
+      "required": "Por favor ingresa tu dirección de correo",
+      "invalid": "Por favor ingresa una dirección de correo válida"
+    },
+    "subject": {
+      "required": "Por favor ingresa un asunto"
+    },
+    "message": {
+      "required": "Por favor ingresa un mensaje",
+      "min_length": "El mensaje debe tener al menos 10 caracteres"
+    }
+  }
+}

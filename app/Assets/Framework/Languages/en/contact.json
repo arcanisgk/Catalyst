@@ -1,0 +1,53 @@
+{
+  "title": "Contact Us",
+  "subtitle": "Get in touch with us",
+  "intro": "We'd love to hear from you. Please fill out the form below and we'll get back to you as soon as possible.",
+  "form": {
+    "name": {
+      "label": "Your Name",
+      "placeholder": "Enter your full name"
+    },
+    "email": {
+      "label": "Email Address",
+      "placeholder": "Enter your email address"
+    },
+    "subject": {
+      "label": "Subject",
+      "placeholder": "What is this regarding?"
+    },
+    "message": {
+      "label": "Message",
+      "placeholder": "Enter your message here..."
+    },
+    "submit": "Send Message"
+  },
+  "contact_info": {
+    "title": "Contact Information",
+    "address": "123 Framework St, Web City, Internet",
+    "email": "contact@example.com",
+    "phone": "+1 (123) 456-7890",
+    "hours": "Monday - Friday: 9:00 AM - 5:00 PM"
+  },
+  "messages": {
+    "success": "Your message has been sent. Thank you for contacting us!",
+    "error": "There was an error sending your message. Please try again.",
+    "validation": "Please fix the errors in the form before submitting."
+  },
+  "validation": {
+    "name": {
+      "required": "Please enter your name",
+      "min_length": "Name must be at least 2 characters"
+    },
+    "email": {
+      "required": "Please enter your email address",
+      "invalid": "Please enter a valid email address"
+    },
+    "subject": {
+      "required": "Please enter a subject"
+    },
+    "message": {
+      "required": "Please enter a message",
+      "min_length": "Message must be at least 10 characters"
+    }
+  }
+}

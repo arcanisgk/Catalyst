@@ -1,0 +1,71 @@
+{
+  "title": "User Profile",
+  "subtitle": "Manage your account information",
+  "personal_info": {
+    "title": "Personal Information",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "bio": "Biography",
+    "location": "Location",
+    "website": "Website",
+    "update": "Update Information"
+  },
+  "security": {
+    "title": "Security",
+    "current_password": "Current Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm New Password",
+    "update": "Update Password",
+    "two_factor": {
+      "title": "Two-Factor Authentication",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "enable": "Enable Two-Factor Authentication",
+      "disable": "Disable Two-Factor Authentication"
+    }
+  },
+  "preferences": {
+    "title": "Preferences",
+    "language": "Language",
+    "timezone": "Timezone",
+    "notifications": "Notifications",
+    "theme": {
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System Default"
+    },
+    "update": "Update Preferences"
+  },
+  "account": {
+    "title": "Account",
+    "joined": "Member since",
+    "last_login": "Last login",
+    "delete": {
+      "title": "Delete Account",
+      "warning": "Warning: This action cannot be undone.",
+      "confirm": "I understand the consequences and want to delete my account",
+      "button": "Delete My Account"
+    }
+  },
+  "activity": {
+    "title": "Recent Activity",
+    "empty": "No recent activity",
+    "login": {
+      "one": "Logged in :count time",
+      "many": "Logged in :count times"
+    }
+  },
+  "messages": {
+    "info_updated": "Profile information updated successfully",
+    "password_updated": "Password updated successfully",
+    "preferences_updated": "Preferences updated successfully",
+    "account_deleted": "Your account has been deleted"
+  },
+  "validation": {
+    "current_password": "Current password is incorrect",
+    "password_min": "Password must be at least 8 characters",
+    "password_match": "New password and confirmation must match"
+  }
+}

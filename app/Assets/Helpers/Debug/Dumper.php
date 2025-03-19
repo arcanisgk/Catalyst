@@ -2,12 +2,30 @@
 
 declare(strict_types=1);
 
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
 namespace App\Assets\Helpers\Debug;
 
 use App\Assets\Framework\Traits\SingletonTrait;
 
-/**
+/**************************************************************************************
  * Dumper class for debugging variables
+ *
+ * @package App\Assets\Helpers\Debug;
  */
 class Dumper
 {
@@ -21,7 +39,7 @@ class Dumper
     /**
      * Maximum array/object children to show
      */
-    private int $maxChildren = 25;
+    private int $maxChildren = 50;
 
     /**
      * Maximum nesting level
@@ -38,6 +56,7 @@ class Dumper
     {
         $instance = self::getInstance();
         $data = $options['data'] ?? [];
+        $caller = $options['caller'] ?? null;
 
         if (empty($data)) {
             return;
@@ -47,6 +66,22 @@ class Dumper
 
         if ($isHtml) {
             echo '<pre style="background-color:#1d1e22; color:#e6e6e6; padding:15px; border-radius:5px; font-family:monospace;">';
+        }
+
+        // Display caller information if available
+        if ($caller) {
+            $callerText = "Called from: " . $caller['file'] . " (line " . $caller['line'] . ")";
+
+            if ($isHtml) {
+                echo '<div style="margin-bottom:10px;padding:5px;background-color:#2d2d30;border-left:3px solid #505050;">';
+                echo '<span style="color:#80deea;font-weight:bold;">' . htmlspecialchars($callerText) . '</span>';
+                echo '</div>';
+            } else {
+                $width = min(80, TW);
+                echo str_repeat('=', $width) . PHP_EOL;
+                echo "\033[1;36m" . $callerText . "\033[0m" . PHP_EOL;
+                echo str_repeat('=', $width) . PHP_EOL;
+            }
         }
 
         foreach ($data as $var) {
@@ -63,6 +98,7 @@ class Dumper
             echo '</pre>';
         }
     }
+
 
     /**
      * Format and output the variable
@@ -97,6 +133,10 @@ class Dumper
 
     /**
      * Format string for output
+     *
+     * @param string $var
+     * @param bool $isHtml
+     * @return string
      */
     private function formatString(string $var, bool $isHtml): string
     {
@@ -134,30 +174,49 @@ class Dumper
 
     /**
      * Format numeric value for output
+     *
+     * @param int|float $var
+     * @param bool $isHtml
+     * @return string
      */
     private function formatNumber(int|float $var, bool $isHtml): string
     {
         return $this->colorText((string)$var, 'number', $isHtml);
     }
 
+
     /**
      * Format boolean for output
+     *
+     * @param bool $var
+     * @param bool $isHtml
+     * @return string
      */
     private function formatBoolean(bool $var, bool $isHtml): string
     {
         return $this->colorText($var ? 'true' : 'false', 'boolean', $isHtml);
     }
 
+
     /**
      * Format null for output
+     *
+     * @param bool $isHtml
+     * @return string
      */
     private function formatNull(bool $isHtml): string
     {
         return $this->colorText('null', 'null', $isHtml);
     }
 
+
     /**
      * Format array for output
+     *
+     * @param array $var
+     * @param bool $isHtml
+     * @param int $depth
+     * @return string
      */
     private function formatArray(array $var, bool $isHtml, int $depth): string
     {
@@ -200,8 +259,14 @@ class Dumper
         return $result;
     }
 
+
     /**
      * Format object for output
+     *
+     * @param object $var
+     * @param bool $isHtml
+     * @param int $depth
+     * @return string
      */
     private function formatObject(object $var, bool $isHtml, int $depth): string
     {
@@ -261,8 +326,13 @@ class Dumper
         return $result;
     }
 
+
     /**
      * Format resource for output
+     *
+     * @param $var
+     * @param bool $isHtml
+     * @return string
      */
     private function formatResource($var, bool $isHtml): string
     {
@@ -271,8 +341,13 @@ class Dumper
             $this->colorText(" id=" . (int)$var, 'meta', $isHtml);
     }
 
+
     /**
      * Get color associated with type
+     *
+     * @param string $type
+     * @param bool $isHtml
+     * @return string
      */
     private function getTypeColor(string $type, bool $isHtml): string
     {
@@ -288,8 +363,14 @@ class Dumper
         };
     }
 
+
     /**
      * Apply color to text based on context
+     *
+     * @param string $text
+     * @param string $context
+     * @param bool $isHtml
+     * @return string
      */
     private function colorText(string $text, string $context, bool $isHtml): string
     {

@@ -25,7 +25,7 @@ use App\Assets\Framework\Traits\SingletonTrait;
 /**************************************************************************************
  * Class that handles capturing and displaying errors in the application.
  *
- * @package App\Assets\Framework\Error
+ * @package App\Assets\Helpers\Error;
  */
 class BugCatcher
 {
@@ -34,6 +34,8 @@ class BugCatcher
 
     /**
      * Initialize the error handling system
+     *
+     * @return void
      */
     public function initialize(): void
     {
@@ -52,7 +54,9 @@ class BugCatcher
     }
 
     /**
-     * Configura los ajustes de visualización de errores de PHP según el entorno
+     * Configure PHP error display settings based on environment
+     *
+     * @return void
      */
     private function configureErrorDisplay(): void
     {

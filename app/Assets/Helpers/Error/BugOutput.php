@@ -25,6 +25,11 @@ use App\Assets\Helpers\ToolBox\DrawBox;
 use Closure;
 use Exception;
 
+/**************************************************************************************
+ * Class to handle output of errors caught by BugCatcher
+ *
+ * @package App\Assets\Helpers\Error;
+ */
 class BugOutput
 {
     use SingletonTrait;
@@ -59,13 +64,14 @@ class BugOutput
      *
      * @param array $errorData Error data to display
      * @return void
+     * @throws Exception
      */
     private function displayCLI(array $errorData): void
     {
         $output = $this->formatCliOutput($errorData);
         $drawBox = DrawBox::getInstance();
 
-        // Use DrawBox with options array instead of individual parameters
+        // Display formatted error output using DrawBox with error styling (red, highlighted)
         echo $drawBox->draw($output, [
             'headerLines' => 1,
             'footerLines' => 0,

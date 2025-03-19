@@ -25,19 +25,29 @@ use App\Assets\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\ToolBox\DrawBox;
 use Exception;
 
-/**
+/**************************************************************************************
  * Logger class for recording system events, errors, and user activities
+ *
+ * @package App\Assets\Helpers\Log;
  */
 class Logger
 {
     use SingletonTrait;
 
+    /**
+     * @var bool
+     */
     private static bool $hasBeenInitialized = false;
 
+    /**
+     * @var bool
+     */
     private bool $logAssetErrors = false; // Default to not logging asset errors
 
     /**
      * Log levels with their priorities
+     *
+     * @const array LOG_LEVELS
      */
     private const array LOG_LEVELS = [
         'EMERGENCY' => 0, // System is unusable
@@ -52,19 +62,28 @@ class Logger
 
     /**
      * Base directory for log files
+     *
+     * @var string
      */
     private string $logDirectory;
 
     /**
      * Minimum log level to record
+     *
+     * @var int|mixed
      */
     private int $minimumLogLevel;
 
     /**
      * Whether to display logs in terminal/browser
+     *
+     * @var bool
      */
     private bool $displayLogs;
 
+    /**
+     * @var string
+     */
     private string $requestId;
 
     /**
@@ -358,6 +377,7 @@ class Logger
      * @param string $level Log level
      * @param string $logEntry Formatted log entry
      * @return void
+     * @throws Exception
      */
     private function displayLog(string $level, string $logEntry): void
     {

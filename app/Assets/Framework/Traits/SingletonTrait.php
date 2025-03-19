@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace App\Assets\Framework\Traits;
 
-/**
+/**************************************************************************************
  * Trait that handles: Singleton Instance
  *
- * @package Asset\Framework\Trait;
+ * @package App\Assets\Framework\Traits;
  */
 trait SingletonTrait
 {

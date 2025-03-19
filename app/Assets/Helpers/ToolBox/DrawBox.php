@@ -21,11 +21,13 @@ declare(strict_types=1);
 namespace App\Assets\Helpers\ToolBox;
 
 use App\Assets\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\IO\FileOutputService;
+use App\Assets\Helpers\IO\FileOutput;
 use Exception;
 
-/**
+/**************************************************************************************
  * DrawBox class for creating formatted text boxes in terminal or HTML
+ *
+ * @package App\Assets\Helpers\ToolBox;
  */
 class DrawBox
 {
@@ -88,7 +90,7 @@ class DrawBox
 
         // Handle file output if enabled in options
         if ($options['enableFileOutput'] && !$options['isError']) {
-            $fileService = FileOutputService::getInstance();
+            $fileService = FileOutput::getInstance();
 
             if ($fileService->isFileOutputRequested()) {
                 $result = $fileService->handleFileOutput($boxOutput);
@@ -160,7 +162,7 @@ class DrawBox
         $boxWidth = $this->calculateBoxWidth($maxContentWidth, $options['maxWidth'], $termWidth);
 
         // Check if terminal is wide enough
-        $fileService = FileOutputService::getInstance();
+        $fileService = FileOutput::getInstance();
         if (!$this->isTerminalWideEnough($boxWidth, $termWidth) && !$fileService->isFileOutputRequested()) {
             return $this->generateTerminalTooNarrowMessage($boxWidth, $termWidth);
         }
@@ -301,7 +303,7 @@ class DrawBox
                     $this->boxChars['v'] . $cliColors['reset'] . PHP_EOL;
             } // Process main content
             else {
-                $fileService = FileOutputService::getInstance();
+                $fileService = FileOutput::getInstance();
                 $plainLine = $fileService->removeAnsiSequences($line);
 
                 if ($start) {
@@ -438,7 +440,7 @@ class DrawBox
      */
     private function getStringLengthWithoutANSI(string $string): int
     {
-        $fileService = FileOutputService::getInstance();
+        $fileService = FileOutput::getInstance();
         return mb_strlen($fileService->removeAnsiSequences($string));
     }
 
@@ -451,7 +453,7 @@ class DrawBox
      */
     private function splitLineToFit(string $line, int $maxWidth): array
     {
-        $fileService = FileOutputService::getInstance();
+        $fileService = FileOutput::getInstance();
         $plainLine = $fileService->removeAnsiSequences($line);
         $delimiter = str_contains($plainLine, '=>') ? ' =>' : (str_contains($plainLine, ':') ? ':' : null);
 
@@ -507,7 +509,7 @@ class DrawBox
             $maxWidth = 5; // Minimum reasonable width
         }
 
-        $fileService = FileOutputService::getInstance();
+        $fileService = FileOutput::getInstance();
         $plainText = $fileService->removeAnsiSequences($text);
 
         if (mb_strlen($plainText) <= $maxWidth) {

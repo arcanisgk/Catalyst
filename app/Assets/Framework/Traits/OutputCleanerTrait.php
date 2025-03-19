@@ -20,13 +20,18 @@ declare(strict_types=1);
 
 namespace App\Assets\Framework\Traits;
 
-/**
+/**************************************************************************************
  * Trait that provides output buffer cleaning functionality
+ *
+ * @package App\Assets\Framework\Traits;
  */
 trait OutputCleanerTrait
 {
+
     /**
      * Clean any output that might have been sent before an error occurred
+     *
+     * @return void
      */
     protected function cleanOutput(): void
     {

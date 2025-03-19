@@ -22,6 +22,12 @@ namespace App\Assets\Framework\Core;
 
 use App\Assets\Framework\Traits\SingletonTrait;
 
+
+/**************************************************************************************
+ * Class that handles Argument for command line.
+ *
+ * @package App\Assets\Framework\Core
+ */
 class Argument
 {
 
@@ -33,19 +39,22 @@ class Argument
     private static array $arguments = [];
 
     /**
-     * @param $args
+     * Constructor that receives command line arguments
+     *
+     * @param array $args Command line arguments from $argv
      */
-    public function __construct($args)
+    public function __construct(array $args)
     {
         $this->setArguments($args);
     }
 
     /**
-     * @param $args
+     * Parse command line arguments into key-value pairs
      *
+     * @param array $args Raw command line arguments
      * @return void
      */
-    private static function setArguments($args): void
+    private static function setArguments(array $args): void
     {
         $args = array_slice($args, 1);
         $parsedArgs = [];

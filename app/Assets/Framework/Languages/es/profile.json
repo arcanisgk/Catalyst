@@ -1,0 +1,71 @@
+{
+  "title": "Perfil de Usuario",
+  "subtitle": "Administra tu información de cuenta",
+  "personal_info": {
+    "title": "Información Personal",
+    "name": "Nombre Completo",
+    "email": "Correo Electrónico",
+    "phone": "Número de Teléfono",
+    "bio": "Biografía",
+    "location": "Ubicación",
+    "website": "Sitio Web",
+    "update": "Actualizar Información"
+  },
+  "security": {
+    "title": "Seguridad",
+    "current_password": "Contraseña Actual",
+    "new_password": "Nueva Contraseña",
+    "confirm_password": "Confirmar Nueva Contraseña",
+    "update": "Actualizar Contraseña",
+    "two_factor": {
+      "title": "Autenticación de Dos Factores",
+      "enabled": "Habilitada",
+      "disabled": "Deshabilitada",
+      "enable": "Habilitar Autenticación de Dos Factores",
+      "disable": "Deshabilitar Autenticación de Dos Factores"
+    }
+  },
+  "preferences": {
+    "title": "Preferencias",
+    "language": "Idioma",
+    "timezone": "Zona Horaria",
+    "notifications": "Notificaciones",
+    "theme": {
+      "title": "Tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Predeterminado del Sistema"
+    },
+    "update": "Actualizar Preferencias"
+  },
+  "account": {
+    "title": "Cuenta",
+    "joined": "Miembro desde",
+    "last_login": "Último inicio de sesión",
+    "delete": {
+      "title": "Eliminar Cuenta",
+      "warning": "Advertencia: Esta acción no se puede deshacer.",
+      "confirm": "Entiendo las consecuencias y quiero eliminar mi cuenta",
+      "button": "Eliminar Mi Cuenta"
+    }
+  },
+  "activity": {
+    "title": "Actividad Reciente",
+    "empty": "No hay actividad reciente",
+    "login": {
+      "one": "Iniciaste sesión :count vez",
+      "many": "Iniciaste sesión :count veces"
+    }
+  },
+  "messages": {
+    "info_updated": "Información de perfil actualizada exitosamente",
+    "password_updated": "Contraseña actualizada exitosamente",
+    "preferences_updated": "Preferencias actualizadas exitosamente",
+    "account_deleted": "Tu cuenta ha sido eliminada"
+  },
+  "validation": {
+    "current_password": "La contraseña actual es incorrecta",
+    "password_min": "La contraseña debe tener al menos 8 caracteres",
+    "password_match": "La nueva contraseña y la confirmación deben coincidir"
+  }
+}

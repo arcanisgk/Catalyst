@@ -1,0 +1,66 @@
+{
+  "app": {
+    "name": "Framework Catalyst",
+    "version": "1.0.0",
+    "tagline": "Un framework PHP moderno para desarrollo rápido de aplicaciones"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar Sesión",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "settings": "Configuración"
+  },
+  "buttons": {
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior"
+  },
+  "messages": {
+    "welcome": "Bienvenido a Framework Catalyst",
+    "success": "Operación completada con éxito",
+    "error": "Ha ocurrido un error",
+    "not_found": "El recurso solicitado no fue encontrado",
+    "loading": "Cargando..."
+  },
+  "footer": {
+    "copyright": "© :year Framework Catalyst",
+    "rights": "Todos los derechos reservados",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "email": "Por favor ingresa una dirección de correo válida",
+    "min_length": "Este campo debe tener al menos :min caracteres",
+    "max_length": "Este campo no puede exceder :max caracteres",
+    "password_match": "Las contraseñas no coinciden",
+    "invalid_value": "Valor inválido"
+  },
+  "dates": {
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "tomorrow": "Mañana",
+    "days_ago": {
+      "one": "hace :count día",
+      "many": "hace :count días"
+    },
+    "months": [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ],
+    "weekdays": [
+      "Domingo", "Lunes", "Martes", "Miércoles",
+      "Jueves", "Viernes", "Sábado"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "company": {
+    "company_name": "Avipac Inc",
+    "company_owner": "Avipac Inc",
+    "company_department": "Avisistema 4.0"
+  },
+  "project": {
+    "project_name": "Avisistema 4.0",
+    "project_config": true,
+    "project_copyright": "Avipac Inc",
+    "eula": "1.0.0a"
+  },
+  "host": {
+    "domain": "localhost",
+    "lang": "en",
+    "s-lang": {
+      "en": "English",
+      "es": "Spanish",
+      "fr": "French",
+      "pt": "Portuguese"
+    },
+    "m-lang": true,
+    "protocol": "http",
+    "entry": "User-Access",
+    "license": "FREE-FREE-FREE-FREE",
+    "free": true,
+    "humanitarian": false
+  }
+}

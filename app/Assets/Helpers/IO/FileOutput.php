@@ -26,10 +26,12 @@ use App\Assets\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 
-/**
+/**************************************************************************************
  * Service for handling file output operations
+ *
+ * @package App\Assets\Helpers\IO;
  */
-class FileOutputService
+class FileOutput
 {
     use SingletonTrait;
 
