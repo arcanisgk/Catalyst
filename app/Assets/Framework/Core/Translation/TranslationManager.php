@@ -306,4 +306,17 @@ class TranslationManager
 
         return $this;
     }
+
+    /**
+     * Get the default language
+     *
+     * @return string Default language code
+     * @throws Exception If not initialized
+     */
+    public function getDefaultLanguage(): string
+    {
+        $this->ensureInitialized();
+        return $this->service->getDefaultLanguage();
+    }
+
 }

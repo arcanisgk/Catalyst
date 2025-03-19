@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace App\Assets\Framework\Exceptions;
 
 use RuntimeException;
+use Throwable;
 
 /**************************************************************************************
  * Exception thrown when a route cannot be found
@@ -37,12 +38,12 @@ class RouteNotFoundException extends RuntimeException
      *
      * @param string $message Exception message
      * @param int $code Exception code
-     * @param \Throwable|null $previous Previous exception
+     * @param Throwable|null $previous Previous exception
      */
     public function __construct(
-        string      $message = 'Route not found',
-        int         $code = 404,
-        ?\Throwable $previous = null
+        string     $message = 'Route not found',
+        int        $code = 404,
+        ?Throwable $previous = null
     )
     {
         parent::__construct($message, $code, $previous);

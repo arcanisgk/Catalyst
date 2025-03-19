@@ -113,15 +113,13 @@ class ViewServiceProvider
      * Configure the ViewFinder component
      *
      * @return void
+     * @throws Exception
      */
     protected function configureViewFinder(): void
     {
         $viewFinder = ViewFinder::getInstance();
 
-        // Set file extension (default is already .php)
-        // $viewFinder->setExtension('.php');
-
-        // Add additional paths if needed
+        // Only add theme path if the constant is defined
         if (defined('THEME_PATH') && is_dir(THEME_PATH)) {
             $viewFinder->addPath('theme', THEME_PATH);
         }
@@ -132,6 +130,7 @@ class ViewServiceProvider
         ]);
     }
 
+
     /**
      * Configure the LayoutManager component
      *
@@ -141,8 +140,7 @@ class ViewServiceProvider
     {
         $layoutManager = LayoutManager::getInstance();
 
-        // Set default layout (already 'default' by default)
-        // Get from config if available
+        // Only set default layout if the constant is defined
         if (defined('DEFAULT_LAYOUT')) {
             $layoutManager->setDefaultLayout(DEFAULT_LAYOUT);
         }
@@ -257,14 +255,31 @@ class ViewServiceProvider
                 'layout' => $defaultLayout
             ]);
 
-            // Create a basic layout template
-            $defaultContent = $this->getDefaultLayoutTemplate();
-            $layoutManager->createDefaultLayout($defaultContent);
+            // Path to default layout template
+            $templatePath = PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Views' . DS . 'layouts' . DS . 'template.php';
+
+            // Check if template exists
+            if (file_exists($templatePath)) {
+                // Read template content
+                $defaultContent = file_get_contents($templatePath);
+                $layoutManager->createDefaultLayout($defaultContent);
+            } else {
+                $this->logger->warning('Default layout template not found', [
+                    'templatePath' => $templatePath
+                ]);
+
+                // Fallback to creating a basic layout
+                $defaultContent = $this->getDefaultLayoutTemplate();
+                $layoutManager->createDefaultLayout($defaultContent);
+            }
         }
     }
 
+
     /**
-     * Get the default layout template content
+     * Get the default layout template content as a fallback
+     *
+     * This is only used if the template file cannot be found
      *
      * @return string Default layout HTML
      */
@@ -277,34 +292,13 @@ class ViewServiceProvider
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? $appName ?></title>
-    
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <?php if (function_exists('asset')): ?>
-    <link rel="stylesheet" href="<?= asset('css/main.css') ?>">
-    <?php endif; ?>
-    
-    <!-- Additional head content -->
-    <?= $headContent ?? '' ?>
 </head>
 <body>
-    <!-- Main Content -->
     <div class="container my-4">
         <?= $viewContent ?>
     </div>
-
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JavaScript -->
-    <?php if (function_exists('asset')): ?>
-    <script src="<?= asset('js/main.js') ?>"></script>
-    <?php endif; ?>
-    
-    <!-- Additional scripts -->
-    <?= $scripts ?? '' ?>
 </body>
 </html>
 HTML;

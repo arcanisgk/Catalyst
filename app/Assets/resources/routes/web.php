@@ -23,6 +23,7 @@ use App\Assets\Framework\Core\Route\Router;
 // Get router instance
 $router = Router::getInstance();
 
+
 $router->group(['namespace' => 'App\Assets\Framework\Controllers'], function ($router) {
     // Define basic web routes
     $router->get('/', 'HomeController@index')->name('home');

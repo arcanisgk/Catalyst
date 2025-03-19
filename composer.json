@@ -61,7 +61,8 @@
     "ext-ctype": "*",
     "ext-dom": "*",
     "ext-libxml": "*",
-    "ext-gd": "*"
+    "ext-gd": "*",
+    "ext-intl": "*"
   },
   "scripts": {
     "post-update-cmd": [

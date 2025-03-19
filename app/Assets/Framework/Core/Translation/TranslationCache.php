@@ -22,6 +22,8 @@ namespace App\Assets\Framework\Core\Translation;
 
 use App\Assets\Framework\Exceptions\FileSystemException;
 use App\Assets\Helpers\Log\Logger;
+use Exception;
+use Throwable;
 
 /**************************************************************************************
  * Translation cache handler for improved performance
@@ -74,6 +76,7 @@ class TranslationCache
      * @param string|null $cacheDir Cache directory path
      * @param bool $useFileCache Whether to use file-based caching
      * @param int $cacheExpiration Cache expiration time in seconds
+     * @throws Exception
      */
     public function __construct(
         ?string $cacheDir = null,
@@ -100,6 +103,7 @@ class TranslationCache
      * @param string $language Language code
      * @param string $group Translation group name
      * @return array<string, mixed>|null Cached translations or null if not found/expired
+     * @throws Exception
      */
     public function get(string $language, string $group): ?array
     {
@@ -141,7 +145,7 @@ class TranslationCache
 
                         return $data;
                     }
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $this->logger->error('Failed to load translation cache file', [
                         'file' => $cacheFile,
                         'error' => $e->getMessage()
@@ -165,6 +169,7 @@ class TranslationCache
      * @param string $group Translation group name
      * @param array<string, mixed> $translations Translations to cache
      * @return bool Success status
+     * @throws Exception
      */
     public function put(string $language, string $group, array $translations): bool
     {
@@ -212,6 +217,7 @@ class TranslationCache
      * @param string|null $language Language code or null for all languages
      * @param string|null $group Translation group name or null for all groups
      * @return bool Success status
+     * @throws Exception
      */
     public function forget(?string $language = null, ?string $group = null): bool
     {
@@ -245,7 +251,7 @@ class TranslationCache
                 }
 
                 return true;
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $this->logger->error('Failed to clear translation cache', [
                     'language' => $language,
                     'group' => $group,
@@ -263,7 +269,7 @@ class TranslationCache
      * Create the cache directory
      *
      * @return void
-     * @throws FileSystemException If directory creation fails
+     * @throws FileSystemException|Exception If directory creation fails
      */
     protected function createCacheDirectory(): void
     {
@@ -278,7 +284,7 @@ class TranslationCache
             $this->logger->debug('Translation cache directory created', [
                 'directory' => $this->cacheDir
             ]);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error('Failed to create translation cache directory', [
                 'directory' => $this->cacheDir,
                 'error' => $e->getMessage()
@@ -310,6 +316,7 @@ class TranslationCache
      * @param string $group Translation group name
      * @param array<string, mixed> $translations Translations to cache
      * @return bool Success status
+     * @throws Exception
      */
     protected function writeToFile(string $language, string $group, array $translations): bool
     {
@@ -342,7 +349,7 @@ class TranslationCache
             ]);
 
             return true;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error('Failed to write translation cache file', [
                 'file' => $cacheFile,
                 'error' => $e->getMessage()
@@ -356,6 +363,7 @@ class TranslationCache
      * Clear all translation cache files
      *
      * @return void
+     * @throws Exception
      */
     protected function clearCacheDirectory(): void
     {
@@ -381,6 +389,7 @@ class TranslationCache
      *
      * @param string $language Language code
      * @return void
+     * @throws Exception
      */
     protected function clearLanguageCache(string $language): void
     {

@@ -142,6 +142,7 @@ class TranslationService
      *
      * @param string $language Language code
      * @return self For method chaining
+     * @throws Exception
      */
     public function setLanguage(string $language): self
     {
@@ -192,6 +193,7 @@ class TranslationService
      * @param array $replacements Values to replace placeholders
      * @param string|null $language Language to use (defaults to current language)
      * @return string Translated text
+     * @throws Exception
      */
     public function get(string $key, array $replacements = [], ?string $language = null): string
     {
@@ -252,6 +254,7 @@ class TranslationService
      * @param array $replacements Values to replace placeholders
      * @param string|null $language Language to use (defaults to current language)
      * @return string Translated text
+     * @throws Exception
      */
     public function choice(string $key, int $count, array $replacements = [], ?string $language = null): string
     {
@@ -281,6 +284,7 @@ class TranslationService
      * @param string $key Translation key
      * @param string|null $language Language to check (defaults to current language)
      * @return bool True if the key exists
+     * @throws Exception
      */
     public function has(string $key, ?string $language = null): bool
     {
@@ -309,6 +313,7 @@ class TranslationService
      * @param string $group Group name
      * @param string $language Language code
      * @return bool True if loaded successfully
+     * @throws Exception
      */
     protected function loadTranslationGroup(string $group, string $language): bool
     {
@@ -393,6 +398,7 @@ class TranslationService
      *
      * @param string $path Path to the translation file
      * @return array<string, mixed>|null Translation data or null if file not found
+     * @throws Exception
      */
     protected function loadTranslationFile(string $path): ?array
     {
@@ -579,6 +585,7 @@ class TranslationService
      * @param array $groups Translation groups to export
      * @param string|null $language Language to export (defaults to current language)
      * @return array Exported translations
+     * @throws Exception
      */
     public function exportForJavaScript(array $groups, ?string $language = null): array
     {

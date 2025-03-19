@@ -1,4 +1,6 @@
 {
+  "intro": "Welcome to Catalyst Framework",
+  "description": "A powerful PHP framework for modern web applications",
   "title": "Welcome to Catalyst",
   "subtitle": "A modern PHP framework for rapid application development",
   "hero": {

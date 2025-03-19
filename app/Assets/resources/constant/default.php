@@ -73,3 +73,62 @@ if (!defined('CT')) {
      */
     define('CT', time());
 }
+
+
+#############################################################
+
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
+// Define theme path if not already defined
+if (!defined('THEME_PATH')) {
+    /**
+     * Path to theme-specific views
+     */
+    define('THEME_PATH', PD . DS . 'app' . DS . 'Repository' . DS . 'Views');
+}
+
+// Define default layout if not already defined
+if (!defined('DEFAULT_LAYOUT')) {
+    /**
+     * Default layout template name
+     */
+    define('DEFAULT_LAYOUT', 'default');
+}
+
+// Define application name from environment or default
+if (!defined('APP_NAME')) {
+    /**
+     * Application name
+     */
+    define('APP_NAME', $_ENV['APP_NAME'] ?? 'Catalyst Framework');
+}
+
+// Define application version from environment or default
+if (!defined('APP_VERSION')) {
+    /**
+     * Application version
+     */
+    define('APP_VERSION', $_ENV['APP_VERSION'] ?? '1.0.0');
+}
+
+// Define application URL from environment or default
+if (!defined('APP_URL')) {
+    /**
+     * Application base URL
+     */
+    define('APP_URL', $_ENV['APP_URL'] ?? 'https://catalyst.dock');
+}

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace App\Assets\Framework\Exceptions;
 
 use RuntimeException;
+use Throwable;
 
 /**************************************************************************************
  * Exception thrown when an HTTP method is not allowed for a route
@@ -45,13 +46,13 @@ class MethodNotAllowedException extends RuntimeException
      * @param string $message Exception message
      * @param array $allowedMethods HTTP methods allowed for this route
      * @param int $code Exception code
-     * @param \Throwable|null $previous Previous exception
+     * @param Throwable|null $previous Previous exception
      */
     public function __construct(
-        string      $message = 'Method not allowed',
-        array       $allowedMethods = [],
-        int         $code = 405,
-        ?\Throwable $previous = null
+        string     $message = 'Method not allowed',
+        array      $allowedMethods = [],
+        int        $code = 405,
+        ?Throwable $previous = null
     )
     {
         $this->allowedMethods = $allowedMethods;

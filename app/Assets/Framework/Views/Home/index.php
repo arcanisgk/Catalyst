@@ -1,10 +1,10 @@
 <div class="jumbotron">
     <h1 class="display-4"><?= $t('welcome') ?></h1>
     <p class="lead">
-        <?= $t('home_intro', ['version' => '1.0']) ?>
+        <?= isset($t) ? $t('home.intro') : 'Welcome' ?>
     </p>
     <hr class="my-4">
-    <p><?= $t('home_description') ?></p>
+    <p><?= isset($t) ? $t('home.description') : 'Description' ?></p>
 </div>
 
 <?php if (isset($success_message)): ?>

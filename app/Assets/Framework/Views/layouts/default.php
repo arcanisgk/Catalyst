@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title><?= $title ?? $appName ?? 'Catalyst Framework' ?></title>
+    <title><?= $title ?? (isset($t) ? $t('common.app.name') : 'Catalyst Framework') ?></title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?= isset($asset) ? $asset('img/favicon/favicon.ico') : '/assets/img/favicon/favicon.ico' ?>">
@@ -37,17 +37,17 @@
                     <div class="dropdown profile-element">
                         <img alt="image" class="rounded-circle" src="<?= isset($asset) ? $asset('img/profile_small.jpg') : '/assets/img/profile_small.jpg' ?>" width="48">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="block m-t-xs font-bold"><?= $userName ?? 'Guest User' ?></span>
+                            <span class="block m-t-xs font-bold"><?= $userName ?? (isset($t) ? $t('common.messages.welcome') : 'Guest User') ?></span>
                             <span class="text-muted text-xs block">
                                     <?= $userRole ?? 'User' ?> <b class="caret"></b>
                                 </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                            <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
-                            <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
+                            <li><a class="dropdown-item" href="profile.html"><?= isset($t) ? $t('common.navigation.profile') : 'Profile' ?></a></li>
+                            <li><a class="dropdown-item" href="contacts.html"><?= isset($t) ? $t('contact.title') : 'Contacts' ?></a></li>
+                            <li><a class="dropdown-item" href="mailbox.html"><?= isset($t) ? $t('common.navigation.messages') ?? 'Mailbox' : 'Mailbox' ?></a></li>
                             <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                            <li><a class="dropdown-item" href="login.html"><?= isset($t) ? $t('common.navigation.logout') : 'Logout' ?></a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
@@ -57,21 +57,21 @@
 
                 <!-- Navigation items -->
                 <li class="<?= isset($activeMenu) && $activeMenu == 'home' ? 'active' : '' ?>">
-                    <a href="<?= isset($url) ? $url('home') : '/' ?>">
+                    <a href="/">
                         <i class="fa fa-home"></i>
-                        <span class="nav-label"><?= isset($t) ? $t('nav_home') : 'Home' ?></span>
+                        <span class="nav-label"><?= isset($t) ? $t('common.navigation.home') : 'Home' ?></span>
                     </a>
                 </li>
                 <li class="<?= isset($activeMenu) && $activeMenu == 'about' ? 'active' : '' ?>">
-                    <a href="<?= isset($url) ? $url('about') : '/about' ?>">
+                    <a href="/about">
                         <i class="fa fa-info-circle"></i>
-                        <span class="nav-label"><?= isset($t) ? $t('nav_about') : 'About' ?></span>
+                        <span class="nav-label"><?= isset($t) ? $t('common.navigation.about') : 'About' ?></span>
                     </a>
                 </li>
                 <li class="<?= isset($activeMenu) && $activeMenu == 'contact' ? 'active' : '' ?>">
-                    <a href="<?= isset($url) ? $url('contact') : '/contact' ?>">
+                    <a href="/contact">
                         <i class="fa fa-envelope"></i>
-                        <span class="nav-label"><?= isset($t) ? $t('nav_contact') : 'Contact' ?></span>
+                        <span class="nav-label"><?= isset($t) ? $t('common.navigation.contact') : 'Contact' ?></span>
                     </a>
                 </li>
             </ul>
@@ -87,7 +87,8 @@
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i></a>
                     <form role="search" class="navbar-form-custom">
                         <div class="form-group">
-                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                            <input type="text" placeholder="<?= isset($t) ? $t('common.messages.search') ?? 'Search for something...' : 'Search for something...' ?>" class="form-control"
+                                   name="top-search" id="top-search">
                         </div>
                     </form>
                 </div>
@@ -99,13 +100,13 @@
                         </a>
                         <ul class="dropdown-menu dropdown-messages">
                             <li>
-                                <a href="<?= isset($langUrl) ? $langUrl('en') : '?lang=en' ?>" class="dropdown-item">
+                                <a href="?lang=en" class="dropdown-item">
                                     English
                                 </a>
                             </li>
                             <li class="dropdown-divider"></li>
                             <li>
-                                <a href="<?= isset($langUrl) ? $langUrl('es') : '?lang=es' ?>" class="dropdown-item">
+                                <a href="?lang=es" class="dropdown-item">
                                     Español
                                 </a>
                             </li>
@@ -120,22 +121,24 @@
                             <li>
                                 <a href="#" class="dropdown-item">
                                     <div>
-                                        <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                        <span class="float-right text-muted small">4 minutes ago</span>
+                                        <i class="fa fa-envelope fa-fw"></i> <?= isset($t) ? $t('common.messages.notification_count') ?? 'You have 16 messages' : 'You have 16 messages' ?>
+                                        <span class="float-right text-muted small">
+                                            <?= isset($t) ? $t('common.dates.minutes_ago', ['count' => 4]) : '4 minutes ago' ?>
+                                        </span>
                                     </div>
                                 </a>
                             </li>
                             <li class="dropdown-divider"></li>
                             <li>
                                 <a href="#" class="dropdown-item text-center">
-                                    <strong>See All Alerts</strong>
+                                    <strong><?= isset($t) ? $t('common.buttons.see_all') ?? 'See All Alerts' : 'See All Alerts' ?></strong>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="login.html">
-                            <i class="fa fa-sign-out"></i> Log out
+                            <i class="fa fa-sign-out"></i> <?= isset($t) ? $t('common.navigation.logout') : 'Log out' ?>
                         </a>
                     </li>
                 </ul>
@@ -146,7 +149,7 @@
         <?php if (isset($pageTitle) || isset($pageSubtitle)): ?>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2><?= $pageTitle ?? $title ?? $appName ?? 'Catalyst Framework' ?></h2>
+                    <h2><?= $pageTitle ?? $title ?? (isset($t) ? $t('common.app.name') : 'Catalyst Framework') ?></h2>
                     <?php if (isset($pageSubtitle)): ?>
                         <ol class="breadcrumb">
                             <?php if (isset($breadcrumbs) && is_array($breadcrumbs)): ?>
@@ -163,7 +166,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <li class="breadcrumb-item">
-                                    <a href="<?= isset($url) ? $url('home') : '/' ?>"><?= isset($t) ? $t('nav_home') : 'Home' ?></a>
+                                    <a href="/"><?= isset($t) ? $t('common.navigation.home') : 'Home' ?></a>
                                 </li>
                                 <li class="breadcrumb-item active">
                                     <strong><?= $pageSubtitle ?></strong>
@@ -184,10 +187,12 @@
         <!-- Footer -->
         <div class="footer">
             <div class="float-right">
-                Powered by <strong>Catalyst Framework</strong>
+                <?= isset($t) ? $t('common.footer.powered_by') : 'Powered by' ?> <strong><?= isset($t) ? $t('common.app.name') : 'Catalyst Framework' ?></strong>
             </div>
             <div>
-                <strong>Copyright</strong> &copy; <?= date('Y') ?> <?= $companyName ?? 'Your Company' ?>
+                <strong>
+                    <?= isset($t) ? $t('common.footer.copyright', ['year' => date('Y')]) : 'Copyright © ' . date('Y') ?>
+                </strong>
             </div>
         </div>
     </div>
