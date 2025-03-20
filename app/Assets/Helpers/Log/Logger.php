@@ -18,17 +18,17 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\Log;
+namespace Catalyst\Helpers\Log;
 
 use Catalyst\Framework\Exceptions\FileSystemException;
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\ToolBox\DrawBox;
+use Catalyst\Helpers\ToolBox\DrawBox;
 use Exception;
 
 /**************************************************************************************
  * Logger class for recording system events, errors, and user activities
  *
- * @package App\Assets\Helpers\Log;
+ * @package Catalyst\Helpers\Log;
  */
 class Logger
 {

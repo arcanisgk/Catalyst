@@ -23,7 +23,7 @@ namespace Catalyst\Framework\Core\Providers;
 use Catalyst\Framework\Core\Translation\TranslationCache;
 use Catalyst\Framework\Core\Translation\TranslationManager;
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 use Locale;
 

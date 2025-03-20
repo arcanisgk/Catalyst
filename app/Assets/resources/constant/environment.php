@@ -19,7 +19,7 @@ declare(strict_types=1);
  */
 
 use Catalyst\Framework\Exceptions\FileSystemException;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 
 /**************************************************************************************
  * Reads and processes environment variables from a .env file.
@@ -86,7 +86,7 @@ function readEnvironmentVariable(): void
 
     } catch (Exception $e) {
         // Log the error if Logger is available
-        if (class_exists('\\App\\Assets\\Helpers\\Log\\Logger')) {
+        if (class_exists('\\Catalyst\\Helpers\\Log\\Logger')) {
             Logger::getInstance()->critical(
                 "Environment configuration error: " . $e->getMessage(),
                 ['exception' => get_class($e)]

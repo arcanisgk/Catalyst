@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace Catalyst\Framework\Core\Middleware;
 
 use Catalyst\Framework\Core\Response\Response;
-use App\Assets\Helpers\Http\Request;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Http\Request;
+use Catalyst\Helpers\Log\Logger;
 use Closure;
 use Exception;
 

@@ -22,7 +22,7 @@ use Catalyst\Framework\Core\Middleware\DebugMiddleware;
 use Catalyst\Framework\Core\Middleware\RequestThrottlingMiddleware;
 use Catalyst\Framework\Core\Middleware\SecurityHeadersMiddleware;
 use Catalyst\Framework\Core\Route\Router;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 
 // Prevent duplicate execution
 if (defined('INIT_ROUTER_EXECUTED')) {
@@ -91,7 +91,7 @@ try {
 
 } catch (Exception $e) {
     // Log error during router initialization
-    if (class_exists('\\App\\Assets\\Helpers\\Log\\Logger')) {
+    if (class_exists('\\Catalyst\\Helpers\\Log\\Logger')) {
         Logger::getInstance()->error('Router initialization failed', [
             'error' => $e->getMessage(),
             'trace' => $e->getTraceAsString()

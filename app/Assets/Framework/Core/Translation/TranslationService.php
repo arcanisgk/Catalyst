@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace Catalyst\Framework\Core\Translation;
 
 use Catalyst\Framework\Exceptions\FileSystemException;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 
 /**************************************************************************************

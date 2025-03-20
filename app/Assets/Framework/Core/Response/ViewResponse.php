@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace Catalyst\Framework\Core\Response;
 
 use Catalyst\Framework\Core\View\ViewFactory;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 use InvalidArgumentException;
 

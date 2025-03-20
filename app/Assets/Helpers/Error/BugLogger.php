@@ -18,15 +18,15 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\Error;
+namespace Catalyst\Helpers\Error;
 
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 
 /**************************************************************************************
  * Class to handle logging of errors caught by BugCatcher
  *
- * @package App\Assets\Helpers\Error;
+ * @package Catalyst\Helpers\Error;
  */
 class BugLogger
 {

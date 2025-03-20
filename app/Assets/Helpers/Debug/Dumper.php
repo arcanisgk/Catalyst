@@ -18,14 +18,14 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\Debug;
+namespace Catalyst\Helpers\Debug;
 
 use Catalyst\Framework\Traits\SingletonTrait;
 
 /**************************************************************************************
  * Dumper class for debugging variables
  *
- * @package App\Assets\Helpers\Debug;
+ * @package Catalyst\Helpers\Debug;
  */
 class Dumper
 {

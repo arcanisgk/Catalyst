@@ -18,10 +18,10 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\Http;
+namespace Catalyst\Helpers\Http;
 
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 
 /**************************************************************************************
@@ -30,7 +30,7 @@ use Exception;
  * Provides methods for accessing and sanitizing request data
  * from various sources ($_GET, $_POST, $_REQUEST, etc.)
  *
- * @package App\Assets\Helpers\Http;
+ * @package Catalyst\Helpers\Http;
  */
 class Request
 {

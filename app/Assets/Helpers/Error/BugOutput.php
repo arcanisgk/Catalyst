@@ -18,17 +18,17 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\Error;
+namespace Catalyst\Helpers\Error;
 
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\ToolBox\DrawBox;
+use Catalyst\Helpers\ToolBox\DrawBox;
 use Closure;
 use Exception;
 
 /**************************************************************************************
  * Class to handle output of errors caught by BugCatcher
  *
- * @package App\Assets\Helpers\Error;
+ * @package Catalyst\Helpers\Error;
  */
 class BugOutput
 {

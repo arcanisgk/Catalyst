@@ -18,15 +18,15 @@ declare(strict_types=1);
  *
  */
 
-namespace App;
+namespace Catalyst;
 
 use Catalyst\Framework\Core\Response;
 use Catalyst\Framework\Core\Route\Router;
 use Catalyst\Framework\Exceptions\MethodNotAllowedException;
 use Catalyst\Framework\Exceptions\RouteNotFoundException;
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\Http\Request;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Http\Request;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 
 /**

@@ -18,8 +18,8 @@ declare(strict_types=1);
  *
  */
 
-use App\Assets\Helpers\Debug\Dumper;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Debug\Dumper;
+use Catalyst\Helpers\Log\Logger;
 
 /**
  * Helper function for logging messages

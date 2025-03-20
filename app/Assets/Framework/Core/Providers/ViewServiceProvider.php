@@ -26,7 +26,7 @@ use Catalyst\Framework\Core\View\ViewFactory;
 use Catalyst\Framework\Core\View\ViewFinder;
 use Catalyst\Framework\Core\View\ViewRenderer;
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 
 /**************************************************************************************

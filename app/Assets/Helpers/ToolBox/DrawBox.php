@@ -18,16 +18,16 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\ToolBox;
+namespace Catalyst\Helpers\ToolBox;
 
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\IO\FileOutput;
+use Catalyst\Helpers\IO\FileOutput;
 use Exception;
 
 /**************************************************************************************
  * DrawBox class for creating formatted text boxes in terminal or HTML
  *
- * @package App\Assets\Helpers\ToolBox;
+ * @package Catalyst\Helpers\ToolBox;
  */
 class DrawBox
 {

@@ -32,8 +32,9 @@
       "app/Assets/resources/loaders/helpers/translation-functions.php"
     ],
     "psr-4": {
-      "App\\": "app/",
+      "Catalyst\\": "app/",
       "Catalyst\\Framework\\": "app/Assets/Framework/",
+      "Catalyst\\Helpers\\": "app/Assets/Helpers/",
       "Tests\\": "test/"
     }
   },

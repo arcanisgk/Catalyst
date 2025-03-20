@@ -18,8 +18,8 @@ declare(strict_types=1);
  *
  */
 
-use App\Assets\Helpers\Http\Request;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Http\Request;
+use Catalyst\Helpers\Log\Logger;
 
 
 // Para evitar la carga duplicada

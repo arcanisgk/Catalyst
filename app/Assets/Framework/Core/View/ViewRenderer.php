@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace Catalyst\Framework\Core\View;
 
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 use RuntimeException;
 

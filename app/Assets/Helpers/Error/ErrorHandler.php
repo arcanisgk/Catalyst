@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\Error;
+namespace Catalyst\Helpers\Error;
 
 use Exception;
 use Catalyst\Framework\Traits\{SingletonTrait, OutputCleanerTrait};
@@ -26,7 +26,7 @@ use Catalyst\Framework\Traits\{SingletonTrait, OutputCleanerTrait};
 /**************************************************************************************
  * Class that handles registered Errors.
  *
- * @package App\Assets\Helpers\Error;
+ * @package Catalyst\Helpers\Error;
  */
 class ErrorHandler
 {

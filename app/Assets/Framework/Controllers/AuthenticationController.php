@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace Catalyst\Framework\Controllers;
 
 use Catalyst\Framework\Core\Response;
-use App\Assets\Helpers\Http\Request;
+use Catalyst\Helpers\Http\Request;
 
 /**
  * Authentication Controller

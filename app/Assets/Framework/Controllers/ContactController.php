@@ -23,7 +23,7 @@ namespace Catalyst\Framework\Controllers;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\RedirectResponse;
 use Catalyst\Framework\Core\Response\ViewResponse;
-use App\Assets\Helpers\Http\Request;
+use Catalyst\Helpers\Http\Request;
 use Exception;
 
 /**

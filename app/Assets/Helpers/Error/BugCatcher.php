@@ -18,14 +18,14 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\Error;
+namespace Catalyst\Helpers\Error;
 
 use Catalyst\Framework\Traits\SingletonTrait;
 
 /**************************************************************************************
  * Class that handles capturing and displaying errors in the application.
  *
- * @package App\Assets\Helpers\Error;
+ * @package Catalyst\Helpers\Error;
  */
 class BugCatcher
 {

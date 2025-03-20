@@ -26,8 +26,8 @@ use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Response\ViewResponse;
 use Catalyst\Framework\Core\Route\Router;
 use Catalyst\Framework\Core\Translation\TranslationManager;
-use App\Assets\Helpers\Http\Request;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Http\Request;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 
 /**************************************************************************************

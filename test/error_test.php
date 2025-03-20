@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-use App\Assets\Helpers\Error\BugCatcher;
+use Catalyst\Helpers\Error\BugCatcher;
 
 /**
  * Test function to run various error scenarios

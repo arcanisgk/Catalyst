@@ -18,18 +18,18 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Helpers\IO;
+namespace Catalyst\Helpers\IO;
 
 use Catalyst\Framework\Core\Argument;
 use Catalyst\Framework\Exceptions\FileSystemException;
 use Catalyst\Framework\Traits\SingletonTrait;
-use App\Assets\Helpers\Log\Logger;
+use Catalyst\Helpers\Log\Logger;
 use Exception;
 
 /**************************************************************************************
  * Service for handling file output operations
  *
- * @package App\Assets\Helpers\IO;
+ * @package Catalyst\Helpers\IO;
  */
 class FileOutput
 {
@@ -149,7 +149,7 @@ class FileOutput
             ];
         } catch (FileSystemException $e) {
             // Log the error if Logger is available
-            if (class_exists('\\App\\Assets\\Helpers\\Log\\Logger')) {
+            if (class_exists('\\Catalyst\\Helpers\\Log\\Logger')) {
                 Logger::getInstance()->error(
                     "File output error: " . $e->getMessage(),
                     ['filename' => $filename]
