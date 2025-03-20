@@ -1,213 +1,133 @@
 Project-Root
-│   .env                      # Environment configuration file for storing sensitive settings
+│   .env                      # Environment configuration for dynamic runtime values (though not preferred)
 │   composer.json             # PHP dependency management and project metadata
 │   tree.txt                  # Project structure documentation
 │
-├───app                       # Main application directory containing all app code
-│   │   Kernel.php            # Application kernel - handles bootstrap and request lifecycle
+├───app                       # Main application directory - houses both framework and custom code
+│   │   Kernel.php            # Application kernel - orchestrates bootstrap process and request lifecycle
 │   │
-│   ├───Assets                # Core framework assets and resources
-│   │   ├───Framework         # Framework-specific components
-│   │   │   ├───Controllers   # Base controllers and framework-specific controller implementations
-│   │   │   │       AuthenticationController.php  # Handles authentication flows
-│   │   │   │       ContactController.php         # Manages contact form functionality
-│   │   │   │       Controller.php                # Base controller class for inheritance
-│   │   │   │       HomeController.php            # Handles homepage rendering
+│   ├───Assets                # Core assets - both framework components and resources (needs restructuring)
+│   │   ├───Framework         # Reserved for internal framework use - not for modification by third parties
+│   │   │   ├───Controllers   # Base and framework-specific controllers - provides foundation for application controllers
+│   │   │   │       AuthenticationController.php  # Handles authentication flows - login, registration, password reset
+│   │   │   │       ContactController.php         # Manages contact form functionality - validating and processing submissions
+│   │   │   │       Controller.php                # Base controller with shared functionality - central to MVC implementation
+│   │   │   │       HomeController.php            # Handles homepage rendering - demonstrates controller implementation
 │   │   │   │
-│   │   │   ├───Core          # Core framework components
-│   │   │   │   │   Argument.php                  # Command-line argument handling
-│   │   │   │   │   UrlGenerator.php              # URL generation utilities
+│   │   │   ├───Core          # Essential framework components - follows separation of concerns
+│   │   │   │   │   Argument.php                  # Command-line argument handling - supports CLI operations
+│   │   │   │   │   UrlGenerator.php              # URL generation utilities - creates application URLs consistently
 │   │   │   │   │
-│   │   │   │   ├───Middleware                    # HTTP middleware components
-│   │   │   │   │       CallableMiddleware.php    # Adapter for callable functions as middleware
-│   │   │   │   │       CoreMiddleware.php        # Base middleware functionality
-│   │   │   │   │       DebugMiddleware.php       # Debug information collection during requests
-│   │   │   │   │       MiddlewareInterface.php   # Interface for middleware implementation
-│   │   │   │   │       MiddlewareStack.php       # Manages middleware execution order
-│   │   │   │   │       RequestThrottlingMiddleware.php  # Rate limiting implementation
-│   │   │   │   │       SecurityHeadersMiddleware.php    # Adds security headers to responses
+│   │   │   │   ├───Middleware                    # HTTP middleware system - handles cross-cutting concerns in request lifecycle
+│   │   │   │   │       CallableMiddleware.php    # Adapter for callable functions as middleware - increases flexibility
+│   │   │   │   │       CoreMiddleware.php        # Base middleware functionality - foundations for all middleware
+│   │   │   │   │       DebugMiddleware.php       # Debug information collection - active only in development
+│   │   │   │   │       MiddlewareInterface.php   # Interface for middleware implementation - ensures consistent implementation
+│   │   │   │   │       MiddlewareStack.php       # Manages middleware execution chain - orders middleware processing
+│   │   │   │   │       RequestThrottlingMiddleware.php  # Rate limiting - prevents abuse in production
+│   │   │   │   │       SecurityHeadersMiddleware.php    # Adds security headers - enhances application security
 │   │   │   │   │
-│   │   │   │   ├───Providers                     # Service providers for framework components
-│   │   │   │   │       TranslationServiceProvider.php  # Manages translation service setup
-│   │   │   │   │       ViewServiceProvider.php          # Manages view service setup
+│   │   │   │   ├───Providers                     # Service providers - bootstraps and configures services
+│   │   │   │   │       TranslationServiceProvider.php  # Initializes translation system - manages i18n setup
+│   │   │   │   │       ViewServiceProvider.php          # Initializes view system - prepares view rendering
 │   │   │   │   │
-│   │   │   │   ├───Response                      # HTTP response handling
-│   │   │   │   │       HtmlResponse.php          # HTML-specific response formatting
-│   │   │   │   │       JsonResponse.php          # JSON API response formatting
-│   │   │   │   │       RedirectResponse.php      # HTTP redirects
-│   │   │   │   │       Response.php              # Base response class
-│   │   │   │   │       ViewResponse.php          # View-rendered response
+│   │   │   │   ├───Response                      # HTTP response handling - provides structured responses
+│   │   │   │   │       HtmlResponse.php          # HTML-specific response - for web pages
+│   │   │   │   │       JsonResponse.php          # JSON API response - for API endpoints
+│   │   │   │   │       RedirectResponse.php      # HTTP redirects - handle page redirections
+│   │   │   │   │       Response.php              # Base response class - foundation for all responses
+│   │   │   │   │       ViewResponse.php          # View-rendered response - combines views with data
 │   │   │   │   │
-│   │   │   │   ├───Route                         # Routing system
-│   │   │   │   │       Route.php                 # Individual route definition
-│   │   │   │   │       RouteCollection.php       # Collection of routes
-│   │   │   │   │       RouteCompiler.php         # Compiles route definitions to matcher
-│   │   │   │   │       RouteDispatcher.php       # Matches routes and dispatches to controllers
-│   │   │   │   │       RouteGroup.php            # Route grouping with shared attributes
-│   │   │   │   │       Router.php                # Main routing facade with fluent interface
+│   │   │   │   ├───Route                         # Routing system - matches URLs to controllers
+│   │   │   │   │       Route.php                 # Individual route definition - represents a single endpoint
+│   │   │   │   │       RouteCollection.php       # Collection of routes - stores all registered routes
+│   │   │   │   │       RouteCompiler.php         # Compiles route definitions - optimizes route matching
+│   │   │   │   │       RouteDispatcher.php       # Matches routes and dispatches - connects URLs to controllers
+│   │   │   │   │       RouteGroup.php            # Route grouping with shared attributes - organizes related routes
+│   │   │   │   │       Router.php                # Main routing facade - implements singleton for global access
 │   │   │   │   │
-│   │   │   │   ├───Translation                   # Internationalization system
-│   │   │   │   │       TranslationCache.php      # Caching for translations
-│   │   │   │   │       TranslationManager.php    # Manages translation loading and retrieval
-│   │   │   │   │       TranslationService.php    # Translation service interface
+│   │   │   │   ├───Translation                   # Internationalization system - manages multiple languages
+│   │   │   │   │       TranslationCache.php      # Caching for translations - improves performance
+│   │   │   │   │       TranslationManager.php    # Manages translation loading - orchestrates the translation system
+│   │   │   │   │       TranslationService.php    # Core translation service - implements translation lookups
 │   │   │   │   │
-│   │   │   │   └───View                          # View rendering system
-│   │   │   │           LayoutManager.php         # Manages layouts for views
-│   │   │   │           ViewFactory.php           # Factory for creating view instances
-│   │   │   │           ViewFinder.php            # Locates view templates
-│   │   │   │           ViewRenderer.php          # Renders views with data
+│   │   │   │   └───View                          # View rendering system - implements template management
+│   │   │   │           LayoutManager.php         # Manages layouts - handles master templates
+│   │   │   │           ViewFactory.php           # Factory for views - creates view instances (singleton implementation)
+│   │   │   │           ViewFinder.php            # Locates view files - resolves template paths
+│   │   │   │           ViewRenderer.php          # Renders views - processes templates with data
 │   │   │   │
-│   │   │   ├───Exceptions                        # Framework-specific exceptions
-│   │   │   │       FileSystemException.php       # File system operation failures
-│   │   │   │       MethodNotAllowedException.php # HTTP method not allowed
-│   │   │   │       RouteNotFoundException.php    # Route not found (404)
+│   │   │   ├───Exceptions                        # Framework-specific exceptions - categorizes error types
+│   │   │   │       FileSystemException.php       # File system errors - handles I/O failures
+│   │   │   │       MethodNotAllowedException.php # HTTP method not allowed - 405 errors
+│   │   │   │       RouteNotFoundException.php    # Route not found - 404 errors
 │   │   │   │
-│   │   │   ├───Languages                         # Translation resources
-│   │   │   │   ├───en                            # English translations
-│   │   │   │   │       auth.json                 # Authentication translations
-│   │   │   │   │       common.json               # Common/shared translations
-│   │   │   │   │       contact.json              # Contact form translations
-│   │   │   │   │       home.json                 # Homepage translations
-│   │   │   │   │       profile.json              # User profile translations
-│   │   │   │   │
-│   │   │   │   └───es                            # Spanish translations
-│   │   │   │           auth.json                 # Authentication translations (Spanish)
-│   │   │   │           common.json               # Common translations (Spanish)
-│   │   │   │           contact.json              # Contact translations (Spanish)
-│   │   │   │           home.json                 # Homepage translations (Spanish)
-│   │   │   │           profile.json              # Profile translations (Spanish)
+│   │   │   ├───Languages                         # Framework translation resources - supports i18n
+│   │   │   │   ├───en                            # English translations - default language
+│   │   │   │   └───es                            # Spanish translations - additional language support
 │   │   │   │
-│   │   │   ├───Models                            # Framework data models (empty)
-│   │   │   ├───Traits                            # Shared trait functionality
-│   │   │   │       OutputCleanerTrait.php        # Sanitizes output data
-│   │   │   │       SingletonTrait.php            # Singleton pattern implementation
+│   │   │   ├───Models                            # Framework models - currently unused but follows MVC convention
+│   │   │   ├───Traits                            # Shared trait functionality - reduces code duplication
+│   │   │   │       OutputCleanerTrait.php        # Sanitizes output - prevents XSS and injection
+│   │   │   │       SingletonTrait.php            # Singleton implementation - used by services requiring global state
 │   │   │   │
-│   │   │   └───Views                             # View templates
-│   │   │       ├───Errors                        # Error page templates
-│   │   │       │       handler_error.php         # Standard error display
-│   │   │       │       handler_error_no.php      # Minimal error display
-│   │   │       │
-│   │   │       ├───Home                          # Homepage views
-│   │   │       │       index.php                 # Main index/home page
-│   │   │       │
-│   │   │       ├───layouts                       # Layout templates
-│   │   │       │       default.php               # Default layout structure
-│   │   │       │       template.php              # Alternative layout template
-│   │   │       │
-│   │   │       └───partials                      # Reusable view components
-│   │   │               alert.php                 # Alert/notification component
+│   │   │   └───Views                             # Framework view templates - base templates for application
+│   │   │       ├───Errors                        # Error page templates - handles exception display
+│   │   │       ├───Home                          # Homepage views - framework default pages
+│   │   │       ├───layouts                       # Layout templates - page structure templates
+│   │   │       └───partials                      # Reusable view components - shared UI elements
 │   │   │
-│   │   ├───Helpers                               # Helper utilities
-│   │   │   ├───Debug                             # Debugging tools
-│   │   │   │       Dumper.php                    # Variable dumping/inspection
-│   │   │   │
-│   │   │   ├───Error                             # Error handling
-│   │   │   │       BugCatcher.php                # Error trapping
-│   │   │   │       BugLogger.php                 # Error logging
-│   │   │   │       BugOutput.php                 # Error output formatting
-│   │   │   │       ErrorHandler.php              # General error handling
-│   │   │   │       ExceptionHandler.php          # Exception handling
-│   │   │   │       ShutdownHandler.php           # Fatal error handling on shutdown
-│   │   │   │
-│   │   │   ├───Http                              # HTTP utilities
-│   │   │   │       Request.php                   # HTTP request abstraction
-│   │   │   │
-│   │   │   ├───IO                                # Input/Output operations
-│   │   │   │       FileOutput.php                # File writing operations
-│   │   │   │
-│   │   │   ├───Log                               # Logging system
-│   │   │   │       Logger.php                    # Application logger
-│   │   │   │
-│   │   │   └───ToolBox                           # Miscellaneous tools
-│   │   │           DrawBox.php                   # CLI text formatting
+│   │   ├───Helpers                               # Helper utilities - provides cross-cutting functionality
+│   │   │   ├───Debug                             # Debugging tools - assists development process
+│   │   │   ├───Error                             # Error handling - implements SRP with specialized classes
+│   │   │   ├───Http                              # HTTP utilities - request handling tools
+│   │   │   ├───IO                                # Input/Output operations - file system interactions
+│   │   │   ├───Log                               # Logging system - centralized logging (singleton implementation)
+│   │   │   └───ToolBox                           # Miscellaneous tools - utility functions
 │   │   │
-│   │   └───resources                             # Application resources
+│   │   └───resources                             # Application resources (candidate for restructuring)
 │   │       ├───bin                               # Binary/executable scripts
-│   │       │       index.php                     # Main entry script
-│   │       │
-│   │       ├───config                            # Configuration files
-│   │       │   ├───backup                        # Backup configurations
-│   │       │   │       app.json                  # App backup settings
-│   │       │   │       db.json                   # Database backup settings
-│   │       │   │       ftp.json                  # FTP backup settings
-│   │       │   │       mail.json                 # Mail backup settings
-│   │       │   │       session.json              # Session backup settings
-│   │       │   │       tools.json                # Tools backup settings
-│   │       │   │
+│   │       ├───config                            # JSON configuration files - for settings that change frequently
+│   │       │   ├───backup                        # Backup configuration
 │   │       │   ├───development                   # Development environment configs
-│   │       │   │       app.json                  # App settings for development
-│   │       │   │       db.json                   # Database settings for development
-│   │       │   │       ftp.json                  # FTP settings for development
-│   │       │   │       mail.json                 # Mail settings for development
-│   │       │   │       session.json              # Session settings for development
-│   │       │   │       tools.json                # Tools settings for development
-│   │       │   │
 │   │       │   └───production                    # Production environment configs
-│   │       │           app.json                  # App settings for production
-│   │       │           db.json                   # Database settings for production
-│   │       │           ftp.json                  # FTP settings for production
-│   │       │           mail.json                 # Mail settings for production
-│   │       │           session.json              # Session settings for production
-│   │       │           tools.json                # Tools settings for production
-│   │       │
-│   │       ├───constant                          # Global constants
-│   │       │       default.php                   # Default constants
-│   │       │       environment.php               # Environment-specific constants
-│   │       │       log.php                       # Logging constants
-│   │       │       request.php                   # Request-related constants
-│   │       │       terminal.php                  # CLI terminal constants
-│   │       │
-│   │       ├───loaders                           # Bootstrap loaders
-│   │       │   │   bug-loader.php                # Error handling setup
-│   │       │   │   init-constant.php             # Initialize constants
-│   │       │   │   init-function.php             # Global functions setup
-│   │       │   │   init-loader.php               # Main initialization loader
-│   │       │   │   init-router.php               # Router initialization
-│   │       │   │
-│   │       │   └───helpers                       # Helper function definitions
-│   │       │           router-functions.php      # Router helper functions
-│   │       │           translation-functions.php # Translation helper functions
-│   │       │
-│   │       └───routes                            # Route definitions
-│   │               admin.php                     # Admin area routes
-│   │               api.php                       # API routes
-│   │               web.php                       # Web/frontend routes
+│   │       ├───constant                          # PHP constant definitions - immutable runtime parameters
+│   │       ├───loaders                           # Bootstrap loaders - initializes framework components
+│   │       └───routes                            # Route definitions - maps URLs to controllers
 │   │
-│   ├───Entity                                    # Domain entities
-│   │   ├───Default                               # Default entity implementations
-│   │   └───Project                               # Project-specific entities
-│   └───Repository                                # Data access layer
-│       ├───Controllers                           # Application-specific controllers
-│       ├───Models                                # Application-specific models
-│       └───Views                                 # Application-specific views
-├───logs                                          # Application logs
-│   ├───email                                     # Email-related logs
-│   ├───errors                                    # Error logs
-│   ├───events                                    # Event logs
-│   └───info                                      # General information logs
+│   ├───Entity                                    # Domain entities - business objects with behavior
+│   │   ├───Default                               # Default entity implementations - framework provided
+│   │   └───Project                               # Project-specific entities - custom business objects
+│   │
+│   └───Repository                                # Third-party development space - for application customization
+│       ├───Controllers                           # Application-specific controllers - extends framework controllers
+│       ├───Models                                # Application-specific models - implements business logic
+│       └───Views                                 # Application-specific views - custom templates
 │
-├───public                                        # Publicly accessible files
-│   │   .htaccess                                 # Apache server configuration
-│   │   .user.ini                                 # PHP configuration overrides
-│   │   cli.php                                   # Command-line entry point
-│   │   index.php                                 # Main web application entry point
-│   │   php.ini                                   # PHP configuration settings
+├───logs                                          # Application logs - divided by type for better organization
+│   ├───email                                     # Email-related logs - tracks message sending
+│   ├───errors                                    # Error logs - captures exceptions and errors
+│   ├───events                                    # Event logs - records application events
+│   └───info                                      # General information logs - miscellaneous logging
+│
+├───public                                        # Publicly accessible files - web server document root
+│   │   .htaccess                                 # Apache server configuration - URL rewriting rules
+│   │   .user.ini                                 # PHP configuration overrides - environment-specific settings
+│   │   cli.php                                   # Command-line entry point - for CLI operations
+│   │   index.php                                 # Main web application entry point - handles HTTP requests
+│   │   php.ini                                   # PHP configuration settings - server-specific overrides
 │   │
-│   ├───.well-known                               # Standard location for well-known URIs
-│   │       assetlinks.json                       # Asset linking for mobile apps
-│   │       mta-sts.txt                           # Mail transfer agent strict transport security
-│   │
-│   ├───assets                                    # Frontend assets
-│   │   ├───audio                                 # Audio files
-│   │   ├───css                                   # Stylesheets
-│   │   ├───img                                   # Images
-│   │   ├───inspinia                              # Inspinia admin theme resources
-│   │   ├───js                                    # JavaScript files
-│   │   │       main.js                           # Main JavaScript entry point
-│   │   ├───json                                  # JSON resources
-│   │   │       manifest.json                     # Web app manifest for PWA support
-│   │   └───libs                                  # Third-party libraries
-│   ├───resources                                 # Public-facing resources
-│   └───uploads                                   # User-uploaded files
-└───test                                          # Testing directory
-        error_test.php                            # Error testing script
+│   ├───.well-known                               # Standard location for well-known URIs - standardized discovery
+│   ├───assets                                    # Frontend assets - client-side resources
+│   │   ├───audio                                 # Audio files - media resources
+│   │   ├───css                                   # Stylesheets - visual styling
+│   │   ├───img                                   # Images - graphical content
+│   │   ├───inspinia                              # Inspinia admin theme - UI framework
+│   │   ├───js                                    # JavaScript files - client-side functionality
+│   │   ├───json                                  # JSON resources - client configuration
+│   │   └───libs                                  # Third-party libraries - client-side dependencies
+│   ├───resources                                 # Public-facing resources - accessible web content
+│   └───uploads                                   # User-uploaded files - dynamic content storage
+│
+└───test                                          # Testing directory - contains test cases and scripts
+        error_test.php                            # Error testing script - validates error handling
