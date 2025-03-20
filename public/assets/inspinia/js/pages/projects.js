@@ -1,0 +1,1 @@
+function simpleLoad(e,n){n?(e.children().addClass("fa-spin"),e.contents().last().replaceWith(" Loading")):setTimeout(function(){e.children().removeClass("fa-spin"),e.contents().last().replaceWith(" Refresh")},2e3)}$(document).ready(function(){$("#loading-example-btn").click(function(){simpleLoad(btn=$(this),!0),simpleLoad(btn,!1)})});

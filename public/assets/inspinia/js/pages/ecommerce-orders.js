@@ -1,0 +1,1 @@
+$(document).ready(function(){$(".footable").footable(),$("#date_added").datepicker({todayBtn:"linked",keyboardNavigation:!1,forceParse:!1,calendarWeeks:!0,autoclose:!0}),$("#date_modified").datepicker({todayBtn:"linked",keyboardNavigation:!1,forceParse:!1,calendarWeeks:!0,autoclose:!0})});

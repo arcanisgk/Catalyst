@@ -1,6 +1,7 @@
 .idea/*
-/.cody/*
+.cody/*
 vendor/*
+theme/*
 *.log
 /public/.well-known/mta-sts.txt
 /composer.lock
@@ -8,4 +9,3 @@ vendor/*
 /app/Assets/resources/config/development/*.json
 /app/Assets/resources/config/production/*.json
 /app/Assets/resources/config/test/
-

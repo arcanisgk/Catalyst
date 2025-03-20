@@ -1,0 +1,1 @@
+$(document).ready(function(){CodeMirror.fromTextArea(document.getElementById("code1"),{lineNumbers:!0,matchBrackets:!0,styleActiveLine:!0,theme:"ambiance"}),CodeMirror.fromTextArea(document.getElementById("code2"),{lineNumbers:!0,matchBrackets:!0,styleActiveLine:!0})});

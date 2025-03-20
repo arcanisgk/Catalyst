@@ -5,7 +5,7 @@ Project-Root
 │
 ├───app
 │   │   Kernel.php
-│   │
+│   │   
 │   ├───Assets
 │   │   ├───Framework
 │   │   │   ├───Controllers
@@ -13,12 +13,11 @@ Project-Root
 │   │   │   │       ContactController.php
 │   │   │   │       Controller.php
 │   │   │   │       HomeController.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───Core
 │   │   │   │   │   Argument.php
-│   │   │   │   │   Response.php
 │   │   │   │   │   UrlGenerator.php
-│   │   │   │   │
+│   │   │   │   │   
 │   │   │   │   ├───Middleware
 │   │   │   │   │       CallableMiddleware.php
 │   │   │   │   │       CoreMiddleware.php
@@ -27,16 +26,18 @@ Project-Root
 │   │   │   │   │       MiddlewareStack.php
 │   │   │   │   │       RequestThrottlingMiddleware.php
 │   │   │   │   │       SecurityHeadersMiddleware.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Providers
+│   │   │   │   │       TranslationServiceProvider.php
 │   │   │   │   │       ViewServiceProvider.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Response
 │   │   │   │   │       HtmlResponse.php
 │   │   │   │   │       JsonResponse.php
 │   │   │   │   │       RedirectResponse.php
+│   │   │   │   │       Response.php
 │   │   │   │   │       ViewResponse.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Route
 │   │   │   │   │       Route.php
 │   │   │   │   │       RouteCollection.php
@@ -44,23 +45,23 @@ Project-Root
 │   │   │   │   │       RouteDispatcher.php
 │   │   │   │   │       RouteGroup.php
 │   │   │   │   │       Router.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Translation
 │   │   │   │   │       TranslationCache.php
 │   │   │   │   │       TranslationManager.php
 │   │   │   │   │       TranslationService.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   └───View
 │   │   │   │           LayoutManager.php
 │   │   │   │           ViewFactory.php
 │   │   │   │           ViewFinder.php
 │   │   │   │           ViewRenderer.php
-│   │   │   │
+│   │   │   │           
 │   │   │   ├───Exceptions
 │   │   │   │       FileSystemException.php
 │   │   │   │       MethodNotAllowedException.php
 │   │   │   │       RouteNotFoundException.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───Languages
 │   │   │   │   ├───en
 │   │   │   │   │       auth.json
@@ -68,37 +69,38 @@ Project-Root
 │   │   │   │   │       contact.json
 │   │   │   │   │       home.json
 │   │   │   │   │       profile.json
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   └───es
 │   │   │   │           auth.json
 │   │   │   │           common.json
 │   │   │   │           contact.json
 │   │   │   │           home.json
 │   │   │   │           profile.json
-│   │   │   │
+│   │   │   │           
 │   │   │   ├───Models
 │   │   │   ├───Traits
 │   │   │   │       OutputCleanerTrait.php
 │   │   │   │       SingletonTrait.php
-│   │   │   │
+│   │   │   │       
 │   │   │   └───Views
 │   │   │       ├───Errors
 │   │   │       │       handler_error.php
 │   │   │       │       handler_error_no.php
-│   │   │       │
+│   │   │       │       
 │   │   │       ├───Home
 │   │   │       │       index.php
-│   │   │       │
+│   │   │       │       
 │   │   │       ├───layouts
 │   │   │       │       default.php
-│   │   │       │
+│   │   │       │       template.php
+│   │   │       │       
 │   │   │       └───partials
 │   │   │               alert.php
-│   │   │
+│   │   │               
 │   │   ├───Helpers
 │   │   │   ├───Debug
 │   │   │   │       Dumper.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───Error
 │   │   │   │       BugCatcher.php
 │   │   │   │       BugLogger.php
@@ -106,23 +108,23 @@ Project-Root
 │   │   │   │       ErrorHandler.php
 │   │   │   │       ExceptionHandler.php
 │   │   │   │       ShutdownHandler.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───Http
 │   │   │   │       Request.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───IO
 │   │   │   │       FileOutput.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───Log
 │   │   │   │       Logger.php
-│   │   │   │
+│   │   │   │       
 │   │   │   └───ToolBox
 │   │   │           DrawBox.php
-│   │   │
+│   │   │           
 │   │   └───resources
 │   │       ├───bin
 │   │       │       index.php
-│   │       │
+│   │       │       
 │   │       ├───config
 │   │       │   ├───backup
 │   │       │   │       app.json
@@ -131,7 +133,7 @@ Project-Root
 │   │       │   │       mail.json
 │   │       │   │       session.json
 │   │       │   │       tools.json
-│   │       │   │
+│   │       │   │       
 │   │       │   ├───development
 │   │       │   │       app.json
 │   │       │   │       db.json
@@ -139,7 +141,7 @@ Project-Root
 │   │       │   │       mail.json
 │   │       │   │       session.json
 │   │       │   │       tools.json
-│   │       │   │
+│   │       │   │       
 │   │       │   └───production
 │   │       │           app.json
 │   │       │           db.json
@@ -147,79 +149,66 @@ Project-Root
 │   │       │           mail.json
 │   │       │           session.json
 │   │       │           tools.json
-│   │       │
+│   │       │               
 │   │       ├───constant
 │   │       │       default.php
 │   │       │       environment.php
 │   │       │       log.php
 │   │       │       request.php
 │   │       │       terminal.php
-│   │       │
+│   │       │       
 │   │       ├───loaders
 │   │       │   │   bug-loader.php
 │   │       │   │   init-constant.php
 │   │       │   │   init-function.php
 │   │       │   │   init-loader.php
 │   │       │   │   init-router.php
-│   │       │   │
+│   │       │   │   
 │   │       │   └───helpers
 │   │       │           router-functions.php
 │   │       │           translation-functions.php
-│   │       │
+│   │       │           
 │   │       └───routes
 │   │               admin.php
 │   │               api.php
 │   │               web.php
-│   │
+│   │               
 │   ├───Entity
 │   │   ├───Default
 │   │   └───Project
 │   └───Repository
 │       ├───Controllers
-│       ├───Languages
-│       │   ├───en
-│       │   └───es
-│       │
 │       ├───Models
 │       └───Views
 ├───logs
 │   ├───email
-│   ├───errors
-│   │       2025-03-17.log
-│   │       2025-03-18.log
-│   │
+│   ├───errors  
 │   ├───events
-│   │       2025-03-17.log
-│   │       2025-03-18.log
-│   │
 │   └───info
-│           2025-03-17.log
-│           2025-03-18.log
-│
+│           
 ├───public
 │   │   .htaccess
 │   │   .user.ini
 │   │   cli.php
 │   │   index.php
 │   │   php.ini
-│   │
+│   │   
 │   ├───.well-known
 │   │       assetlinks.json
 │   │       mta-sts.txt
-│   │
+│   │       
 │   ├───assets
 │   │   ├───audio
 │   │   ├───css
-│   │   ├───img
-│   │   │   └───favicon
-│   │   │           favicon.ico
-│   │   │
+│   │   ├───img  
+│   │   ├───inspinia // ... all files about inspinia theme
+│   │   │                   
 │   │   ├───js
 │   │   │       main.js
-│   │   │
+│   │   │       
 │   │   ├───json
 │   │   │       manifest.json
-│   │   │
+│   │   │       
 │   │   └───libs
 │   ├───resources
 │   └───uploads
