@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Response;
+namespace Catalyst\Framework\Core\Response;
 
 
 /**************************************************************************************
@@ -27,7 +27,7 @@ namespace App\Assets\Framework\Core\Response;
  * Specializes the base Response class for HTML content with appropriate
  * content-type headers.
  *
- * @package App\Assets\Framework\Core\Response;
+ * @package Catalyst\Framework\Core\Response;
  */
 class HtmlResponse extends Response
 {

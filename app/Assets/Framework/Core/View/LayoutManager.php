@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\View;
+namespace Catalyst\Framework\Core\View;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 
@@ -31,7 +31,7 @@ use Exception;
  * Centralizes layout-specific functionality that was previously mixed
  * with view rendering to respect the Single Responsibility Principle.
  *
- * @package App\Assets\Framework\Core\View;
+ * @package Catalyst\Framework\Core\View;
  */
 class LayoutManager
 {

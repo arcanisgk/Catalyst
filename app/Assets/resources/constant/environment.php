@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-use App\Assets\Framework\Exceptions\FileSystemException;
+use Catalyst\Framework\Exceptions\FileSystemException;
 use App\Assets\Helpers\Log\Logger;
 
 /**************************************************************************************

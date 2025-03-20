@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\View;
+namespace Catalyst\Framework\Core\View;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 use RuntimeException;
@@ -33,7 +33,7 @@ use RuntimeException;
  * solely on the rendering process, without concern for file location or
  * HTTP response details.
  *
- * @package App\Assets\Framework\Core\View;
+ * @package Catalyst\Framework\Core\View;
  */
 class ViewRenderer
 {

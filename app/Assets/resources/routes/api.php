@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-use App\Assets\Framework\Core\Route\Router;
+use Catalyst\Framework\Core\Route\Router;
 
 // Get router instance
 $router = Router::getInstance();

@@ -18,11 +18,11 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Providers;
+namespace Catalyst\Framework\Core\Providers;
 
-use App\Assets\Framework\Core\Translation\TranslationCache;
-use App\Assets\Framework\Core\Translation\TranslationManager;
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Core\Translation\TranslationCache;
+use Catalyst\Framework\Core\Translation\TranslationManager;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 use Locale;
@@ -33,7 +33,7 @@ use Locale;
  * Centralizes the initialization and configuration of translation components,
  * ensuring they're properly set up and integrated with the rest of the framework.
  *
- * @package App\Assets\Framework\Core\Providers;
+ * @package Catalyst\Framework\Core\Providers;
  */
 class TranslationServiceProvider
 {

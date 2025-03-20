@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace App\Assets\Helpers\Error;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 
 /**************************************************************************************
  * Class that handles capturing and displaying errors in the application.

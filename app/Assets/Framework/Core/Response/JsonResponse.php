@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Response;
+namespace Catalyst\Framework\Core\Response;
 
 use InvalidArgumentException;
 use JsonException;
@@ -29,7 +29,7 @@ use JsonException;
  * Specializes the base Response class for JSON content with appropriate
  * content-type headers and JSON encoding.
  *
- * @package App\Assets\Framework\Core\Response;
+ * @package Catalyst\Framework\Core\Response;
  */
 class JsonResponse extends Response
 {

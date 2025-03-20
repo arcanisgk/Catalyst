@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Assets\Framework\Core\Response;
-use App\Assets\Framework\Core\Route\Router;
-use App\Assets\Framework\Exceptions\MethodNotAllowedException;
-use App\Assets\Framework\Exceptions\RouteNotFoundException;
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Core\Response;
+use Catalyst\Framework\Core\Route\Router;
+use Catalyst\Framework\Exceptions\MethodNotAllowedException;
+use Catalyst\Framework\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Http\Request;
 use App\Assets\Helpers\Log\Logger;
 use Exception;

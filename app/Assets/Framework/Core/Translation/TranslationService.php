@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Translation;
+namespace Catalyst\Framework\Core\Translation;
 
-use App\Assets\Framework\Exceptions\FileSystemException;
+use Catalyst\Framework\Exceptions\FileSystemException;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 
@@ -30,7 +30,7 @@ use Exception;
  * Provides functionality for loading, retrieving and manipulating translations
  * from JSON files with support for placeholders, pluralization and fallbacks.
  *
- * @package App\Assets\Framework\Core\Translation;
+ * @package Catalyst\Framework\Core\Translation;
  */
 class TranslationService
 {

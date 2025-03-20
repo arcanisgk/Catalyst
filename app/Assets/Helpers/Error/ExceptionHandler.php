@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace App\Assets\Helpers\Error;
 
 use Exception;
-use App\Assets\Framework\Traits\{SingletonTrait, OutputCleanerTrait};
+use Catalyst\Framework\Traits\{SingletonTrait, OutputCleanerTrait};
 use Throwable;
 
 /**************************************************************************************

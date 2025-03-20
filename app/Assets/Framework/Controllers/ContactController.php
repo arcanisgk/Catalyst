@@ -18,11 +18,11 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Controllers;
+namespace Catalyst\Framework\Controllers;
 
-use App\Assets\Framework\Core\Response\JsonResponse;
-use App\Assets\Framework\Core\Response\RedirectResponse;
-use App\Assets\Framework\Core\Response\ViewResponse;
+use Catalyst\Framework\Core\Response\JsonResponse;
+use Catalyst\Framework\Core\Response\RedirectResponse;
+use Catalyst\Framework\Core\Response\ViewResponse;
 use App\Assets\Helpers\Http\Request;
 use Exception;
 
@@ -31,7 +31,7 @@ use Exception;
  *
  * Handles contact form display and submission processing
  *
- * @package App\Assets\Framework\Controllers
+ * @package Catalyst\Framework\Controllers
  */
 class ContactController extends Controller
 {

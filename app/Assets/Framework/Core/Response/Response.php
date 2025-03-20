@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Response;
+namespace Catalyst\Framework\Core\Response;
 
 use InvalidArgumentException;
 
@@ -28,7 +28,7 @@ use InvalidArgumentException;
  * Handles the response body, status code, and headers for HTTP responses
  * returned from the application.
  *
- * @package App\Assets\Framework\Core\Response;
+ * @package Catalyst\Framework\Core\Response;
  */
 class Response
 {

@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Translation;
+namespace Catalyst\Framework\Core\Translation;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 
@@ -30,7 +30,7 @@ use Exception;
  * Provides a centralized point of access to translation functionality with
  * proper configuration management and environment awareness.
  *
- * @package App\Assets\Framework\Core\Translation;
+ * @package Catalyst\Framework\Core\Translation;
  */
 class TranslationManager
 {

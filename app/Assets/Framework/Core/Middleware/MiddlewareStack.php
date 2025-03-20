@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Middleware;
+namespace Catalyst\Framework\Core\Middleware;
 
-use App\Assets\Framework\Core\Response\Response;
+use Catalyst\Framework\Core\Response\Response;
 use App\Assets\Helpers\Http\Request;
 use App\Assets\Helpers\Log\Logger;
 use Closure;
@@ -31,7 +31,7 @@ use Exception;
  *
  * Handles storage, resolution and execution of middleware in the correct order.
  *
- * @package App\Assets\Framework\Core\Middleware;
+ * @package Catalyst\Framework\Core\Middleware;
  */
 class MiddlewareStack
 {

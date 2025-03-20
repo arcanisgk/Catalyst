@@ -18,10 +18,10 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Route;
+namespace Catalyst\Framework\Core\Route;
 
-use App\Assets\Framework\Core\UrlGenerator;
-use App\Assets\Framework\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\UrlGenerator;
+use Catalyst\Framework\Exceptions\RouteNotFoundException;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
@@ -33,7 +33,7 @@ use Traversable;
  * Stores routes organized by method and name, and provides lookup capabilities
  * for route matching and URL generation.
  *
- * @package App\Assets\Framework\Core;
+ * @package Catalyst\Framework\Core;
  */
 class RouteCollection implements Countable, IteratorAggregate
 {

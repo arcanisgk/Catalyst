@@ -18,12 +18,12 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Traits;
+namespace Catalyst\Framework\Traits;
 
 /**************************************************************************************
  * Trait that provides output buffer cleaning functionality
  *
- * @package App\Assets\Framework\Traits;
+ * @package Catalyst\Framework\Traits;
  */
 trait OutputCleanerTrait
 {

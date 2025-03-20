@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace App\Assets\Helpers\ToolBox;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\IO\FileOutput;
 use Exception;
 

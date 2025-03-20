@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Controllers;
+namespace Catalyst\Framework\Controllers;
 
-use App\Assets\Framework\Core\Response\ViewResponse;
+use Catalyst\Framework\Core\Response\ViewResponse;
 use App\Assets\Helpers\Http\Request;
 
 /**
@@ -28,7 +28,7 @@ use App\Assets\Helpers\Http\Request;
  *
  * Handles main website pages like homepage, about, and contact
  *
- * @package App\Assets\Framework\Controllers
+ * @package Catalyst\Framework\Controllers
  */
 class HomeController extends Controller
 {

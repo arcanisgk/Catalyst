@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Route;
+namespace Catalyst\Framework\Core\Route;
 
 /**************************************************************************************
  * RouteCompiler class for compiling route patterns into regular expressions
@@ -26,7 +26,7 @@ namespace App\Assets\Framework\Core\Route;
  * Responsible for parsing route patterns with parameters and generating
  * efficient regular expressions for matching URIs against routes.
  *
- * @package App\Assets\Framework\Core;
+ * @package Catalyst\Framework\Core;
  */
 class RouteCompiler
 {

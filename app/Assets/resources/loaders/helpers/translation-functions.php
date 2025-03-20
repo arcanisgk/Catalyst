@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-use App\Assets\Framework\Core\Translation\TranslationManager;
+use Catalyst\Framework\Core\Translation\TranslationManager;
 
 if (!function_exists('t')) {
     /**

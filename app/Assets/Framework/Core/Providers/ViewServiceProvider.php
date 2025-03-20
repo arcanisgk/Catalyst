@@ -18,14 +18,14 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Providers;
+namespace Catalyst\Framework\Core\Providers;
 
-use App\Assets\Framework\Core\Translation\TranslationManager;
-use App\Assets\Framework\Core\View\LayoutManager;
-use App\Assets\Framework\Core\View\ViewFactory;
-use App\Assets\Framework\Core\View\ViewFinder;
-use App\Assets\Framework\Core\View\ViewRenderer;
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Core\Translation\TranslationManager;
+use Catalyst\Framework\Core\View\LayoutManager;
+use Catalyst\Framework\Core\View\ViewFactory;
+use Catalyst\Framework\Core\View\ViewFinder;
+use Catalyst\Framework\Core\View\ViewRenderer;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 
@@ -35,7 +35,7 @@ use Exception;
  * Centralizes the initialization and configuration of view components,
  * ensuring they're properly set up and integrated with the rest of the framework.
  *
- * @package App\Assets\Framework\Core\Providers;
+ * @package Catalyst\Framework\Core\Providers;
  */
 class ViewServiceProvider
 {

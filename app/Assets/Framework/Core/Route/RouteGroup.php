@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Route;
+namespace Catalyst\Framework\Core\Route;
 
 /**************************************************************************************
  * RouteGroup class for handling route grouping functionality
@@ -26,7 +26,7 @@ namespace App\Assets\Framework\Core\Route;
  * Manages grouping of routes with shared attributes like prefixes, middleware,
  * and namespaces.
  *
- * @package App\Assets\Framework\Core;
+ * @package Catalyst\Framework\Core;
  */
 class RouteGroup
 {

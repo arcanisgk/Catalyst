@@ -18,15 +18,15 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core;
+namespace Catalyst\Framework\Core;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 
 
 /**************************************************************************************
  * Class that handles Argument for command line.
  *
- * @package App\Assets\Framework\Core
+ * @package Catalyst\Framework\Core
  */
 class Argument
 {

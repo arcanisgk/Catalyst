@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Response;
+namespace Catalyst\Framework\Core\Response;
 
 use InvalidArgumentException;
 
@@ -28,7 +28,7 @@ use InvalidArgumentException;
  * Specializes the base Response class for redirecting to another URL
  * with appropriate status codes and headers.
  *
- * @package App\Assets\Framework\Core\Response;
+ * @package Catalyst\Framework\Core\Response;
  */
 class RedirectResponse extends Response
 {

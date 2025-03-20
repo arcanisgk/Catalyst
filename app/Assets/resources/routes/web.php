@@ -18,13 +18,13 @@ declare(strict_types=1);
  *
  */
 
-use App\Assets\Framework\Core\Route\Router;
+use Catalyst\Framework\Core\Route\Router;
 
 // Get router instance
 $router = Router::getInstance();
 
 
-$router->group(['namespace' => 'App\Assets\Framework\Controllers'], function ($router) {
+$router->group(['namespace' => 'Catalyst\Framework\Controllers'], function ($router) {
     // Define basic web routes
     $router->get('/', 'HomeController@index')->name('home');
     $router->get('/about', 'HomeController@about')->name('about');

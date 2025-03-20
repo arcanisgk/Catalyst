@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Translation;
+namespace Catalyst\Framework\Core\Translation;
 
-use App\Assets\Framework\Exceptions\FileSystemException;
+use Catalyst\Framework\Exceptions\FileSystemException;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 use Throwable;
@@ -31,7 +31,7 @@ use Throwable;
  * Provides caching capabilities for translations to reduce file system access
  * and improve application performance, especially in production environments.
  *
- * @package App\Assets\Framework\Core\Translation;
+ * @package Catalyst\Framework\Core\Translation;
  */
 class TranslationCache
 {

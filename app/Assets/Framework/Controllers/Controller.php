@@ -18,14 +18,14 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Controllers;
+namespace Catalyst\Framework\Controllers;
 
-use App\Assets\Framework\Core\Response\JsonResponse;
-use App\Assets\Framework\Core\Response\RedirectResponse;
-use App\Assets\Framework\Core\Response\Response;
-use App\Assets\Framework\Core\Response\ViewResponse;
-use App\Assets\Framework\Core\Route\Router;
-use App\Assets\Framework\Core\Translation\TranslationManager;
+use Catalyst\Framework\Core\Response\JsonResponse;
+use Catalyst\Framework\Core\Response\RedirectResponse;
+use Catalyst\Framework\Core\Response\Response;
+use Catalyst\Framework\Core\Response\ViewResponse;
+use Catalyst\Framework\Core\Route\Router;
+use Catalyst\Framework\Core\Translation\TranslationManager;
 use App\Assets\Helpers\Http\Request;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
@@ -36,7 +36,7 @@ use Exception;
  * Provides common methods and functionality for controller classes to
  * minimize code duplication and standardize controller responses.
  *
- * @package App\Assets\Framework\Controllers;
+ * @package Catalyst\Framework\Controllers;
  */
 abstract class Controller
 {

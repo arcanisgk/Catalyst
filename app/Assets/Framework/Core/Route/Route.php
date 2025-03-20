@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Route;
+namespace Catalyst\Framework\Core\Route;
 
 /**************************************************************************************
  * Route class for defining individual routes
@@ -26,7 +26,7 @@ namespace App\Assets\Framework\Core\Route;
  * Represents a single route definition with its pattern, allowed methods,
  * handler, and additional attributes like name and middleware.
  *
- * @package App\Assets\Framework\Core;
+ * @package Catalyst\Framework\Core;
  */
 class Route
 {

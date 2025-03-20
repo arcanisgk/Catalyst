@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\View;
+namespace Catalyst\Framework\Core\View;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 use InvalidArgumentException;
 
 /**************************************************************************************
@@ -30,7 +30,7 @@ use InvalidArgumentException;
  * and configured search paths. Provides a central location for
  * view resolution logic separate from rendering and response handling.
  *
- * @package App\Assets\Framework\Core\View;
+ * @package Catalyst\Framework\Core\View;
  */
 class ViewFinder
 {

@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace App\Assets\Helpers\IO;
 
-use App\Assets\Framework\Core\Argument;
-use App\Assets\Framework\Exceptions\FileSystemException;
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Core\Argument;
+use Catalyst\Framework\Exceptions\FileSystemException;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 

@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Exceptions;
+namespace Catalyst\Framework\Exceptions;
 
 use RuntimeException;
 use Throwable;
@@ -29,7 +29,7 @@ use Throwable;
  * This exception is thrown when a route exists for the requested URI but the
  * HTTP method used is not allowed for that route (405 Method Not Allowed).
  *
- * @package App\Assets\Framework\Exceptions;
+ * @package Catalyst\Framework\Exceptions;
  */
 class MethodNotAllowedException extends RuntimeException
 {

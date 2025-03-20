@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Middleware;
+namespace Catalyst\Framework\Core\Middleware;
 
-use App\Assets\Framework\Core\Response\Response;
+use Catalyst\Framework\Core\Response\Response;
 use App\Assets\Helpers\Http\Request;
 use Closure;
 
@@ -29,7 +29,7 @@ use Closure;
  *
  * Wraps callable functions to make them compatible with the middleware interface.
  *
- * @package App\Assets\Framework\Core\Middleware;
+ * @package Catalyst\Framework\Core\Middleware;
  */
 class CallableMiddleware implements MiddlewareInterface
 {

@@ -19,12 +19,12 @@ declare(strict_types=1);
  */
 
 
-use App\Assets\Framework\Core\Response\JsonResponse;
-use App\Assets\Framework\Core\Response\RedirectResponse;
-use App\Assets\Framework\Core\Response\Response;
-use App\Assets\Framework\Core\Response\ViewResponse;
-use App\Assets\Framework\Core\Route\Router;
-use App\Assets\Framework\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\Response\JsonResponse;
+use Catalyst\Framework\Core\Response\RedirectResponse;
+use Catalyst\Framework\Core\Response\Response;
+use Catalyst\Framework\Core\Response\ViewResponse;
+use Catalyst\Framework\Core\Route\Router;
+use Catalyst\Framework\Exceptions\RouteNotFoundException;
 use Random\RandomException;
 
 if (!function_exists('route')) {

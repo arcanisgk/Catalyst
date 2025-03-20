@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Response;
+namespace Catalyst\Framework\Core\Response;
 
-use App\Assets\Framework\Core\View\ViewFactory;
+use Catalyst\Framework\Core\View\ViewFactory;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 use InvalidArgumentException;
@@ -32,7 +32,7 @@ use InvalidArgumentException;
  * with proper content-type headers. Delegates view rendering to ViewFactory
  * to maintain separation of concerns.
  *
- * @package App\Assets\Framework\Core\Response;
+ * @package Catalyst\Framework\Core\Response;
  */
 class ViewResponse extends Response
 {

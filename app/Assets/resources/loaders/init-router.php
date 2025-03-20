@@ -18,10 +18,10 @@ declare(strict_types=1);
  *
  */
 
-use App\Assets\Framework\Core\Middleware\DebugMiddleware;
-use App\Assets\Framework\Core\Middleware\RequestThrottlingMiddleware;
-use App\Assets\Framework\Core\Middleware\SecurityHeadersMiddleware;
-use App\Assets\Framework\Core\Route\Router;
+use Catalyst\Framework\Core\Middleware\DebugMiddleware;
+use Catalyst\Framework\Core\Middleware\RequestThrottlingMiddleware;
+use Catalyst\Framework\Core\Middleware\SecurityHeadersMiddleware;
+use Catalyst\Framework\Core\Route\Router;
 use App\Assets\Helpers\Log\Logger;
 
 // Prevent duplicate execution

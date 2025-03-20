@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace App\Assets\Helpers\Debug;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 
 /**************************************************************************************
  * Dumper class for debugging variables

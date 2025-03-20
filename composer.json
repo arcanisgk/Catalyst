@@ -33,6 +33,7 @@
     ],
     "psr-4": {
       "App\\": "app/",
+      "Catalyst\\Framework\\": "app/Assets/Framework/",
       "Tests\\": "test/"
     }
   },

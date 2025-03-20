@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace App\Assets\Helpers\Log;
 
-use App\Assets\Framework\Exceptions\FileSystemException;
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Exceptions\FileSystemException;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\ToolBox\DrawBox;
 use Exception;
 

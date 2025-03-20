@@ -18,14 +18,14 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Route;
+namespace Catalyst\Framework\Core\Route;
 
-use App\Assets\Framework\Core\Middleware\MiddlewareStack;
-use App\Assets\Framework\Core\Response\HtmlResponse;
-use App\Assets\Framework\Core\Response\JsonResponse;
-use App\Assets\Framework\Core\Response\Response;
-use App\Assets\Framework\Exceptions\MethodNotAllowedException;
-use App\Assets\Framework\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\Middleware\MiddlewareStack;
+use Catalyst\Framework\Core\Response\HtmlResponse;
+use Catalyst\Framework\Core\Response\JsonResponse;
+use Catalyst\Framework\Core\Response\Response;
+use Catalyst\Framework\Exceptions\MethodNotAllowedException;
+use Catalyst\Framework\Exceptions\RouteNotFoundException;
 use App\Assets\Helpers\Http\Request;
 use App\Assets\Helpers\Log\Logger;
 use Closure;
@@ -39,7 +39,7 @@ use ReflectionMethod;
  * Handles route matching, controller resolution, parameter binding, and
  * middleware execution.
  *
- * @package App\Assets\Framework\Core;
+ * @package Catalyst\Framework\Core;
  */
 class RouteDispatcher
 {

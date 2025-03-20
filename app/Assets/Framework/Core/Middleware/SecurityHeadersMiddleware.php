@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Assets\Framework\Core\Middleware;
+namespace Catalyst\Framework\Core\Middleware;
 
-use App\Assets\Framework\Core\Response\Response;
+use Catalyst\Framework\Core\Response\Response;
 use App\Assets\Helpers\Http\Request;
 use Closure;
 use Exception;

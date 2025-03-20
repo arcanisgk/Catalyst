@@ -18,14 +18,14 @@ declare(strict_types=1);
  *
  */
 
-namespace App\Assets\Framework\Core\Route;
+namespace Catalyst\Framework\Core\Route;
 
-use App\Assets\Framework\Core\Middleware\MiddlewareStack;
-use App\Assets\Framework\Core\Response\Response;
-use App\Assets\Framework\Core\Response\ViewResponse;
-use App\Assets\Framework\Exceptions\MethodNotAllowedException;
-use App\Assets\Framework\Exceptions\RouteNotFoundException;
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Core\Middleware\MiddlewareStack;
+use Catalyst\Framework\Core\Response\Response;
+use Catalyst\Framework\Core\Response\ViewResponse;
+use Catalyst\Framework\Exceptions\MethodNotAllowedException;
+use Catalyst\Framework\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Http\Request;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
@@ -36,7 +36,7 @@ use Exception;
  * Responsible for registering routes, matching URL patterns, and dispatching
  * to appropriate controllers or handlers.
  *
- * @package App\Assets\Framework\Core;
+ * @package Catalyst\Framework\Core;
  */
 class Router
 {

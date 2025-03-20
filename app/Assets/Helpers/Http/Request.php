@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace App\Assets\Helpers\Http;
 
-use App\Assets\Framework\Traits\SingletonTrait;
+use Catalyst\Framework\Traits\SingletonTrait;
 use App\Assets\Helpers\Log\Logger;
 use Exception;
 
