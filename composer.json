@@ -12,7 +12,7 @@
     "php"
   ],
   "homepage": "https://catalyst.lh-2.net",
-  "license": "MIT",
+  "license": "GNU",
   "config": {
     "optimize-autoloader": true,
     "platform": {
@@ -24,12 +24,12 @@
   },
   "autoload": {
     "files": [
-      "app/Assets/resources/loaders/bug-loader.php",
-      "app/Assets/resources/loaders/init-loader.php",
-      "app/Assets/resources/loaders/init-function.php",
-      "app/Assets/resources/loaders/init-router.php",
-      "app/Assets/resources/loaders/helpers/router-functions.php",
-      "app/Assets/resources/loaders/helpers/translation-functions.php"
+      "bootstrap/loaders/bug-loader.php",
+      "bootstrap/loaders/init-loader.php",
+      "bootstrap/loaders/init-function.php",
+      "bootstrap/loaders/init-router.php",
+      "bootstrap/loaders/helpers/router-functions.php",
+      "bootstrap/loaders/helpers/translation-functions.php"
     ],
     "psr-4": {
       "Catalyst\\": "app/",

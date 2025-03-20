@@ -82,7 +82,7 @@ maximum flexibility.
    // Example: Implementing a middleware
    namespace App\Repository\Middleware;
    
-   use App\Assets\Framework\Core\Middleware\MiddlewareInterface;
+   use Catalyst\Framework\Core\Middleware\MiddlewareInterface;
    
    class AuthenticationMiddleware implements MiddlewareInterface
    {
@@ -107,7 +107,7 @@ maximum flexibility.
    // Example: Completely replacing how authentication works
    namespace App\Repository\Services;
    
-   use App\Assets\Framework\Auth\AuthInterface;
+   use Catalyst\Framework\Auth\AuthInterface;
    
    class CustomAuthentication implements AuthInterface
    {
@@ -123,7 +123,7 @@ maximum flexibility.
    // Example: Intercepting and modifying route resolution
    namespace App\Repository\Routing;
    
-   use App\Assets\Framework\Core\Route\Router as BaseRouter;
+   use Catalyst\Framework\Core\Route\Router as BaseRouter;
    
    class CustomRouter extends BaseRouter
    {
@@ -143,7 +143,7 @@ maximum flexibility.
    // Example: Changing how views are resolved
    namespace App\Repository\View;
    
-   use App\Assets\Framework\Core\View\ViewFinder as BaseViewFinder;
+   use Catalyst\Framework\Core\View\ViewFinder as BaseViewFinder;
    
    class CustomViewFinder extends BaseViewFinder
    {
@@ -172,7 +172,7 @@ Components in the two spaces interact in several ways:
 
 ```php
 // Framework Space: Base Controller
-namespace App\Assets\Framework\Controllers;
+namespace Catalyst\Framework\Controllers;
 
 class Controller
 {
@@ -190,7 +190,7 @@ class Controller
 // Application Space: Custom Controller
 namespace App\Repository\Controllers;
 
-use App\Assets\Framework\Controllers\Controller;
+use Catalyst\Framework\Controllers\Controller;
 
 class UserController extends Controller
 {

@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 namespace Catalyst;
 
-use Catalyst\Framework\Core\Response;
+
+use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Route\Router;
 use Catalyst\Framework\Exceptions\MethodNotAllowedException;
 use Catalyst\Framework\Exceptions\RouteNotFoundException;
@@ -91,7 +92,9 @@ class Kernel
             ]);
 
             // Initialize router (load the router initialization script)
-            require_once PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'loaders' . DS . 'init-router.php';
+            //app/bootstrap/loaders/init-router.php
+            //require_once realpath(implode(DS, [PD, 'app', 'bootstrap', 'loaders', 'init-router.php']));
+            //require_once PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'loaders' . DS . 'init-router.php';
 
             // Initialize session handler (when implemented)
             // $this->session = Session::getInstance();

@@ -46,7 +46,7 @@ if (!defined('RUNTIME_START')) {
 }
 
 
-$path = implode(DS, array_slice(explode(DS, dirname(__DIR__)), 0, -3));
+$path = implode(DS, array_slice(explode(DS, dirname(__DIR__)), 0, -1));
 if (!defined('PD')) {
     /**
      * Project Directory

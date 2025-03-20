@@ -42,13 +42,16 @@ try {
     $routeFiles = [
 
         // Main routes file is required
-        PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'routes' . DS . 'web.php',
+        //PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'routes' . DS . 'web.php',
+        realpath(implode(DS, [PD, 'bootstrap', 'routes', 'web.php'])),
 
         // API routes are optional
-        PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'routes' . DS . 'api.php',
+        //PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'routes' . DS . 'api.php',
+        realpath(implode(DS, [PD, 'bootstrap', 'routes', 'api.php'])),
 
         // Admin routes are optional
-        PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'routes' . DS . 'admin.php',
+        //PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'routes' . DS . 'admin.php',
+        realpath(implode(DS, [PD, 'bootstrap', 'routes', 'admin.php'])),
     ];
 
     // Load each route file if it exists
