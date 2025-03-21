@@ -68,8 +68,10 @@ class ViewFinder
     {
         // Repository views take precedence over framework views
         $this->paths = [
-            'repository' => PD . DS . 'app' . DS . 'Repository' . DS . 'Views',
-            'framework' => PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Views'
+            'template' => PD . DS . 'bootstrap' . DS . 'template',
+            'framework' => PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Views',
+            'solution' => PD . DS . 'app' . DS . 'Assets' . DS . 'Solution' . DS . 'Views',
+            'repository' => PD . DS . 'app' . DS . 'Repository' . DS . 'Views'
         ];
     }
 
@@ -240,6 +242,7 @@ class ViewFinder
         // Look for file in the subdirectory of all view paths
         foreach ($this->paths as $path) {
             $filePath = $path . DS . $subDir . DS . $name . $this->extension;
+
             if (file_exists($filePath) && is_readable($filePath)) {
                 return $filePath;
             }
@@ -256,6 +259,7 @@ class ViewFinder
      */
     public function findLayout(string $name): ?string
     {
+
         return $this->findInSubdirectory('layouts', $name);
     }
 

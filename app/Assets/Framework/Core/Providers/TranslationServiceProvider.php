@@ -149,7 +149,7 @@ class TranslationServiceProvider
             'defaultLanguage' => $this->getDefaultLanguage(),
             'currentLanguage' => $this->determineCurrentLanguage(),
             'useCache' => $cache !== null,
-            'frameworkPath' => PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Locale',
+            'frameworkPath' => PD . DS . 'app' . DS . 'Assets' . DS . 'Locale',
             'applicationPath' => PD . DS . 'app' . DS . 'Repository' . DS . 'Locale'
         ]);
 

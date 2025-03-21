@@ -98,7 +98,7 @@ if (!defined('THEME_PATH')) {
     /**
      * Path to theme-specific views
      */
-    define('THEME_PATH', PD . DS . 'app' . DS . 'Repository' . DS . 'Views');
+    define('THEME_PATH', PD . DS . 'bootstrap' . DS . 'template');
 }
 
 // Define default layout if not already defined

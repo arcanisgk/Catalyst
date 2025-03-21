@@ -88,7 +88,7 @@ class TranslationManager
         $this->config['currentLanguage'] = defined('DEF_LANG') ? DEF_LANG : 'en';
 
         // Set default paths
-        $this->config['frameworkPath'] = PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Locale';
+        $this->config['frameworkPath'] = PD . DS . 'app' . DS . 'Assets' . DS . 'Locale';
         $this->config['applicationPath'] = PD . DS . 'app' . DS . 'Repository' . DS . 'Locale';
 
         // Determine whether to use cache based on environment

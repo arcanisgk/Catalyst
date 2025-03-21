@@ -8,17 +8,17 @@
     <title><?= $title ?? (isset($t) ? $t('common.app.name') : 'Catalyst Framework') ?></title>
 
     <!-- icons -->
-    <link rel="shortcut icon" href="<?= isset($asset) ? $asset('assets/inspinia/img/favicon/favicon.ico') : 'assets/inspinia/img/favicon/favicon.ico' ?>">
+    <link rel="shortcut icon" href="<?= isset($asset) ? $asset('inspinia/img/favicon/favicon.ico') : 'assets/inspinia/img/favicon/favicon.ico' ?>">
 
     <!-- manifest -->
 
 
     <!-- css -->
 
-    <link href="<?= isset($asset) ? $asset('assets/inspinia/css/bootstrap.min.css') : 'assets/inspinia/css/bootstrap.min.css' ?>" rel="stylesheet">
-    <link href="<?= isset($asset) ? $asset('assets/inspinia/plugins/fontawesome/css/all.min.css') : 'assets/inspinia/plugins/fontawesome/css/all.min.css' ?>" rel="stylesheet">
-    <link href="<?= isset($asset) ? $asset('assets/inspinia/plugins/animate/css/animate.min.css') : 'assets/inspinia/plugins/animate/css/animate.min.css' ?>" rel="stylesheet">
-    <link href="<?= isset($asset) ? $asset('assets/inspinia/css/style.min.css') : 'assets/inspinia/css/style.min.css' ?>" rel="stylesheet">
+    <link href="<?= isset($asset) ? $asset('inspinia/css/bootstrap.min.css') : 'assets/inspinia/css/bootstrap.min.css' ?>" rel="stylesheet">
+    <link href="<?= isset($asset) ? $asset('inspinia/plugins/fontawesome/css/all.min.css') : 'assets/inspinia/plugins/fontawesome/css/all.min.css' ?>" rel="stylesheet">
+    <link href="<?= isset($asset) ? $asset('inspinia/plugins/animate/css/animate.min.css') : 'assets/inspinia/plugins/animate/css/animate.min.css' ?>" rel="stylesheet">
+    <link href="<?= isset($asset) ? $asset('inspinia/css/style.min.css') : 'assets/inspinia/css/style.min.css' ?>" rel="stylesheet">
 
     <!-- Additional head content -->
     <?= $headContent ?? '' ?>
@@ -197,19 +197,19 @@
 
 <!-- Mainly Plugin Scripts -->
 
-<script src="<?= isset($asset) ? $asset('assets/inspinia/plugins/jquery/js/jquery.min.js') : 'assets/inspinia/plugins/jquery/js/jquery.min.js' ?>"></script>
-<script src="<?= isset($asset) ? $asset('assets/inspinia/plugins/bootstrap/js/bootstrap.bundle.min.js') : 'assets/inspinia/plugins/bootstrap/js/bootstrap.bundle.min.js' ?>"></script>
-<script src="<?= isset($asset) ? $asset('assets/inspinia/plugins/metismenu/js/metisMenu.min.js') : 'assets/inspinia/plugins/metismenu/js/metisMenu.min.js' ?>"></script>
-<script src="<?= isset($asset) ? $asset('assets/inspinia/plugins/pace-js/js/pace.min.js') : 'assets/inspinia/plugins/pace-js/js/pace.min.js' ?>"></script>
-<script src="<?= isset($asset) ? $asset('assets/inspinia/plugins/wow.js/js/wow.min.js') : 'assets/inspinia/plugins/wow.js/js/wow.min.js' ?>"></script>
-<script src="<?= isset($asset) ? $asset('assets/inspinia/plugins/lucide/js/lucide.min.js') : 'assets/inspinia/plugins/lucide/js/lucide.min.js' ?>"></script>
-<script src="<?= isset($asset) ? $asset('assets/inspinia/plugins/simplebar/js/simplebar.min.js') : 'assets/inspinia/plugins/simplebar/js/simplebar.min.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/plugins/jquery/js/jquery.min.js') : 'assets/inspinia/plugins/jquery/js/jquery.min.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/plugins/bootstrap/js/bootstrap.bundle.min.js') : 'assets/inspinia/plugins/bootstrap/js/bootstrap.bundle.min.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/plugins/metismenu/js/metisMenu.min.js') : 'assets/inspinia/plugins/metismenu/js/metisMenu.min.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/plugins/pace-js/js/pace.min.js') : 'assets/inspinia/plugins/pace-js/js/pace.min.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/plugins/wow.js/js/wow.min.js') : 'assets/inspinia/plugins/wow.js/js/wow.min.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/plugins/lucide/js/lucide.min.js') : 'assets/inspinia/plugins/lucide/js/lucide.min.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/plugins/simplebar/js/simplebar.min.js') : 'assets/inspinia/plugins/simplebar/js/simplebar.min.js' ?>"></script>
 
 <!-- Custom and Plugin Javascript -->
-<script src="<?= isset($asset) ? $asset('assets/inspinia/js/inspinia.js') : 'assets/inspinia/js/inspinia.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/js/inspinia.js') : 'assets/inspinia/js/inspinia.js' ?>"></script>
 
 <!-- Head CSS -->
-<script src="<?= isset($asset) ? $asset('assets/inspinia/js/head.js') : 'assets/inspinia/js/head.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('inspinia/js/head.js') : 'assets/inspinia/js/head.js' ?>"></script>
 
 <!-- Custom Scripts -->
 <script src="<?= isset($asset) ? $asset('js/main.js') : '/assets/js/main.js' ?>"></script>

@@ -121,10 +121,13 @@ class ViewServiceProvider
         $viewFinder = ViewFinder::getInstance();
 
         // Add framework views path
-        $viewFinder->addPath('solution', PD . DS . 'app' . DS . 'Assets' . DS . 'Solution' . DS . 'Views');
+        $viewFinder->addPath('solution', PD . DS . 'app' . DS . 'Assets' . DS . 'Solution' . DS . 'Views', true);
 
         // Add repository views path
         $viewFinder->addPath('repository', PD . DS . 'app' . DS . 'Repository' . DS . 'Views');
+
+        // Add template path
+        $viewFinder->addPath('template', PD . DS . 'bootstrap' . DS . 'template');
 
         // Only add theme path if the constant is defined
         if (defined('THEME_PATH') && is_dir(THEME_PATH)) {
