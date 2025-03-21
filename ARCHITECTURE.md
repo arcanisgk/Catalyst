@@ -35,6 +35,47 @@ maximum flexibility.
 - Persists through framework updates
 - Follows application-specific organizational patterns
 
+## Components Architecture
+
+### Core Components
+
+#### Routing System
+
+The routing system in Catalyst follows a pipeline architecture:
+
+- **RouteCollection** - Stores and organizes routes
+- **RouteCompiler** - Transforms route patterns into matchable patterns
+- **RouteDispatcher** - Matches incoming requests with routes
+- **Middleware Stack** - Processes requests through middleware before reaching controllers
+
+#### View System
+
+Templates are processed through several layers:
+
+- **ViewFinder** - Locates template files based on naming conventions
+- **LayoutManager** - Applies master layout templates
+- **ViewRenderer** - Processes templates with data bindings
+- **ViewResponse** - Wraps rendered content in HTTP responses
+
+#### Translation System
+
+Internationalization is managed through:
+
+- **TranslationManager** - Coordinates loading and caching translations
+- **TranslationService** - Provides translation lookup functionality
+- **TranslationCache** - Optimizes performance for translation lookups
+
+### Error Handling
+
+Error management follows a hierarchical approach:
+
+- **BugCatcher** - Central exception and error trapping mechanism
+- **ErrorHandler** - Processes PHP errors
+- **ExceptionHandler** - Processes uncaught exceptions
+- **ShutdownHandler** - Handles fatal errors during PHP shutdown
+- **BugLogger** - Records errors to appropriate logs
+- **BugOutput** - Formats error output for display
+
 ## Extension vs. Override Guidelines
 
 ### When to Extend Framework Components
@@ -46,7 +87,7 @@ maximum flexibility.
    // Example: Extending base controller with application-specific methods
    namespace App\Repository\Controllers;
    
-   use App\Assets\Framework\Controllers\Controller;
+   use Catalyst\Framework\Controllers\Controller;
    
    class ProductController extends Controller
    {
@@ -63,7 +104,7 @@ maximum flexibility.
    // Example: Specializing a base entity
    namespace App\Repository\Entities;
    
-   use App\Entity\Default\User as BaseUser;
+   use Catalyst\Entity\Default\User as BaseUser;
    
    class User extends BaseUser
    {
@@ -82,7 +123,7 @@ maximum flexibility.
    // Example: Implementing a middleware
    namespace App\Repository\Middleware;
    
-   use Catalyst\Framework\Core\Middleware\MiddlewareInterface;
+   use Catalyst\Assets\Framework\Core\Middleware\MiddlewareInterface;
    
    class AuthenticationMiddleware implements MiddlewareInterface
    {
@@ -107,7 +148,7 @@ maximum flexibility.
    // Example: Completely replacing how authentication works
    namespace App\Repository\Services;
    
-   use Catalyst\Framework\Auth\AuthInterface;
+   use Catalyst\Assets\Framework\Auth\AuthInterface;
    
    class CustomAuthentication implements AuthInterface
    {
@@ -123,7 +164,7 @@ maximum flexibility.
    // Example: Intercepting and modifying route resolution
    namespace App\Repository\Routing;
    
-   use Catalyst\Framework\Core\Route\Router as BaseRouter;
+   use Catalyst\Assets\Framework\Core\Route\Router as BaseRouter;
    
    class CustomRouter extends BaseRouter
    {
@@ -138,69 +179,16 @@ maximum flexibility.
    }
    ```
 
-3. **Changing foundational behavior** that affects multiple components
-   ```php
-   // Example: Changing how views are resolved
-   namespace App\Repository\View;
-   
-   use Catalyst\Framework\Core\View\ViewFinder as BaseViewFinder;
-   
-   class CustomViewFinder extends BaseViewFinder
-   {
-       protected function findView($name)
-       {
-           // Custom view resolution logic
-           if ($this->isMobile()) {
-               return $this->findMobileView($name);
-           }
-           
-           return parent::findView($name);
-       }
-   }
-   ```
+## Configuration Layers
 
-## Interaction Between Spaces
+Catalyst uses a three-layer configuration approach:
 
-Components in the two spaces interact in several ways:
+1. **PHP Constants** - For immutable framework parameters
+2. **JSON Configuration** - For application settings that change between environments
+3. **Environment Variables** - For deployment-specific settings
 
-1. **Inheritance** - Application classes extend framework base classes
-2. **Implementation** - Application classes implement framework interfaces
-3. **Dependency Injection** - Framework services are injected into application components
-4. **Service Registration** - Application services can be registered with framework containers
-
-### Example: Controller Interaction
-
-```php
-// Framework Space: Base Controller
-namespace Catalyst\Framework\Controllers;
-
-class Controller
-{
-    protected function view($template, $data = [])
-    {
-        // Framework implementation
-    }
-    
-    protected function json($data, $statusCode = 200)
-    {
-        // Framework implementation
-    }
-}
-
-// Application Space: Custom Controller
-namespace App\Repository\Controllers;
-
-use Catalyst\Framework\Controllers\Controller;
-
-class UserController extends Controller
-{
-    public function profile($id)
-    {
-        $user = $this->getUserById($id);
-        return $this->view('user.profile', ['user' => $user]);
-    }
-}
-```
+This layered approach provides both flexibility and performance, with constants being the fastest but least flexible, and environment variables being the most flexible but requiring runtime
+processing.
 
 ## Best Practices
 

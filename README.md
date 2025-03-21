@@ -6,7 +6,7 @@ foundation for PHP applications.
 ## Overview
 
 Catalyst is a PHP framework developed by Walter Nuñez ([arcanisgk](https://github.com/arcanisgk)) that combines the best aspects of various architectural patterns to create a flexible yet powerful
-development environment. The framework requires PHP 8.3 and is distributed under the GNU Lesser General Public License.
+development environment. The framework requires PHP 8.3 and is distributed under the MIT License.
 
 ### Philosophy
 
@@ -40,15 +40,21 @@ Unlike frameworks that rigidly adhere to a single pattern, Catalyst strategicall
 
 This mixed approach allows developers to use familiar patterns while avoiding their limitations.
 
-### Configuration System
+### Internationalization
 
-Catalyst employs a multi-layered configuration approach to address different needs:
+Catalyst provides built-in support for multi-language applications:
 
-1. **PHP Constants** - For immutable system parameters that control runtime behavior
-2. **JSON Configuration** - For frequently modified settings like credentials and service parameters
-3. **Environment Variables** - For deployment-specific settings
+- JSON-based translation files organized by language and feature
+- Simple translation helpers (`t()` and `__()`)
+- Language switching capabilities
 
-Each approach serves a specific purpose, with constants providing IDE support during development, JSON offering easy updates, and environment variables allowing deployment customization.
+### Error Management
+
+The framework includes a comprehensive error management system:
+
+- Detailed error reporting in development environments
+- Production-safe error handling
+- Customizable error logging and display
 
 ## Key Components
 
@@ -56,9 +62,8 @@ Each approach serves a specific purpose, with constants providing IDE support du
 
 - **Routing System** - Flexible URL-to-controller mapping with middleware support
 - **View Engine** - Template rendering with layouts and partials
-- **Internationalization** - Multi-language support with JSON-based translations
 - **Response Handling** - Type-specific responses (HTML, JSON, redirects)
-- **Error Management** - Comprehensive error catching, logging, and display
+- **Middleware Stack** - Modular request processing pipeline
 
 ### Utility Layer
 
@@ -84,23 +89,25 @@ cd my-project
 
 ### Basic Usage
 
-1. Define routes in `app/routes/web.php`
+1. Define routes in `bootstrap/routes/web.php`
 2. Create controllers in `app/Repository/Controllers`
-3. Add views in `resources/views`
+3. Add views in `app/Repository/Views`
 4. Run your application through a web server pointing to the `public` directory
 
 ## Development Roadmap
 
-- Service Container implementation
-- Database abstraction layer
-- Enhanced CLI capabilities
-- Administration system for configuration management
-- Expanded documentation and tutorials
+- Enhanced database abstraction layer
+- Advanced middleware capabilities
+- Expanded CLI tools
+- Extended documentation and tutorials
 
 ## License
 
-Catalyst is open-sourced software licensed under the [GNU Lesser General Public License](LICENSE).
+Catalyst is open-sourced software licensed under the [MIT License](LICENSE).
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+For documentation and more information, visit [catalyst.lh-2.net](https://catalyst.lh-2.net).
+

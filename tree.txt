@@ -3,23 +3,27 @@ Project-Root
 │   ARCHITECTURE.md
 │   composer.json
 │   directory.txt
+│   LICENSE
 │   README.md
+│   tree.txt
 │           
 ├───app
 │   │   Kernel.php
 │   │   
 │   ├───Assets
 │   │   ├───Framework
-│   │   │   ├───Controllers
-│   │   │   │       AuthenticationController.php
-│   │   │   │       ContactController.php
-│   │   │   │       Controller.php
-│   │   │   │       HomeController.php
-│   │   │   │       
 │   │   │   ├───Core
 │   │   │   │   │   Argument.php
 │   │   │   │   │   UrlGenerator.php
 │   │   │   │   │   
+│   │   │   │   ├───Exceptions
+│   │   │   │   │       FileSystemException.php
+│   │   │   │   │       MethodNotAllowedException.php
+│   │   │   │   │       RouteNotFoundException.php
+│   │   │   │   │       
+│   │   │   │   ├───Http
+│   │   │   │   │       Request.php
+│   │   │   │   │       
 │   │   │   │   ├───Middleware
 │   │   │   │   │       CallableMiddleware.php
 │   │   │   │   │       CoreMiddleware.php
@@ -59,75 +63,64 @@ Project-Root
 │   │   │   │           ViewFinder.php
 │   │   │   │           ViewRenderer.php
 │   │   │   │           
-│   │   │   ├───Exceptions
-│   │   │   │       FileSystemException.php
-│   │   │   │       MethodNotAllowedException.php
-│   │   │   │       RouteNotFoundException.php
+│   │   │   └───Traits
+│   │   │           OutputCleanerTrait.php
+│   │   │           SingletonTrait.php
+│   │   │           
+│   │   ├───Helpers
+│   │   │   ├───Debug
+│   │   │   │       Dumper.php
 │   │   │   │       
-│   │   │   ├───Languages
-│   │   │   │   ├───en
-│   │   │   │   │       auth.json
-│   │   │   │   │       common.json
-│   │   │   │   │       contact.json
-│   │   │   │   │       home.json
-│   │   │   │   │       profile.json
-│   │   │   │   │       
-│   │   │   │   └───es
-│   │   │   │           auth.json
-│   │   │   │           common.json
-│   │   │   │           contact.json
-│   │   │   │           home.json
-│   │   │   │           profile.json
-│   │   │   │           
-│   │   │   ├───Models
-│   │   │   ├───Traits
-│   │   │   │       OutputCleanerTrait.php
-│   │   │   │       SingletonTrait.php
+│   │   │   ├───Error
+│   │   │   │       BugCatcher.php
+│   │   │   │       BugLogger.php
+│   │   │   │       BugOutput.php
+│   │   │   │       ErrorHandler.php
+│   │   │   │       ExceptionHandler.php
+│   │   │   │       ShutdownHandler.php
 │   │   │   │       
-│   │   │   └───Views
-│   │   │       ├───Errors
-│   │   │       │       handler_error.php
-│   │   │       │       handler_error_no.php
-│   │   │       │       
-│   │   │       ├───Home
-│   │   │       │       index.php
-│   │   │       │       
-│   │   │       ├───layouts
-│   │   │       │       default.php
-│   │   │       │       template.php
-│   │   │       │       
-│   │   │       └───partials
-│   │   │               alert.php
-│   │   │               
-│   │   └───Helpers
-│   │       ├───Debug
-│   │       │       Dumper.php
+│   │   │   ├───IO
+│   │   │   │       FileOutput.php
+│   │   │   │       
+│   │   │   ├───Log
+│   │   │   │       Logger.php
+│   │   │   │       
+│   │   │   └───ToolBox
+│   │   │           DrawBox.php
+│   │   │           
+│   │   ├───Locale
+│   │   │   ├───en
+│   │   │   │       auth.json
+│   │   │   │       common.json
+│   │   │   │       contact.json
+│   │   │   │       home.json
+│   │   │   │       profile.json
+│   │   │   │       
+│   │   │   └───es
+│   │   │           auth.json
+│   │   │           common.json
+│   │   │           contact.json
+│   │   │           home.json
+│   │   │           profile.json
+│   │   │           
+│   │   └───Solution
+│   │       ├───Controllers
+│   │       │       AuthenticationController.php
+│   │       │       ContactController.php
+│   │       │       Controller.php
+│   │       │       HomeController.php
 │   │       │       
-│   │       ├───Error
-│   │       │       BugCatcher.php
-│   │       │       BugLogger.php
-│   │       │       BugOutput.php
-│   │       │       ErrorHandler.php
-│   │       │       ExceptionHandler.php
-│   │       │       ShutdownHandler.php
-│   │       │       
-│   │       ├───Http
-│   │       │       Request.php
-│   │       │       
-│   │       ├───IO
-│   │       │       FileOutput.php
-│   │       │       
-│   │       ├───Log
-│   │       │       Logger.php
-│   │       │       
-│   │       └───ToolBox
-│   │               DrawBox.php
-│   │               
+│   │       ├───Models
+│   │       └───Views
+│   │           └───Home
+│   │                   index.php
+│   │                   
 │   ├───Entity
 │   │   ├───Default
-│   │   ├───Project
+│   │   └───Project
 │   └───Repository
 │       ├───Controllers
+│       ├───Locale
 │       ├───Models
 │       └───Views
 ├───bootstrap
@@ -167,21 +160,35 @@ Project-Root
 │   │       terminal.php
 │   │       
 │   ├───loaders
-│   │   │   bug-loader.php
-│   │   │   init-constant.php
-│   │   │   init-function.php
-│   │   │   init-loader.php
-│   │   │   init-router.php
+│   │   │   ld-bug-catcher.php
+│   │   │   ld-constant.php
+│   │   │   ld-function.php
+│   │   │   ld-router.php
 │   │   │   
-│   │   └───helpers
-│   │           router-functions.php
-│   │           translation-functions.php
+│   │   └───globals
+│   │           func-router.php
+│   │           func-translation.php
 │   │           
-│   └───routes
-│           admin.php
-│           api.php
-│           web.php
-│           
+│   ├───routes
+│   │       admin.php
+│   │       api.php
+│   │       web.php
+│   │       
+│   └───template
+│       ├───error
+│       │       handler_error.php
+│       │       handler_error_no.php
+│       │       
+│       ├───layouts
+│       │       default.php
+│       │       template.php
+│       │       
+│       └───partials
+│               alert.php
+│               
+├───cache
+│       routes.cache.php
+│       
 ├───logs
 │   ├───errors
 │   ├───events
@@ -191,6 +198,7 @@ Project-Root
 │   │   .htaccess
 │   │   .user.ini
 │   │   cli.php
+│   │   index.html
 │   │   index.php
 │   │   php.ini
 │   │   
@@ -200,19 +208,13 @@ Project-Root
 │   │       
 │   ├───assets
 │   │   ├───audio
-│   │   ├───css   
+│   │   ├───css
 │   │   ├───img
-│   │   │   └───favicon
-│   │   │           
-│   │   ├───inspinia        // ... all files about inspinia theme
-│   │   ├───js
-│   │   │       main.js
-│   │   │       
+│   │   ├───inspinia  
+│   │   ├───js  
 │   │   └───json
-│   │           manifest.json
 │   │           
 │   ├───resources
 │   └───uploads
 └───test
         error_test.php
-        
