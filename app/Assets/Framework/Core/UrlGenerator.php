@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core;
 
+use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
 use Catalyst\Framework\Core\Route\RouteCollection;
-use Catalyst\Framework\Exceptions\RouteNotFoundException;
 
 /**************************************************************************************
  * UrlGenerator class for creating URLs from routes
@@ -88,11 +88,11 @@ class UrlGenerator
         if (isset($_SERVER['SERVER_PORT'])) {
             $port = (int)$_SERVER['SERVER_PORT'];
             if (($scheme === 'http' && $port !== 80) || ($scheme === 'https' && $port !== 443)) {
-                $host .= ":{$port}";
+                $host .= ":$port";
             }
         }
 
-        return "{$scheme}://{$host}";
+        return "$scheme://$host";
     }
 
     /**
@@ -166,6 +166,6 @@ class UrlGenerator
         // Add query string if any
         $queryString = !empty($query) ? '?' . http_build_query($query) : '';
 
-        return "{$baseUrl}/{$path}{$queryString}";
+        return "$baseUrl/$path$queryString";
     }
 }

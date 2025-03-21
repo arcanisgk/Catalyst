@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Translation;
 
-use Catalyst\Framework\Exceptions\FileSystemException;
+use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
 
@@ -120,11 +120,11 @@ class TranslationService
 
         // Set framework translations path
         $this->frameworkPath = $frameworkPath ??
-            (PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Languages');
+            (PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Locale');
 
         // Set application translations path
         $this->applicationPath = $applicationPath ??
-            (PD . DS . 'app' . DS . 'Repository' . DS . 'Languages');
+            (PD . DS . 'app' . DS . 'Repository' . DS . 'Locale');
 
         // Set cache if provided
         if ($cache !== null) {
@@ -416,7 +416,7 @@ class TranslationService
             $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
             if (!is_array($data)) {
-                throw new Exception("Invalid translation file format: {$path}");
+                throw new Exception("Invalid translation file format: $path");
             }
 
             // Flatten nested arrays into dot notation

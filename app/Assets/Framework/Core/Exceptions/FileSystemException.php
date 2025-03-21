@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Framework\Exceptions;
+namespace Catalyst\Assets\Framework\Core\Exceptions;
 
 use RuntimeException;
 

@@ -37,7 +37,7 @@ class BugOutput
     /**
      * Path to error templates
      */
-    private const string TEMPLATE_PATH = PD . '/app/Assets/Framework/Views/Errors/';
+    private const string TEMPLATE_PATH = PD . '/bootstrap/template/error/';
 
     /**
      * Output the error information based on environment (CLI or Web)

@@ -22,7 +22,7 @@ use Catalyst\Framework\Core\Route\Router;
 
 // Get router instance
 $router = Router::getInstance();
-
+/*
 // Admin routes with admin prefix and middleware
 $router->group([
     'prefix' => 'admin',
@@ -61,3 +61,4 @@ $router->group([
         ->name('admin.system.maintenance')
         ->where('mode', 'on|off');
 });
+*/

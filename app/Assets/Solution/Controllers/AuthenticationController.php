@@ -18,17 +18,17 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Framework\Controllers;
+namespace Catalyst\Solution\Controllers;
 
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response;
-use Catalyst\Helpers\Http\Request;
 
 /**
  * Authentication Controller
  *
  * Handles user authentication, registration and session management
  *
- * @package Catalyst\Framework\Controllers
+ * @package Catalyst\Solution\Controllers
  */
 class AuthenticationController extends Controller
 {

@@ -20,13 +20,12 @@ declare(strict_types=1);
 
 namespace Catalyst;
 
-
+use Catalyst\Assets\Framework\Core\Exceptions\MethodNotAllowedException;
+use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Route\Router;
-use Catalyst\Framework\Exceptions\MethodNotAllowedException;
-use Catalyst\Framework\Exceptions\RouteNotFoundException;
 use Catalyst\Framework\Traits\SingletonTrait;
-use Catalyst\Helpers\Http\Request;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
 
@@ -92,9 +91,9 @@ class Kernel
             ]);
 
             // Initialize router (load the router initialization script)
-            //app/bootstrap/loaders/init-router.php
-            //require_once realpath(implode(DS, [PD, 'app', 'bootstrap', 'loaders', 'init-router.php']));
-            //require_once PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'loaders' . DS . 'init-router.php';
+            //app/bootstrap/loaders/ld-router.php
+            //require_once realpath(implode(DS, [PD, 'app', 'bootstrap', 'loaders', 'ld-router.php']));
+            //require_once PD . DS . 'app' . DS . 'Assets' . DS . 'resources' . DS . 'loaders' . DS . 'ld-router.php';
 
             // Initialize session handler (when implemented)
             // $this->session = Session::getInstance();
@@ -105,8 +104,6 @@ class Kernel
             // Initialize view engine (when implemented)
             // $this->view = View::getInstance();
 
-            // Register shutdown function
-            register_shutdown_function([$this, 'handleShutdown']);
 
             // Mark as bootstrapped
             $this->bootstrapped = true;
@@ -139,16 +136,25 @@ class Kernel
         }
 
         try {
-            $this->logger->info('Application execution started');
 
-            // Get the router instance
-            $router = Router::getInstance();
+            define('IS_CONFIGURED', true);
 
-            // Dispatch the request through the router
-            $response = $router->dispatch($this->request);
 
-            // Send response to client
-            $response->send();
+            if (defined('IS_CONFIGURED') && IS_DEVELOPMENT) {
+                $this->logger->info('Application execution started');
+
+                // Get the router instance
+                $router = Router::getInstance();
+
+                // Dispatch the request through the router
+                $response = $router->dispatch($this->request);
+
+                // Send response to client
+                $response->send();
+
+            } else {
+                $this->showWelcomePage();
+            }
 
         } catch (RouteNotFoundException $e) {
             // Handle 404 errors
@@ -183,7 +189,7 @@ class Kernel
                 throw $e;
             } else {
                 // Show user-friendly error in production
-                $this->showErrorPage($e);
+                $this->showErrorPage();
             }
         }
     }
@@ -273,32 +279,6 @@ class Kernel
     }
 
     /**
-     * Handle application shutdown
-     *
-     * Performs cleanup operations when the application terminates
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function handleShutdown(): void
-    {
-        // Check for fatal errors
-        $error = error_get_last();
-        if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
-            $this->logger->error('Fatal error during execution', [
-                'error' => $error
-            ]);
-        }
-
-        // Close database connections (when implemented)
-        // $this->database->disconnect();
-
-        // Perform other cleanup tasks
-
-        $this->logger->info('Application shutdown completed');
-    }
-
-    /**
      * Display welcome page during development
      *
      * @return void
@@ -340,10 +320,9 @@ class Kernel
     /**
      * Display error page
      *
-     * @param Exception $exception The exception that occurred
      * @return void
      */
-    protected function showErrorPage(Exception $exception): void
+    protected function showErrorPage(): void
     {
         // Simple error page. This could be improved to use a view template.
         http_response_code(500);

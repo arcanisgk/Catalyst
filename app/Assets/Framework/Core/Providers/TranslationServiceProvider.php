@@ -149,8 +149,8 @@ class TranslationServiceProvider
             'defaultLanguage' => $this->getDefaultLanguage(),
             'currentLanguage' => $this->determineCurrentLanguage(),
             'useCache' => $cache !== null,
-            'frameworkPath' => PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Languages',
-            'applicationPath' => PD . DS . 'app' . DS . 'Repository' . DS . 'Languages'
+            'frameworkPath' => PD . DS . 'app' . DS . 'Assets' . DS . 'Framework' . DS . 'Locale',
+            'applicationPath' => PD . DS . 'app' . DS . 'Repository' . DS . 'Locale'
         ]);
 
         $this->logger->debug('TranslationManager configured', [

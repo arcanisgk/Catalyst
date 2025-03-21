@@ -214,6 +214,7 @@ class ViewResponse extends Response
     protected function renderView(): self
     {
         try {
+
             // Get ViewFactory instance
             $viewFactory = ViewFactory::getInstance();
 
@@ -231,7 +232,7 @@ class ViewResponse extends Response
 
             // Set error message as content if view rendering fails
             $errorContent = IS_DEVELOPMENT
-                ? "Error rendering view '{$this->view}': " . $e->getMessage()
+                ? "Error rendering view '$this->view': " . $e->getMessage()
                 : 'An error occurred while processing your request.';
 
             $this->setContent($errorContent);

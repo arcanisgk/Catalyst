@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Middleware;
 
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\Response;
-use Catalyst\Helpers\Http\Request;
 use Closure;
+use Exception;
 
 class DebugMiddleware extends CoreMiddleware
 {
+    /**
+     * @throws Exception
+     */
     public function process(Request $request, Closure $next): Response
     {
         // Log request information in development

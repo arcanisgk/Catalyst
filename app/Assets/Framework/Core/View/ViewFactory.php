@@ -100,7 +100,7 @@ class ViewFactory
 
             // If view not found, throw exception
             if (!$viewFile) {
-                throw new Exception("View not found: {$view}");
+                throw new Exception("View not found: $view");
             }
 
             // Merge shared data with view-specific data
@@ -128,7 +128,7 @@ class ViewFactory
             ]);
 
             // Re-throw with more context
-            throw new Exception("Failed to create view '{$view}': " . $e->getMessage(), 0, $e);
+            throw new Exception("Failed to create view '$view': " . $e->getMessage(), 0, $e);
         }
     }
 
@@ -148,7 +148,7 @@ class ViewFactory
 
         // If partial not found, throw exception
         if (!$partialFile) {
-            throw new Exception("Partial not found: {$partial}");
+            throw new Exception("Partial not found: $partial");
         }
 
         // Add helper functions to data

@@ -569,7 +569,7 @@
   };
 
   /**
-   * helpers
+   * globals
    * =======
    * A map of functions to be used as callback listeners. Functions are
    * added to and removed from the map using the functions

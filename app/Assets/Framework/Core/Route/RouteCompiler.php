@@ -38,7 +38,7 @@ class RouteCompiler
     /**
      * Pattern for matching parameters in route definition
      */
-    private const string PARAMETER_PATTERN = '/{([^:}?]+)(?:\:([^}]+))?(\?)?}/';
+    private const string PARAMETER_PATTERN = '/{([^:}?]+)(?::([^}]+))?(\?)?}/';
 
     /**
      * Compile a route pattern into a regular expression pattern
@@ -76,10 +76,10 @@ class RouteCompiler
                 $pattern = !empty($matches[2]) ? $matches[2] :
                     ($constraints[$name] ?? self::DEFAULT_PARAMETER_PATTERN);
 
-                $capture = "(?P<{$name}>{$pattern})";
+                $capture = "(?P<$name>$pattern)";
 
                 // Make parameter optional if needed
-                return $isOptional ? "(?:/{$capture})?" : "/{$capture}";
+                return $isOptional ? "(?:/$capture)?" : "/$capture";
             },
             $pattern
         );
@@ -146,7 +146,7 @@ class RouteCompiler
             $variantPattern = $pattern;
             foreach ($omit as $param) {
                 $variantPattern = preg_replace(
-                    '/{' . preg_quote($param, '/') . '(\:[^}]+)?\\?}/',
+                    '/{' . preg_quote($param, '/') . '(:[^}]+)?\?}/',
                     '',
                     $variantPattern
                 );

@@ -62,7 +62,7 @@ if (!defined('WD')) {
      *
      * Description: This constant represents the path that the web entry point is located on.
      */
-    define('WD', rtrim($_SERVER['DOCUMENT_ROOT'], '/\\') . DS);
+    define('WD', trim($_SERVER['DOCUMENT_ROOT'], '/\\') . DS);
 }
 
 if (!defined('CT')) {

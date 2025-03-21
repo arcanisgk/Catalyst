@@ -24,6 +24,7 @@ use Catalyst\Framework\Core\Route\Router;
 $router = Router::getInstance();
 
 // API route group with common prefix and middleware
+/*
 $router->group([
     'prefix' => 'api',
     'middleware' => ['api', 'throttle']
@@ -63,3 +64,4 @@ $router->group([
         });
     });
 });
+*/

@@ -67,6 +67,7 @@ class ViewServiceProvider
      * Bootstrap the view subsystem components
      *
      * @return bool Success status
+     * @throws Exception
      */
     public function bootstrap(): bool
     {
@@ -119,6 +120,12 @@ class ViewServiceProvider
     {
         $viewFinder = ViewFinder::getInstance();
 
+        // Add framework views path
+        $viewFinder->addPath('solution', PD . DS . 'app' . DS . 'Assets' . DS . 'Solution' . DS . 'Views');
+
+        // Add repository views path
+        $viewFinder->addPath('repository', PD . DS . 'app' . DS . 'Repository' . DS . 'Views');
+
         // Only add theme path if the constant is defined
         if (defined('THEME_PATH') && is_dir(THEME_PATH)) {
             $viewFinder->addPath('theme', THEME_PATH);
@@ -135,6 +142,7 @@ class ViewServiceProvider
      * Configure the LayoutManager component
      *
      * @return void
+     * @throws Exception
      */
     protected function configureLayoutManager(): void
     {
@@ -154,6 +162,7 @@ class ViewServiceProvider
      * Configure the TranslationManager component
      *
      * @return void
+     * @throws Exception
      */
     protected function configureTranslationManager(): void
     {
@@ -176,6 +185,7 @@ class ViewServiceProvider
      * Configure the ViewFactory component
      *
      * @return void
+     * @throws Exception
      */
     protected function configureViewFactory(): void
     {
@@ -211,7 +221,7 @@ class ViewServiceProvider
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-        return "{$protocol}://{$host}";
+        return "$protocol://$host";
     }
 
     /**
@@ -244,6 +254,7 @@ class ViewServiceProvider
      * Ensure the default layout exists, creating it if needed
      *
      * @return void
+     * @throws Exception
      */
     protected function ensureDefaultLayoutExists(): void
     {
@@ -262,7 +273,6 @@ class ViewServiceProvider
             if (file_exists($templatePath)) {
                 // Read template content
                 $defaultContent = file_get_contents($templatePath);
-                $layoutManager->createDefaultLayout($defaultContent);
             } else {
                 $this->logger->warning('Default layout template not found', [
                     'templatePath' => $templatePath
@@ -270,8 +280,8 @@ class ViewServiceProvider
 
                 // Fallback to creating a basic layout
                 $defaultContent = $this->getDefaultLayoutTemplate();
-                $layoutManager->createDefaultLayout($defaultContent);
             }
+            $layoutManager->createDefaultLayout($defaultContent);
         }
     }
 

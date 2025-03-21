@@ -24,14 +24,14 @@ use Catalyst\Framework\Core\Route\Router;
 $router = Router::getInstance();
 
 
-$router->group(['namespace' => 'Catalyst\Framework\Controllers'], function ($router) {
+$router->group(['namespace' => 'Catalyst\Solution\Controllers'], function ($router) {
     // Define basic web routes
     $router->get('/', 'HomeController@index')->name('home');
-    $router->get('/about', 'HomeController@about')->name('about');
-    $router->get('/contact', 'ContactController@index')->name('contact');
-    $router->post('/contact', 'ContactController@submit')->name('contact.submit');
+    //$router->get('/about', 'HomeController@about')->name('about');
+    //$router->get('/contact', 'ContactController@index')->name('contact');
+    //$router->post('/contact', 'ContactController@submit')->name('contact.submit');
 });
-
+/*
 // Routes with parameters
 $router->get('/articles/{id}', 'ArticleController@show')->name('articles.show')
     ->where('id', '[0-9]+'); // Add constraint: id must be numeric
@@ -58,3 +58,4 @@ $router->group(['middleware' => 'auth'], function ($router) {
     $router->get('/profile', 'ProfileController@show')->name('profile');
     $router->put('/profile', 'ProfileController@update')->name('profile.update');
 });
+*/

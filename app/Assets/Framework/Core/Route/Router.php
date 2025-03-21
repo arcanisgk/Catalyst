@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Route;
 
+use Catalyst\Assets\Framework\Core\Exceptions\MethodNotAllowedException;
+use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Middleware\MiddlewareStack;
 use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Response\ViewResponse;
-use Catalyst\Framework\Exceptions\MethodNotAllowedException;
-use Catalyst\Framework\Exceptions\RouteNotFoundException;
 use Catalyst\Framework\Traits\SingletonTrait;
-use Catalyst\Helpers\Http\Request;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
 
@@ -92,7 +92,7 @@ class Router
         $this->routes = new RouteCollection();
         $this->dispatcher = new RouteDispatcher();
         $this->middleware = new MiddlewareStack();
-        $this->cacheFile = PD . DS . 'cache' . DS . 'routes.cache.php';
+        $this->cacheFile = realpath(implode(DS, [PD, 'cache', 'routes.cache.php']));
     }
 
     /**
@@ -220,13 +220,13 @@ class Router
     {
         // Default resource routes
         $resourceRoutes = [
-            'index' => ['GET', "{$name}", 'index'],
-            'create' => ['GET', "{$name}/create", 'create'],
-            'store' => ['POST', "{$name}", 'store'],
-            'show' => ['GET', "{$name}/{id}", 'show'],
-            'edit' => ['GET', "{$name}/{id}/edit", 'edit'],
-            'update' => ['PUT', "{$name}/{id}", 'update'],
-            'destroy' => ['DELETE', "{$name}/{id}", 'destroy'],
+            'index' => ['GET', "$name", 'index'],
+            'create' => ['GET', "$name/create", 'create'],
+            'store' => ['POST', "$name", 'store'],
+            'show' => ['GET', "$name/{id}", 'show'],
+            'edit' => ['GET', "$name/{id}/edit", 'edit'],
+            'update' => ['PUT', "$name/{id}", 'update'],
+            'destroy' => ['DELETE', "$name/{id}", 'destroy'],
         ];
 
         // Filter out routes based on options
@@ -241,7 +241,7 @@ class Router
         // Register each resource route
         foreach ($resourceRoutes as $route) {
             [$method, $uri, $action] = $route;
-            $this->addRoute([$method], $uri, "{$controller}@{$action}");
+            $this->addRoute([$method], $uri, "$controller@$action");
         }
     }
 
@@ -281,6 +281,7 @@ class Router
      */
     public function dispatch(Request $request): Response
     {
+
         // Load routes from cache in production
         if (IS_PRODUCTION && !$this->routesCached) {
             $this->loadCachedRoutes();

@@ -233,19 +233,13 @@ class Response
             $this->headers[$name] = $value;
         } else {
             // Append to existing header
-            if (is_array($this->headers[$name])) {
-                if (is_array($value)) {
-                    $this->headers[$name] = array_merge($this->headers[$name], $value);
-                } else {
-                    $this->headers[$name][] = $value;
-                }
-            } else {
+            if (!is_array($this->headers[$name])) {
                 $this->headers[$name] = [$this->headers[$name]];
-                if (is_array($value)) {
-                    $this->headers[$name] = array_merge($this->headers[$name], $value);
-                } else {
-                    $this->headers[$name][] = $value;
-                }
+            }
+            if (is_array($value)) {
+                $this->headers[$name] = array_merge($this->headers[$name], $value);
+            } else {
+                $this->headers[$name][] = $value;
             }
         }
 

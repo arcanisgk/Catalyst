@@ -34,6 +34,7 @@ use InvalidArgumentException;
  */
 class ViewFinder
 {
+
     use SingletonTrait;
 
     /**
@@ -83,7 +84,7 @@ class ViewFinder
     public function addPath(string $name, string $path, bool $prepend = false): self
     {
         if (!is_dir($path)) {
-            throw new InvalidArgumentException("View path does not exist: {$path}");
+            throw new InvalidArgumentException("View path does not exist: $path");
         }
 
         if ($prepend) {
@@ -142,6 +143,9 @@ class ViewFinder
      */
     public function find(string $view): ?string
     {
+
+        //debug('Buscando vista', ['vista' => $view]);
+
         // Convert dots to directory separators
         $viewPath = str_replace('.', DS, $view);
 

@@ -298,5 +298,5 @@ IndexIgnore *
 php_value display_errors On
 
 <IfModule php_module>
-    php_value auto_prepend_file "./../bootstrap/loaders/bug-loader.php"
+    php_value auto_prepend_file "./../bootstrap/loaders/ld-bug-catcher.php"
 </IfModule>

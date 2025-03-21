@@ -19,12 +19,12 @@ declare(strict_types=1);
  */
 
 
+use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\RedirectResponse;
 use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Response\ViewResponse;
 use Catalyst\Framework\Core\Route\Router;
-use Catalyst\Framework\Exceptions\RouteNotFoundException;
 use Random\RandomException;
 
 if (!function_exists('route')) {
@@ -90,9 +90,7 @@ if (!function_exists('route_is')) {
      */
     function route_is(string $pattern): bool
     {
-        $request = isset($_SERVER['REQUEST_URI'])
-            ? $_SERVER['REQUEST_URI']
-            : '/';
+        $request = $_SERVER['REQUEST_URI'] ?? '/';
 
         // Remove query string
         if (($pos = strpos($request, '?')) !== false) {
@@ -224,7 +222,7 @@ if (!function_exists('route_url')) {
         $url = '';
         foreach ($segments as $segment) {
             $segment = trim($segment, '/');
-            $url .= ($segment ? "/{$segment}" : '');
+            $url .= ($segment ? "/$segment" : '');
         }
 
         return $url ?: '/';
@@ -240,7 +238,7 @@ if (!function_exists('current_route_url')) {
      */
     function current_route_url(bool $withQueryString = false): string
     {
-        $url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+        $url = $_SERVER['REQUEST_URI'] ?? '/';
 
         if (!$withQueryString && ($pos = strpos($url, '?')) !== false) {
             $url = substr($url, 0, $pos);
@@ -249,8 +247,6 @@ if (!function_exists('current_route_url')) {
         return $url;
     }
 }
-
-// Add these functions to the existing router-functions.php file
 
 if (!function_exists('csrf_token')) {
     /**
@@ -311,5 +307,35 @@ if (!function_exists('csrf_verify')) {
         return $token !== null &&
             isset($_SESSION['_csrf_token']) &&
             hash_equals($_SESSION['_csrf_token'], $token);
+    }
+}
+
+if (!function_exists('asset')) {
+    /**
+     * Generate URL for an asset file
+     *
+     * @param string $path Path to the asset file
+     * @param bool $absolute Whether to return an absolute URL
+     * @return string The asset URL
+     */
+    function asset(string $path, bool $absolute = false): string
+    {
+        // Remove leading slash if present
+        $path = ltrim($path, '/');
+
+        // Base path for assets
+        $basePath = '/assets/';
+
+        // Build the URL
+        $url = $basePath . $path;
+
+        // Add domain for absolute URLs
+        if ($absolute) {
+            $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http';
+            $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+            $url = $protocol . '://' . $host . $url;
+        }
+
+        return $url;
     }
 }

@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Catalyst\Helpers\IO;
 
+use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Framework\Core\Argument;
-use Catalyst\Framework\Exceptions\FileSystemException;
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\Log\Logger;
 use Exception;

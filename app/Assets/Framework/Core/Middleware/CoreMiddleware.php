@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Middleware;
 
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\Response;
-use Catalyst\Helpers\Http\Request;
 use Catalyst\Helpers\Log\Logger;
 use Closure;
 use Exception;
@@ -110,13 +110,11 @@ abstract class CoreMiddleware implements MiddlewareInterface
      */
     protected function logException(Exception $exception): void
     {
-        if ($this->logger) {
-            $this->logger->error('Middleware exception', [
-                'middleware' => static::class,
-                'exception' => $exception->getMessage(),
-                'trace' => $exception->getTraceAsString()
-            ]);
-        }
+        $this->logger?->error('Middleware exception', [
+            'middleware' => static::class,
+            'exception' => $exception->getMessage(),
+            'trace' => $exception->getTraceAsString()
+        ]);
     }
 
     /**
@@ -144,7 +142,7 @@ abstract class CoreMiddleware implements MiddlewareInterface
         $headers = function_exists('apache_request_headers') ? apache_request_headers() : [];
         $accept = $headers['Accept'] ?? ($_SERVER['HTTP_ACCEPT'] ?? '');
 
-        return strpos($accept, 'application/json') !== false;
+        return str_contains($accept, 'application/json');
     }
 
     /**
@@ -161,7 +159,7 @@ abstract class CoreMiddleware implements MiddlewareInterface
             'unknown';
 
         // If HTTP_X_FORWARDED_FOR contains multiple IPs, get the first one
-        if (strpos($ipAddress, ',') !== false) {
+        if (str_contains($ipAddress, ',')) {
             $ipAddresses = explode(',', $ipAddress);
             $ipAddress = trim($ipAddresses[0]);
         }

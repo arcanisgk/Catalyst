@@ -10,7 +10,7 @@ $baseDir = dirname(__FILE__, 2);
 
 // Build paths in a platform-independent way
 $phpIniPath = $baseDir . DIRECTORY_SEPARATOR . 'php.ini';
-$indexPath = implode(DIRECTORY_SEPARATOR, [$baseDir, 'bin', 'index.php']);
+$indexPath = implode(DIRECTORY_SEPARATOR, [$baseDir, 'bootstrap', 'bin', 'index.php']);
 
 // Get PHP executable path
 $phpExecutable = PHP_BINARY;

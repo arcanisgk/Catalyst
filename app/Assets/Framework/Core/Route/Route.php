@@ -128,7 +128,7 @@ class Route
         }
 
         // Remove trailing slash unless it's the root pattern
-        if ($pattern !== '/' && substr($pattern, -1) === '/') {
+        if ($pattern !== '/' && str_ends_with($pattern, '/')) {
             $pattern = rtrim($pattern, '/');
         }
 
@@ -347,16 +347,16 @@ class Route
         // Extract parameter names and build the regex pattern
         $regex = preg_replace_callback('/{([^:}]+)(?::[^}]+)?}/', function ($matches) {
             $this->parameterNames[] = $matches[1];
-            return "(?P<{$matches[1]}>[^/]+)";
+            return "(?P<$matches[1]>[^/]+)";
         }, $pattern);
 
         // Apply constraints
         foreach ($this->constraints as $parameter => $constraint) {
-            $regex = str_replace("(?P<{$parameter}>[^/]+)", "(?P<{$parameter}>{$constraint})", $regex);
+            $regex = str_replace("(?P<$parameter>[^/]+)", "(?P<$parameter>$constraint)", $regex);
         }
 
         // Finalize the regex pattern
-        $this->compiledPattern = "#^{$regex}$#";
+        $this->compiledPattern = "#^$regex$#";
     }
 
     /**

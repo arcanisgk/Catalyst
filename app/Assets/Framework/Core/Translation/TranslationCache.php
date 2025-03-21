@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Translation;
 
-use Catalyst\Framework\Exceptions\FileSystemException;
+use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
 use Throwable;
@@ -335,7 +335,7 @@ class TranslationCache
             }
 
             // Write cache file with translations
-            $content = "<?php\n\n// Generated: " . date('Y-m-d H:i:s') . "\n// Language: {$language}\n// Group: {$group}\n\nreturn " .
+            $content = "<?php\n\n// Generated: " . date('Y-m-d H:i:s') . "\n// Language: $language\n// Group: $group\n\nreturn " .
                 var_export($translations, true) . ";\n";
 
             if (file_put_contents($cacheFile, $content) === false) {

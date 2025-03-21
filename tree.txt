@@ -1,8 +1,10 @@
 Project-Root
 │   .env
+│   ARCHITECTURE.md
 │   composer.json
-│   tree.txt
-│
+│   directory.txt
+│   README.md
+│           
 ├───app
 │   │   Kernel.php
 │   │   
@@ -97,92 +99,91 @@ Project-Root
 │   │   │       └───partials
 │   │   │               alert.php
 │   │   │               
-│   │   ├───Helpers
-│   │   │   ├───Debug
-│   │   │   │       Dumper.php
-│   │   │   │       
-│   │   │   ├───Error
-│   │   │   │       BugCatcher.php
-│   │   │   │       BugLogger.php
-│   │   │   │       BugOutput.php
-│   │   │   │       ErrorHandler.php
-│   │   │   │       ExceptionHandler.php
-│   │   │   │       ShutdownHandler.php
-│   │   │   │       
-│   │   │   ├───Http
-│   │   │   │       Request.php
-│   │   │   │       
-│   │   │   ├───IO
-│   │   │   │       FileOutput.php
-│   │   │   │       
-│   │   │   ├───Log
-│   │   │   │       Logger.php
-│   │   │   │       
-│   │   │   └───ToolBox
-│   │   │           DrawBox.php
-│   │   │           
-│   │   └───resources
-│   │       ├───bin
-│   │       │       index.php
+│   │   └───Helpers
+│   │       ├───Debug
+│   │       │       Dumper.php
 │   │       │       
-│   │       ├───config
-│   │       │   ├───backup
-│   │       │   │       app.json
-│   │       │   │       db.json
-│   │       │   │       ftp.json
-│   │       │   │       mail.json
-│   │       │   │       session.json
-│   │       │   │       tools.json
-│   │       │   │       
-│   │       │   ├───development
-│   │       │   │       app.json
-│   │       │   │       db.json
-│   │       │   │       ftp.json
-│   │       │   │       mail.json
-│   │       │   │       session.json
-│   │       │   │       tools.json
-│   │       │   │       
-│   │       │   └───production
-│   │       │           app.json
-│   │       │           db.json
-│   │       │           ftp.json
-│   │       │           mail.json
-│   │       │           session.json
-│   │       │           tools.json
-│   │       │               
-│   │       ├───constant
-│   │       │       default.php
-│   │       │       environment.php
-│   │       │       log.php
-│   │       │       request.php
-│   │       │       terminal.php
+│   │       ├───Error
+│   │       │       BugCatcher.php
+│   │       │       BugLogger.php
+│   │       │       BugOutput.php
+│   │       │       ErrorHandler.php
+│   │       │       ExceptionHandler.php
+│   │       │       ShutdownHandler.php
 │   │       │       
-│   │       ├───loaders
-│   │       │   │   bug-loader.php
-│   │       │   │   init-constant.php
-│   │       │   │   init-function.php
-│   │       │   │   init-loader.php
-│   │       │   │   init-router.php
-│   │       │   │   
-│   │       │   └───helpers
-│   │       │           router-functions.php
-│   │       │           translation-functions.php
-│   │       │           
-│   │       └───routes
-│   │               admin.php
-│   │               api.php
-│   │               web.php
+│   │       ├───Http
+│   │       │       Request.php
+│   │       │       
+│   │       ├───IO
+│   │       │       FileOutput.php
+│   │       │       
+│   │       ├───Log
+│   │       │       Logger.php
+│   │       │       
+│   │       └───ToolBox
+│   │               DrawBox.php
 │   │               
 │   ├───Entity
 │   │   ├───Default
-│   │   └───Project
+│   │   ├───Project
 │   └───Repository
 │       ├───Controllers
 │       ├───Models
 │       └───Views
+├───bootstrap
+│   ├───bin
+│   │       index.php
+│   │       
+│   ├───config
+│   │   ├───backup
+│   │   │       app.json
+│   │   │       db.json
+│   │   │       ftp.json
+│   │   │       mail.json
+│   │   │       session.json
+│   │   │       tools.json
+│   │   │       
+│   │   ├───development
+│   │   │       app.json
+│   │   │       db.json
+│   │   │       ftp.json
+│   │   │       mail.json
+│   │   │       session.json
+│   │   │       tools.json
+│   │   │       
+│   │   └───production
+│   │           app.json
+│   │           db.json
+│   │           ftp.json
+│   │           mail.json
+│   │           session.json
+│   │           tools.json
+│   │               
+│   ├───constant
+│   │       default.php
+│   │       environment.php
+│   │       log.php
+│   │       request.php
+│   │       terminal.php
+│   │       
+│   ├───loaders
+│   │   │   bug-loader.php
+│   │   │   init-constant.php
+│   │   │   init-function.php
+│   │   │   init-loader.php
+│   │   │   init-router.php
+│   │   │   
+│   │   └───helpers
+│   │           router-functions.php
+│   │           translation-functions.php
+│   │           
+│   └───routes
+│           admin.php
+│           api.php
+│           web.php
+│           
 ├───logs
-│   ├───email
-│   ├───errors  
+│   ├───errors
 │   ├───events
 │   └───info
 │           
@@ -199,18 +200,19 @@ Project-Root
 │   │       
 │   ├───assets
 │   │   ├───audio
-│   │   ├───css
-│   │   ├───img  
-│   │   ├───inspinia // ... all files about inspinia theme
-│   │   │                   
+│   │   ├───css   
+│   │   ├───img
+│   │   │   └───favicon
+│   │   │           
+│   │   ├───inspinia        // ... all files about inspinia theme
 │   │   ├───js
 │   │   │       main.js
 │   │   │       
-│   │   ├───json
-│   │   │       manifest.json
-│   │   │       
-│   │   └───libs
+│   │   └───json
+│   │           manifest.json
+│   │           
 │   ├───resources
 │   └───uploads
 └───test
         error_test.php
+        

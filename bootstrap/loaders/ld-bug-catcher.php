@@ -18,12 +18,13 @@ declare(strict_types=1);
  *
  */
 
-require_once __DIR__ . '/../loaders/init-constant.php';
-require_once PD . '/vendor/autoload.php';
-require_once PD . '/app/Assets/Helpers/Error/BugCatcher.php';
+require_once realpath(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), '..', 'loaders', 'ld-constant.php']));
+require_once realpath(implode(DS, [PD, 'vendor', 'autoload.php']));
+require_once realpath(implode(DS, [PD, 'app', 'Assets', 'Helpers', 'Error', 'BugCatcher.php']));
 
 if (!defined('BUG_CATCHER_LOADED')) {
     define('BUG_CATCHER_LOADED', true);
 }
+
 
 

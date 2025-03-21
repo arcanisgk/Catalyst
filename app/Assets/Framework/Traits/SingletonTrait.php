@@ -30,7 +30,7 @@ trait SingletonTrait
     /**
      * @var self|null
      */
-    private static ?self $instance;
+    private static self|null $instance;
 
     /**
      * @var array

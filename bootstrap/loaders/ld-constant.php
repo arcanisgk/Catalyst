@@ -27,7 +27,7 @@ const DS = DIRECTORY_SEPARATOR;
  * Constant for project
  */
 require_once realpath(implode(DS, [dirname(__FILE__), '..', 'constant', 'default.php']));
-require_once realpath(implode(DS, [dirname(__FILE__), '..', 'constant', 'terminal.php']));
-require_once realpath(implode(DS, [dirname(__FILE__), '..', 'constant', 'request.php']));
-require_once realpath(implode(DS, [dirname(__FILE__), '..', 'constant', 'environment.php']));
-require_once realpath(implode(DS, [dirname(__FILE__), '..', 'constant', 'log.php']));
+require_once realpath(implode(DS, [PD, 'bootstrap', 'constant', 'terminal.php']));
+require_once realpath(implode(DS, [PD, 'bootstrap', 'constant', 'request.php']));
+require_once realpath(implode(DS, [PD, 'bootstrap', 'constant', 'environment.php']));
+require_once realpath(implode(DS, [PD, 'bootstrap', 'constant', 'log.php']));

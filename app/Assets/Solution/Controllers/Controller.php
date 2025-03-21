@@ -18,15 +18,15 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Framework\Controllers;
+namespace Catalyst\Solution\Controllers;
 
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\RedirectResponse;
 use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Response\ViewResponse;
 use Catalyst\Framework\Core\Route\Router;
 use Catalyst\Framework\Core\Translation\TranslationManager;
-use Catalyst\Helpers\Http\Request;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
 
@@ -36,7 +36,7 @@ use Exception;
  * Provides common methods and functionality for controller classes to
  * minimize code duplication and standardize controller responses.
  *
- * @package Catalyst\Framework\Controllers;
+ * @package Catalyst\Solution\Controllers;
  */
 abstract class Controller
 {
@@ -250,6 +250,7 @@ abstract class Controller
      * @param array $replacements Values to replace placeholders
      * @param string|null $language Language code (defaults to current language)
      * @return string The translated text
+     * @throws Exception
      */
     protected function trans(string $key, array $replacements = [], ?string $language = null): string
     {
@@ -257,13 +258,11 @@ abstract class Controller
             return TranslationManager::getInstance()->get($key, $replacements, $language);
         } catch (Exception $e) {
             // Log the error
-            if ($this->logger) {
-                $this->logger->error('Translation error in controller', [
-                    'key' => $key,
-                    'controller' => static::class,
-                    'error' => $e->getMessage()
-                ]);
-            }
+            $this->logger?->error('Translation error in controller', [
+                'key' => $key,
+                'controller' => static::class,
+                'error' => $e->getMessage()
+            ]);
 
             // Return the key as fallback
             return $key;
@@ -278,6 +277,7 @@ abstract class Controller
      * @param array $replacements Values to replace placeholders
      * @param string|null $language Language code (defaults to current language)
      * @return string The translated text
+     * @throws Exception
      */
     protected function transChoice(string $key, int $count, array $replacements = [], ?string $language = null): string
     {
@@ -285,14 +285,12 @@ abstract class Controller
             return TranslationManager::getInstance()->choice($key, $count, $replacements, $language);
         } catch (Exception $e) {
             // Log the error
-            if ($this->logger) {
-                $this->logger->error('Translation choice error in controller', [
-                    'key' => $key,
-                    'count' => $count,
-                    'controller' => static::class,
-                    'error' => $e->getMessage()
-                ]);
-            }
+            $this->logger?->error('Translation choice error in controller', [
+                'key' => $key,
+                'count' => $count,
+                'controller' => static::class,
+                'error' => $e->getMessage()
+            ]);
 
             // Return the key as fallback
             return $key;
@@ -326,7 +324,7 @@ abstract class Controller
             // Use request object if available
             $headers = function_exists('apache_request_headers') ? apache_request_headers() : [];
             $accept = $headers['Accept'] ?? ($_SERVER['HTTP_ACCEPT'] ?? '');
-            return strpos($accept, 'application/json') !== false;
+            return str_contains($accept, 'application/json');
         }
         return false;
     }
@@ -337,14 +335,13 @@ abstract class Controller
      * @param string $message Message to log
      * @param array $context Context data
      * @return void
+     * @throws Exception
      */
     protected function logInfo(string $message, array $context = []): void
     {
-        if ($this->logger) {
-            $this->logger->info($message, array_merge([
-                'controller' => static::class
-            ], $context));
-        }
+        $this->logger?->info($message, array_merge([
+            'controller' => static::class
+        ], $context));
     }
 
     /**
@@ -353,14 +350,13 @@ abstract class Controller
      * @param string $message Message to log
      * @param array $context Context data
      * @return void
+     * @throws Exception
      */
     protected function logError(string $message, array $context = []): void
     {
-        if ($this->logger) {
-            $this->logger->error($message, array_merge([
-                'controller' => static::class
-            ], $context));
-        }
+        $this->logger?->error($message, array_merge([
+            'controller' => static::class
+        ], $context));
     }
 
     /**
@@ -369,13 +365,12 @@ abstract class Controller
      * @param string $message Message to log
      * @param array $context Context data
      * @return void
+     * @throws Exception
      */
     protected function logDebug(string $message, array $context = []): void
     {
-        if ($this->logger) {
-            $this->logger->debug($message, array_merge([
-                'controller' => static::class
-            ], $context));
-        }
+        $this->logger?->debug($message, array_merge([
+            'controller' => static::class
+        ], $context));
     }
 }

@@ -18,17 +18,18 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Framework\Controllers;
+namespace Catalyst\Solution\Controllers;
 
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\ViewResponse;
-use Catalyst\Helpers\Http\Request;
+use Exception;
 
 /**
  * Home Controller
  *
  * Handles main website pages like homepage, about, and contact
  *
- * @package Catalyst\Framework\Controllers
+ * @package Catalyst\Solution\Controllers
  */
 class HomeController extends Controller
 {
@@ -37,6 +38,7 @@ class HomeController extends Controller
      *
      * @param Request $request The current request
      * @return ViewResponse
+     * @throws Exception
      */
     public function index(Request $request): ViewResponse
     {

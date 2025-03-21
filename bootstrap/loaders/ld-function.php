@@ -18,6 +18,7 @@ declare(strict_types=1);
  *
  */
 
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Helpers\Debug\Dumper;
 use Catalyst\Helpers\Log\Logger;
 
@@ -134,4 +135,41 @@ function ex_c(...$var): never
     exit;
 }
 
+if (defined('INIT_LOADER_EXECUTED')) {
+    return;
+} else {
+    define('INIT_LOADER_EXECUTED', true);
 
+    try {
+        // Inicializar el logger al inicio de la aplicación
+        $logger = Logger::getInstance();
+        $logger->configure([
+            'logDirectory' => LOG_DIR,
+            'minimumLogLevel' => LOG_LEVEL,
+            'displayLogs' => false
+        ]);
+
+        // Registrar inicio de aplicación
+
+        $logger->info('Application started', [
+            'environment' => defined('APP_ENV') ? APP_ENV : 'unknown',
+            'php_version' => PHP_VERSION,
+            'execution_mode' => IS_CLI ? 'CLI' : 'Web'
+        ]);
+
+        // Initialize the Request handler for web requests
+        if (!IS_CLI) {
+            Request::getInstance();
+            $logger->debug('Request handler initialized');
+        }
+
+    } catch (Exception $e) {
+        // Fallback error handling if logger fails
+        error_log('Logger initialization failed: ' . $e->getMessage());
+
+        // Only display error in development mode
+        if (IS_DEVELOPMENT) {
+            echo 'Logger initialization error: ' . $e->getMessage();
+        }
+    }
+}

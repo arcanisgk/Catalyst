@@ -58,7 +58,7 @@ class RedirectResponse extends Response
     {
         if (!in_array($status, self::$validStatusCodes)) {
             throw new InvalidArgumentException(
-                "Invalid redirect status code: {$status}. Valid redirect status codes are: " .
+                "Invalid redirect status code: $status. Valid redirect status codes are: " .
                 implode(', ', self::$validStatusCodes)
             );
         }

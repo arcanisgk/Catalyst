@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-use Catalyst\Framework\Exceptions\FileSystemException;
+use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Helpers\Log\Logger;
 
 /**************************************************************************************
@@ -114,7 +114,11 @@ function readEnvironmentVariable(): void
     }
 }
 
-readEnvironmentVariable();
+try {
+    readEnvironmentVariable();
+} catch (Exception $e) {
+    echo "Environment Error: " . $e->getMessage();
+}
 
 if (!defined('IS_DEVELOPMENT')) {
     /**
@@ -174,24 +178,4 @@ if (!defined('GET_ENVIRONMENT')) {
      * and creates a boolean constant 'IS_DEVELOPMENT' accordingly
      */
     define('GET_ENVIRONMENT', defined('APP_ENV') ? APP_ENV : 'unknown');
-}
-
-if (!defined('DEF_LANG')) {
-    /**
-     * Defines a constant to indicate whether the application is running in development mode
-     *
-     * Checks if the APP_ENV environment variable is set to 'development'
-     * and creates a boolean constant 'IS_DEVELOPMENT' accordingly
-     */
-    define('DEF_LANG', defined('APP_LANG') ? APP_LANG : 'en');
-}
-
-if (!defined('DEF_URL')) {
-    /**
-     * Defines a constant to indicate whether the application is running in development mode
-     *
-     * Checks if the APP_ENV environment variable is set to 'development'
-     * and creates a boolean constant 'IS_DEVELOPMENT' accordingly
-     */
-    define('DEF_URL', defined('APP_URL') ? APP_URL : 'localhost');
 }

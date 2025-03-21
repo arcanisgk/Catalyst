@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Route;
 
-use Catalyst\Framework\Core\UrlGenerator;
-use Catalyst\Framework\Exceptions\RouteNotFoundException;
 use ArrayIterator;
+use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\UrlGenerator;
 use Countable;
 use IteratorAggregate;
 use Traversable;
@@ -131,7 +131,7 @@ class RouteCollection implements Countable, IteratorAggregate
         if ($matchedRoute) {
             return $matchedRoute;
         }
-
+        
         // If no match and method is HEAD, try GET routes
         if ($method === 'HEAD') {
             $matchedRoute = $this->matchRoutes($this->getByMethod('GET'), $uri, $params);

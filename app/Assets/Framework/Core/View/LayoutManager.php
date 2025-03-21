@@ -104,7 +104,7 @@ class LayoutManager
         $layoutFile = $this->viewFinder->findLayout($layoutToUse);
 
         if (!$layoutFile) {
-            throw new Exception("Layout file not found: {$layoutToUse}");
+            throw new Exception("Layout file not found: $layoutToUse");
         }
 
         // Make view content available to layout
@@ -150,7 +150,7 @@ class LayoutManager
             ]);
 
             // Re-throw with more context
-            throw new Exception("Failed to render layout '{$layoutFile}': " . $e->getMessage(), 0, $e);
+            throw new Exception("Failed to render layout '$layoutFile': " . $e->getMessage(), 0, $e);
         }
     }
 

@@ -18,54 +18,34 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Framework\Exceptions;
+namespace Catalyst\Assets\Framework\Core\Exceptions;
 
 use RuntimeException;
 use Throwable;
 
 /**************************************************************************************
- * Exception thrown when an HTTP method is not allowed for a route
+ * Exception thrown when a route cannot be found
  *
- * This exception is thrown when a route exists for the requested URI but the
- * HTTP method used is not allowed for that route (405 Method Not Allowed).
+ * This exception is thrown when a route matching the requested URI is not found
+ * or when a named route doesn't exist.
  *
  * @package Catalyst\Framework\Exceptions;
  */
-class MethodNotAllowedException extends RuntimeException
+class RouteNotFoundException extends RuntimeException
 {
     /**
-     * HTTP methods that are allowed for the route
-     *
-     * @var array
-     */
-    private array $allowedMethods;
-
-    /**
-     * Create a new method not allowed exception
+     * Create a new route not found exception
      *
      * @param string $message Exception message
-     * @param array $allowedMethods HTTP methods allowed for this route
      * @param int $code Exception code
      * @param Throwable|null $previous Previous exception
      */
     public function __construct(
-        string     $message = 'Method not allowed',
-        array      $allowedMethods = [],
-        int        $code = 405,
+        string     $message = 'Route not found',
+        int        $code = 404,
         ?Throwable $previous = null
     )
     {
-        $this->allowedMethods = $allowedMethods;
         parent::__construct($message, $code, $previous);
-    }
-
-    /**
-     * Get the HTTP methods that are allowed for the route
-     *
-     * @return array Array of allowed HTTP methods
-     */
-    public function getAllowedMethods(): array
-    {
-        return $this->allowedMethods;
     }
 }

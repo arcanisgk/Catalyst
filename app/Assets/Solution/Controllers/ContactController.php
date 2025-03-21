@@ -18,12 +18,12 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Framework\Controllers;
+namespace Catalyst\Solution\Controllers;
 
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\RedirectResponse;
 use Catalyst\Framework\Core\Response\ViewResponse;
-use Catalyst\Helpers\Http\Request;
 use Exception;
 
 /**
@@ -31,14 +31,14 @@ use Exception;
  *
  * Handles contact form display and submission processing
  *
- * @package Catalyst\Framework\Controllers
+ * @package Catalyst\Solution\Controllers
  */
 class ContactController extends Controller
 {
     /**
      * Display the contact form
      *
-     * @param Request $request The current request
+     * @param \Catalyst\Assets\Framework\Core\Http\Request $request The current request
      * @return ViewResponse
      */
     public function index(Request $request): ViewResponse
@@ -78,7 +78,7 @@ class ContactController extends Controller
     /**
      * Process contact form submission
      *
-     * @param Request $request The current request with form data
+     * @param \Catalyst\Assets\Framework\Core\Http\Request $request The current request with form data
      * @return RedirectResponse|JsonResponse
      * @throws Exception
      */
@@ -196,7 +196,7 @@ class ContactController extends Controller
     /**
      * API endpoint to validate contact form fields in real-time
      *
-     * @param Request $request The current request
+     * @param \Catalyst\Assets\Framework\Core\Http\Request $request The current request
      * @return JsonResponse JSON response with validation result
      */
     public function validateField(Request $request): JsonResponse

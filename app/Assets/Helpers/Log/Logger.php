@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Helpers\Log;
 
-use Catalyst\Framework\Exceptions\FileSystemException;
+use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\ToolBox\DrawBox;
 use Exception;

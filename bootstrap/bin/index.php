@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use Catalyst\Kernel;
 
-require_once realpath(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), '..', '..', '..', '..', 'vendor', 'autoload.php']));
+require_once realpath(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), '..', '..', 'vendor', 'autoload.php']));
 
 // Bootstrap the application
 $app = new Kernel();

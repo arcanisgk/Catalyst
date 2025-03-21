@@ -20,16 +20,17 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Route;
 
+use Catalyst\Assets\Framework\Core\Exceptions\MethodNotAllowedException;
+use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Middleware\MiddlewareStack;
 use Catalyst\Framework\Core\Response\HtmlResponse;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\Response;
-use Catalyst\Framework\Exceptions\MethodNotAllowedException;
-use Catalyst\Framework\Exceptions\RouteNotFoundException;
-use Catalyst\Helpers\Http\Request;
 use Catalyst\Helpers\Log\Logger;
 use Closure;
 use Exception;
+use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
 
@@ -74,14 +75,14 @@ class RouteDispatcher
         // If no route matched but we have allowed methods, it's a 405 Method Not Allowed
         if ($matchedRoute === null && isset($routeParams['_allowed_methods'])) {
             throw new MethodNotAllowedException(
-                "Method '{$method}' not allowed for route '{$uri}'",
+                "Method '$method' not allowed for route '$uri'",
                 $routeParams['_allowed_methods']
             );
         }
 
         // If no route matched at all, it's a 404 Not Found
         if ($matchedRoute === null) {
-            throw new RouteNotFoundException("No route found for '{$uri}' with method '{$method}'");
+            throw new RouteNotFoundException("No route found for '$uri' with method '$method'");
         }
 
         // Create middleware stack with route-specific middleware
@@ -109,6 +110,7 @@ class RouteDispatcher
      */
     protected function executeRoute(Route $route, Request $request, array $parameters): Response
     {
+
         $handler = $route->getHandler();
 
         // Log the execution
@@ -121,7 +123,7 @@ class RouteDispatcher
         // Resolve the handler to a callable
         if ($handler instanceof Closure) {
             $response = $this->executeClosure($handler, $request, $parameters);
-        } elseif (is_string($handler) && strpos($handler, '@') !== false) {
+        } elseif (is_string($handler) && str_contains($handler, '@')) {
             $response = $this->executeController($handler, $route->getNamespace(), $request, $parameters);
         } elseif (is_callable($handler)) {
             $response = $handler($request, $parameters);
@@ -163,7 +165,7 @@ class RouteDispatcher
 
         // Check if controller class exists
         if (!class_exists($controller)) {
-            throw new Exception("Controller '{$controller}' not found");
+            throw new Exception("Controller '$controller' not found");
         }
 
         // Create controller instance
@@ -171,7 +173,7 @@ class RouteDispatcher
 
         // Check if method exists
         if (!method_exists($controllerInstance, $method)) {
-            throw new Exception("Method '{$method}' not found in controller '{$controller}'");
+            throw new Exception("Method '$method' not found in controller '$controller'");
         }
 
         // Prepare parameters for method
@@ -192,6 +194,8 @@ class RouteDispatcher
      * @param Request $request The current request
      * @param array $parameters Route parameters
      * @return mixed The return value from the closure
+     * @throws ReflectionException
+     * @throws Exception
      */
     protected function executeClosure(Closure $closure, Request $request, array $parameters): mixed
     {
@@ -210,8 +214,10 @@ class RouteDispatcher
      * @param Request $request The current request
      * @param array $routeParameters Route parameters
      * @return array Resolved parameters for the method
+     * @throws ReflectionException
+     * @throws Exception
      */
-    protected function resolveMethodDependencies($reflector, Request $request, array $routeParameters): array
+    protected function resolveMethodDependencies(ReflectionMethod|ReflectionFunction $reflector, Request $request, array $routeParameters): array
     {
         $parameters = [];
 
@@ -241,7 +247,7 @@ class RouteDispatcher
             }
 
             // If we get here, we couldn't resolve the parameter
-            throw new Exception("Could not resolve parameter '{$name}' for route handler");
+            throw new Exception("Could not resolve parameter '$name' for route handler");
         }
 
         return $parameters;

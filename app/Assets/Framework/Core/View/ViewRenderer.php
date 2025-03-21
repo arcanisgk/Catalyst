@@ -66,11 +66,11 @@ class ViewRenderer
     {
         // Verify file exists and is readable
         if (!file_exists($viewFile)) {
-            throw new RuntimeException("View file not found: {$viewFile}");
+            throw new RuntimeException("View file not found: $viewFile");
         }
 
         if (!is_readable($viewFile)) {
-            throw new RuntimeException("View file not readable: {$viewFile}");
+            throw new RuntimeException("View file not readable: $viewFile");
         }
 
         try {
@@ -88,7 +88,7 @@ class ViewRenderer
 
             // Check if rendering produced content
             if ($renderedContent === false) {
-                throw new RuntimeException("Failed to capture view output for: {$viewFile}");
+                throw new RuntimeException("Failed to capture view output for: $viewFile");
             }
 
             return $renderedContent;
@@ -108,7 +108,7 @@ class ViewRenderer
 
             // Re-throw with more context
             throw new RuntimeException(
-                "Error rendering view '{$viewFile}': " . $e->getMessage(),
+                "Error rendering view '$viewFile': " . $e->getMessage(),
                 0,
                 $e
             );
