@@ -373,4 +373,19 @@ abstract class Controller
             'controller' => static::class
         ], $context));
     }
+
+    /**
+     * Log a warning message
+     *
+     * @param string $message Message to log
+     * @param array $context Context data
+     * @return void
+     * @throws Exception
+     */
+    protected function logWarning(string $message, array $context = []): void
+    {
+        $this->logger?->warning($message, array_merge([
+            'controller' => static::class
+        ], $context));
+    }
 }

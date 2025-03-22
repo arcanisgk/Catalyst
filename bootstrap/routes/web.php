@@ -32,6 +32,17 @@ $router->group(['namespace' => 'Catalyst\Solution\Controllers'], function ($rout
     //$router->get('/about', 'HomeController@about')->name('about');
     //$router->get('/contact', 'ContactController@index')->name('contact');
     //$router->post('/contact', 'ContactController@submit')->name('contact.submit');
+
+
+});
+
+// Configuration Panel Routes
+$router->group(['namespace' => 'Catalyst\Solution\Controllers'], function ($router) {
+    $router->get('/configure', 'ConfigController@index')->name('config.index');
+    $router->get('/configure/{section}', 'ConfigController@showSection')->name('config.section');
+    $router->post('/configure/{section}/save', 'ConfigController@saveConfig')->name('config.save');
+    $router->post('/configure/test-connection', 'ConfigController@testConnection')->name('config.test');
+    $router->post('/configure/change-environment', 'ConfigController@changeEnvironment')->name('config.environment');
 });
 /*
 // Routes with parameters

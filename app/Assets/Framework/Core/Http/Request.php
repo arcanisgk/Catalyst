@@ -240,4 +240,26 @@ class Request
     {
         return $_SERVER['REQUEST_URI'] ?? '/';
     }
+
+    /**
+     * Get value from SERVER parameters
+     *
+     * @param string $key Parameter name
+     * @param mixed $default Default value if parameter doesn't exist
+     * @return mixed Parameter value or default
+     */
+    public function server(string $key, mixed $default = null): mixed
+    {
+        return $this->server[$key] ?? $default;
+    }
+
+    /**
+     * Get all SERVER parameters
+     *
+     * @return array All SERVER parameters
+     */
+    public function getAllServer(): array
+    {
+        return $this->server;
+    }
 }
