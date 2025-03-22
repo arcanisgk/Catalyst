@@ -48,7 +48,7 @@ class HomeController extends Controller
         ]);
 
         // Return view with data and explicitly set layout
-        return $this->viewWithLayout('home', [
+        return $this->viewWithLayout('Home.index', [
             'title' => 'Welcome to Catalyst',
             'description' => 'A modern PHP framework for rapid application development',
             'activeMenu' => 'home',
@@ -81,10 +81,16 @@ class HomeController extends Controller
      * Display the about page
      *
      * @return ViewResponse
+     * @throws Exception
      */
     public function about(): ViewResponse
     {
-        return $this->viewWithLayout('about', [
+        // Log page access
+        $this->logInfo('About page accessed', [
+            'ip' => $request->getClientIp ?? 'unknown'
+        ]);
+
+        return $this->viewWithLayout('Home.about', [
             'title' => 'About Us',
             'activeMenu' => 'about',
             'pageTitle' => 'About',
@@ -94,5 +100,56 @@ class HomeController extends Controller
                 ['name' => 'Catalyst Community', 'role' => 'Contributors']
             ]
         ], 'default');
+    }
+
+    /**
+     * Display the landing page
+     *
+     * @return ViewResponse
+     * @throws Exception
+     */
+    public function landing(): ViewResponse
+    {
+        // Log page access
+        $this->logInfo('Landing page accessed', [
+            'ip' => $this->request ? ($this->request->getClientIp ?? 'unknown') : 'unknown'
+        ]);
+
+        // Return view with data but using the landing layout
+        return $this->viewWithLayout('Home.landing', [
+            'title' => 'Catalyst Framework - Modern PHP Development',
+            'features' => [
+                [
+                    'title' => 'Modern MVC Architecture',
+                    'description' => 'Clean, modular design with separation of concerns',
+                    'icon' => 'layer-group'
+                ],
+                [
+                    'title' => 'Powerful middleware',
+                    'description' => 'Filter HTTP requests with customizable middleware',
+                    'icon' => 'filter'
+                ],
+                [
+                    'title' => 'Flexible Routing',
+                    'description' => 'Intuitive and expressive route definitions',
+                    'icon' => 'route'
+                ],
+                [
+                    'title' => 'Fast and Lightweight',
+                    'description' => 'Optimized for performance without unnecessary bloat',
+                    'icon' => 'bolt'
+                ],
+                [
+                    'title' => 'Multilingual Support',
+                    'description' => 'Built-in internationalization for global applications',
+                    'icon' => 'language'
+                ],
+                [
+                    'title' => 'Modern PHP Development',
+                    'description' => 'Leverages PHP 8.3 features for efficient development',
+                    'icon' => 'code'
+                ]
+            ]
+        ], 'landing');
     }
 }

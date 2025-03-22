@@ -26,7 +26,9 @@ $router = Router::getInstance();
 
 $router->group(['namespace' => 'Catalyst\Solution\Controllers'], function ($router) {
     // Define basic web routes
-    $router->get('/', 'HomeController@index')->name('home');
+    // $router->get('/', 'HomeController@index')->name('home');
+    $router->get('/', 'HomeController@landing')->name('landing');
+    $router->get('/home', 'HomeController@index')->name('home');
     //$router->get('/about', 'HomeController@about')->name('about');
     //$router->get('/contact', 'ContactController@index')->name('contact');
     //$router->post('/contact', 'ContactController@submit')->name('contact.submit');

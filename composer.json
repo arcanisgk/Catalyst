@@ -26,6 +26,7 @@
     "files": [
       "bootstrap/loaders/ld-bug-catcher.php",
       "bootstrap/loaders/ld-function.php",
+      "bootstrap/loaders/ld-logger.php",
       "bootstrap/loaders/ld-router.php",
       "bootstrap/loaders/globals/func-router.php",
       "bootstrap/loaders/globals/func-translation.php"

@@ -18,7 +18,6 @@ declare(strict_types=1);
  *
  */
 
-use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Helpers\Debug\Dumper;
 use Catalyst\Helpers\Log\Logger;
 
@@ -135,41 +134,40 @@ function ex_c(...$var): never
     exit;
 }
 
-if (defined('INIT_LOADER_EXECUTED')) {
-    return;
-} else {
-    define('INIT_LOADER_EXECUTED', true);
+/**
+ * Format execution time in a human-readable format
+ *
+ * @param float $startTime Start time from microtime(true)
+ * @return string Formatted execution time
+ */
+function format_execution_time(float $startTime): string
+{
+    $duration = microtime(true) - $startTime;
 
-    try {
-        // Inicializar el logger al inicio de la aplicación
-        $logger = Logger::getInstance();
-        $logger->configure([
-            'logDirectory' => LOG_DIR,
-            'minimumLogLevel' => LOG_LEVEL,
-            'displayLogs' => false
-        ]);
-
-        // Registrar inicio de aplicación
-
-        $logger->info('Application started', [
-            'environment' => defined('APP_ENV') ? APP_ENV : 'unknown',
-            'php_version' => PHP_VERSION,
-            'execution_mode' => IS_CLI ? 'CLI' : 'Web'
-        ]);
-
-        // Initialize the Request handler for web requests
-        if (!IS_CLI) {
-            Request::getInstance();
-            $logger->debug('Request handler initialized');
-        }
-
-    } catch (Exception $e) {
-        // Fallback error handling if logger fails
-        error_log('Logger initialization failed: ' . $e->getMessage());
-
-        // Only display error in development mode
-        if (IS_DEVELOPMENT) {
-            echo 'Logger initialization error: ' . $e->getMessage();
-        }
+    if ($duration < 0.001) {
+        return round($duration * 1000000) . 'μs'; // microseconds
+    } elseif ($duration < 1) {
+        return round($duration * 1000, 2) . 'ms'; // milliseconds
+    } else {
+        return round($duration, 4) . 's'; // seconds
     }
+}
+
+/**
+ * Format memory usage in a human-readable format
+ *
+ * @param int $bytes Memory usage in bytes
+ * @return string Formatted memory usage
+ */
+function format_memory(int $bytes): string
+{
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+
+    $bytes /= pow(1024, $pow);
+
+    return round($bytes, 2) . ' ' . $units[$pow];
 }

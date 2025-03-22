@@ -10,3 +10,4 @@ bootstrap/config/development/*.json
 bootstrap/config/production/*.json
 bootstrap/config/test/*
 /public/index.html
+/public/jx.js

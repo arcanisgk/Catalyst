@@ -1,0 +1,138 @@
+/* Landing page specific styles */
+/* Framework logo styling */
+.framework-logo {
+    margin-bottom: 1.5rem;
+}
+
+.framework-logo img {
+    max-width: 300px; /* Adjust based on your image size */
+    height: auto;
+}
+
+.landing-page {
+    background-color: #f3f3f4;
+    color: #676a6c;
+    font-family: 'Open Sans', helvetica, arial, sans-serif;
+}
+
+.header-back {
+    height: 470px;
+    width: 100%;
+}
+
+.header-back.one {
+    background: url('../img/landing/header_one.png') 50% 0 no-repeat;
+    background-size: cover;
+}
+
+/* Carousel */
+.carousel-caption {
+    padding: 20px 0;
+}
+
+.carousel-caption h1 {
+    font-weight: 700;
+    font-size: 38px;
+    text-transform: uppercase;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.carousel-caption p {
+    font-size: 20px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Sections */
+section {
+    padding: 100px 0;
+}
+
+.navy-line {
+    width: 60px;
+    height: 1px;
+    margin: 60px auto 0;
+    border-bottom: 2px solid #1ab394;
+}
+
+.gray-section {
+    background: #f4f4f4;
+}
+
+/* Features */
+.features-icon {
+    color: #1ab394;
+    font-size: 40px;
+}
+
+/* Team */
+.team-member {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.team-member img {
+    margin: auto;
+    width: 150px;
+    height: 150px;
+}
+
+.team-member h4 {
+    margin-top: 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.team-member p {
+    color: #999;
+}
+
+.social-icon a {
+    background: #1ab394;
+    color: white;
+    padding: 4px 8px;
+    height: 28px;
+    width: 28px;
+    display: inline-block;
+    border-radius: 50px;
+    margin: 0 5px;
+}
+
+/* Contact */
+.contact {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .navbar-wrapper {
+        margin-top: 20px;
+    }
+
+    .navbar-wrapper .navbar {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .carousel-caption {
+        padding-top: 140px;
+    }
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-collapse {
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    .navbar-default .nav li a {
+        color: #676a6c;
+    }
+
+    .carousel-caption {
+        padding-top: 80px;
+    }
+
+    .carousel-caption h1 {
+        font-size: 24px;
+    }
+}
