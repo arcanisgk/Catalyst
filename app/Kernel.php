@@ -25,6 +25,7 @@ use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
 use Catalyst\Assets\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Route\Router;
+use Catalyst\Framework\Core\Session\SessionManager;
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
@@ -90,6 +91,8 @@ class Kernel
                 'environment' => defined('GET_ENVIRONMENT') ? GET_ENVIRONMENT : 'unknown',
             ]);
 
+            SessionManager::getInstance()->init();
+
             // Initialize router (load the router initialization script)
             //app/bootstrap/loaders/ld-router.php
             //require_once realpath(implode(DS, [PD, 'app', 'bootstrap', 'loaders', 'ld-router.php']));
@@ -137,10 +140,7 @@ class Kernel
 
         try {
 
-            define('IS_CONFIGURED', true);
-
-
-            if (defined('IS_CONFIGURED') && IS_DEVELOPMENT) {
+            if (IS_DEVELOPMENT || IS_PRODUCTION && !IS_CONFIGURED) {
                 $this->logger->info('Application execution started');
 
                 // Get the router instance
@@ -153,7 +153,7 @@ class Kernel
                 $response->send();
 
             } else {
-                $this->showWelcomePage();
+                $this->showWelcome();
             }
 
         } catch (RouteNotFoundException $e) {
@@ -202,33 +202,27 @@ class Kernel
      */
     protected function handle404Error(RouteNotFoundException $e): void
     {
+        $templatePath = implode(DS, [PD, 'bootstrap', 'templates', 'error', '404.php']);
+
         if (IS_DEVELOPMENT) {
-            // Show detailed error in development
-            $content = '<!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <title>Page Not Found</title>
-                <style>
-                    body { font-family: system-ui, sans-serif; margin: 0; padding: 20px; color: #333; }
-                    .container { max-width: 800px; margin: 0 auto; background: #f9f9f9; padding: 30px; border-radius: 10px; }
-                    h1 { color: #d23d24; }
-                    .message { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 5px; }
-                    .uri { font-family: monospace; background: #eee; padding: 10px; border-radius: 5px; }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <h1>404 - Page Not Found</h1>
-                    <div class="message">' . htmlspecialchars($e->getMessage()) . '</div>
-                    <p>The requested URL was: <span class="uri">' . htmlspecialchars($this->request->getUri()) . '</span></p>
-                    <p>Check that the URL is correct or go back to the <a href="/">homepage</a>.</p>
-                </div>
-            </body>
-            </html>';
+            $data = [
+                'message' => $e->getMessage(),
+                'uri' => $this->request->getUri()
+            ];
+
+            ob_start();
+            if (file_exists($templatePath)) {
+                extract($data);
+                include $templatePath;
+            } else {
+                echo "<h1>404 - Page Not Found</h1>";
+                echo "<p>{$e->getMessage()}</p>";
+                echo "<p>Template file not found: $templatePath</p>";
+            }
+            $content = ob_get_clean();
 
             Response::notFound($content)->send();
         } else {
-            // Simple error page in production
             Response::notFound($this->getProductionErrorContent('Page Not Found'))->send();
         }
     }
@@ -241,80 +235,47 @@ class Kernel
      */
     protected function handle405Error(MethodNotAllowedException $e): void
     {
-        $allowedMethods = $e->getAllowedMethods();
+        $templatePath = implode(DS, [PD, 'bootstrap', 'templates', 'error', '405.php']);
 
         if (IS_DEVELOPMENT) {
-            // Show detailed error in development
-            $content = '<!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <title>Method Not Allowed</title>
-                <style>
-                    body { font-family: system-ui, sans-serif; margin: 0; padding: 20px; color: #333; }
-                    .container { max-width: 800px; margin: 0 auto; background: #f9f9f9; padding: 30px; border-radius: 10px; }
-                    h1 { color: #d23d24; }
-                    .message { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 5px; }
-                    .uri { font-family: monospace; background: #eee; padding: 10px; border-radius: 5px; }
-                    .methods { font-family: monospace; background: #d1e7dd; color: #0f5132; padding: 5px 10px; border-radius: 3px; }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <h1>405 - Method Not Allowed</h1>
-                    <div class="message">' . htmlspecialchars($e->getMessage()) . '</div>
-                    <p>The requested URL was: <span class="uri">' . htmlspecialchars($this->request->getUri()) . '</span></p>
-                    <p>Request method: <strong>' . htmlspecialchars($this->request->getMethod()) . '</strong></p>
-                    <p>Allowed methods: ' . implode(', ', array_map(function ($method) {
-                    return '<span class="methods">' . htmlspecialchars($method) . '</span>';
-                }, $allowedMethods)) . '</p>
-                </div>
-            </body>
-            </html>';
+            $data = [
+                'message' => $e->getMessage(),
+                'uri' => $this->request->getUri()
+            ];
 
-            Response::methodNotAllowed($allowedMethods, $content)->send();
+            ob_start();
+            if (file_exists($templatePath)) {
+                extract($data);
+                include $templatePath;
+            } else {
+                echo "<h1>405 - Method not allowed</h1>";
+                echo "<p>{$e->getMessage()}</p>";
+                echo "<p>Template file not found: $templatePath</p>";
+            }
+            $content = ob_get_clean();
+
+            Response::notFound($content)->send();
         } else {
-            // Simple error page in production
-            Response::methodNotAllowed($allowedMethods, $this->getProductionErrorContent('Method Not Allowed'))->send();
+            Response::notFound($this->getProductionErrorContent('Method not allowed'))->send();
         }
     }
 
     /**
-     * Display welcome page during development
+     * Display welcome page
      *
      * @return void
+     * @throws Exception
      */
-    protected function showWelcomePage(): void
+    protected function showWelcome(): void
     {
-        // This is a placeholder. Eventually you might want to create a proper welcome view.
-        echo '<!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <title>Welcome to Catalyst Framework</title>
-            <style>
-                body { font-family: system-ui, sans-serif; margin: 0; padding: 20px; color: #333; }
-                .container { max-width: 800px; margin: 0 auto; background: #f9f9f9; padding: 30px; border-radius: 10px; }
-                h1 { color: #d23d24; }
-                p { line-height: 1.6; }
-                .version { color: #777; font-size: 0.9em; }
-                .footer { margin-top: 30px; font-size: 0.8em; color: #777; text-align: center; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>Welcome to Catalyst Framework</h1>
-                <p>Congratulations! Your application is running successfully.</p>
-                <p class="version">PHP Version: ' . PHP_VERSION . ' | Catalyst Version: 1.0.0</p>
-                <p>To start building your application:</p>
-                <ol>
-                    <li>Set your project configuration</li>
-                    <li>Set your enterprise information</li>
-                    <li>Click and Go Home</li>
-                </ol>
-                                <p>For documentation and more information, visit <a href="https://catalyst.lh-2.net">catalyst.lh-2.net</a>.</p>
-                <div class="footer">© ' . date('Y') . ' Catalyst Framework</div>
-            </div>
-        </body>
-        </html>';
+        $templatePath = implode(DS, [PD, 'bootstrap', 'templates', 'welcome.php']);
+        if (file_exists($templatePath)) {
+            include $templatePath;
+        } else {
+            $this->logger->error('Welcome template not found', ['path' => $templatePath]);
+            echo "<h1>Welcome to Catalyst Framework</h1>";
+            echo "<p>Template file not found: $templatePath</p>";
+        }
     }
 
     /**

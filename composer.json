@@ -29,7 +29,8 @@
       "bootstrap/loaders/ld-logger.php",
       "bootstrap/loaders/ld-router.php",
       "bootstrap/loaders/globals/func-router.php",
-      "bootstrap/loaders/globals/func-translation.php"
+      "bootstrap/loaders/globals/func-translation.php",
+      "bootstrap/loaders/globals/func-env-init.php"
     ],
     "psr-4": {
       "Catalyst\\": "app/",
@@ -54,7 +55,6 @@
     "phpmailer/phpmailer": ">=6.9.3",
     "robthree/twofactorauth": ">=3.0.2",
     "mpdf/mpdf": ">=8.2.5",
-    "cboden/ratchet": ">=0.4.4",
     "ext-mbstring": "*",
     "ext-xml": "*",
     "ext-json": "*",

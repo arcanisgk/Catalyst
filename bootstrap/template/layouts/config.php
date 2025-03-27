@@ -33,290 +33,15 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <style>
-        body {
-            background-color: #f3f3f4;
-            padding-top: 0;
-        }
-
-        .config-header {
-            background-color: #2f4050;
-            color: white;
-            padding: 20px 0;
-        }
-
-        .config-title {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .config-subtitle {
-            opacity: 0.8;
-            margin-top: 5px;
-            margin-bottom: 0;
-        }
-
-        .config-container {
-            margin-top: 5px;
-        }
-
-        .section-head {
-            margin-top: 10px;
-        }
-
-        .env-badge {
-            font-size: 14px;
-            vertical-align: middle;
-            margin-left: 10px;
-        }
-
-        .back-link {
-            color: #fff;
-            opacity: 0.8;
-            margin-right: 15px;
-            transition: opacity 0.2s;
-        }
-
-        .back-link:hover {
-            color: #fff;
-            opacity: 1;
-            text-decoration: none;
-        }
-
-        .footer {
-            background-color: transparent;
-            border-top: 1px solid #e7eaec;
-            padding: 20px 0;
-            /*margin-top: 30px;*/
-            width: 100%;
-            position: relative;
-            bottom: 0;
-        }
-
-        /* Estilos para index.php */
-        .env-selector {
-            margin-bottom: 1rem;
-        }
-
-        .config-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
-            color: inherit;
-            height: 100%;
-        }
-
-        .config-card:hover,
-        .config-card:focus {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            color: inherit;
-        }
-
-        .config-card:focus {
-            outline: 2px solid #0d6efd;
-            outline-offset: 2px;
-        }
-
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .card-icon i {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-
-        /* Estilos para app.php */
-        .app-section {
-            margin-bottom: 30px;
-            border: 1px solid #e7eaec;
-            border-radius: 5px;
-            padding: 20px;
-            background-color: #fff;
-        }
-
-        .app-section-title {
-            border-bottom: 1px solid #e7eaec;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .language-tag {
-            display: inline-block;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            padding: 5px 10px;
-            background-color: #f3f3f4;
-            border: 1px solid #e7eaec;
-            border-radius: 3px;
-        }
-
-        .add-language-btn {
-            margin-top: 10px;
-        }
-
-        /* Estilos para db.php */
-        .db-connection {
-            border: 1px solid #e7eaec;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #fff;
-            position: relative;
-        }
-
-        .db-connection-header {
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e7eaec;
-        }
-
-        .db-connection-actions {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .add-connection-container {
-            margin-top: 30px;
-        }
-
-        /* Estilos para ftp.php */
-        .ftp-connection {
-            border: 1px solid #e7eaec;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #fff;
-            position: relative;
-        }
-
-        .ftp-connection-header {
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e7eaec;
-        }
-
-        .ftp-connection-actions {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .add-ftp-container {
-            margin-top: 30px;
-        }
-
-        /* Estilos para mail.php */
-        .mail-connection {
-            border: 1px solid #e7eaec;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #fff;
-            position: relative;
-        }
-
-        .mail-connection-header {
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e7eaec;
-        }
-
-        .mail-connection-actions {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .add-mail-container {
-            margin-top: 30px;
-        }
-
-        .mail-options-section {
-            border-top: 1px solid #e7eaec;
-            margin-top: 15px;
-            padding-top: 15px;
-        }
-
-        /* Estilos para session.php */
-        .session-section {
-            border: 1px solid #e7eaec;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #fff;
-        }
-
-        .session-section-title {
-            border-bottom: 1px solid #e7eaec;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .service-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .service-check {
-            flex: 0 0 auto;
-            width: calc(25% - 10px);
-            margin-bottom: 10px;
-        }
-
-        /* Estilos para tools.php */
-        .tool-section {
-            margin-bottom: 30px;
-        }
-
-        .tool-card {
-            background-color: #fff;
-            border: 1px solid #e7eaec;
-            border-radius: 5px;
-            padding: 20px;
-            height: 100%;
-            transition: all 0.3s ease;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .tool-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: #1ab394;
-        }
-
-        .tool-status {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e7eaec;
-        }
-
-        .tool-actions {
-            margin-top: 15px;
-        }
-
-    </style>
+    <!-- Custom Config CSS -->
+    <link href="<?= isset($asset) ? $asset('css/config.css') : '/assets/css/config.css' ?>" rel="stylesheet" type="text/css">
 
     <!-- Additional head content -->
     <?= $headContent ?? '' ?>
 </head>
 
 <body>
+
 <!-- Header -->
 <div class="config-header">
     <div class="container">
@@ -326,6 +51,13 @@
                         Catalyst Framework Configuration
                         <?php if (isset($currentEnvironment)): ?>
                             <span class="badge bg-primary env-badge text-white"><?= ucfirst($currentEnvironment ?? 'development') ?></span>
+                            <?php if (isset($section)): ?>
+                                <div class="col-md-12 d-flex align-items-center">
+                                    <a href="/configure" class="btn btn-info">
+                                        <i class="fa fa-arrow-left"></i> Back to Configuration
+                                    </a>
+                                </div>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </span>
                 <p class="config-subtitle">Configure your application settings and services</p>
@@ -334,18 +66,62 @@
     </div>
 </div>
 
+
 <!-- Main content -->
 <div class="container config-container">
     <?php if (isset($section)): ?>
-        <div class="row mb-2">
-            <div class="col-md-12 d-flex align-items-center">
-                <a href="/configure" class="btn btn-info">
-                    <i class="fa fa-arrow-left"></i> Back to Configuration
-                </a>
-                <h2 class="d-inline-block ms-2 section-head"><?= ucfirst($section ?? '') ?> Configuration</h2>
+        <?php
+        $sectionDisplayNames = [
+            'app' => 'Application',
+            'db' => 'Database',
+            'ftp' => 'FTP',
+            'mail' => 'Mail',
+            'session' => 'Session',
+            'tools' => 'Developer Tools'
+        ];
+
+
+        // Get the current section from the URL or controller
+        $currentSection = 'db'; // This would be dynamically determined in actual implementation
+
+        // Get display name for current section
+        $displayName = $sectionDisplayNames[$section];
+
+        ?>
+        <div class="row wrapper border-bottom white-bg page-heading mb-2">
+            <div class="col-lg-12">
+                <h2><?= $displayName ?> Configuration</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <span>Configuration</span>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/configure">Menu</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <strong><?= $displayName ?></strong>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="row wrapper border-bottom white-bg page-heading mb-2">
+            <div class="col-lg-12">
+                <h2>Catalyst Framework Configuration</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <span>Configuration</span>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a class="fw-bold" href="/configure">Menu</a>
+                    </li>
+                </ol>
             </div>
         </div>
     <?php endif; ?>
+
+    <!-- Insert flash messages here -->
+    <?php include implode(DS, [PD, 'bootstrap', 'template', 'partials', 'flash-messages.php']); ?>
 
     <!-- View content -->
     <?= $viewContent ?>
@@ -375,6 +151,10 @@
 <script src="<?= isset($asset) ? $asset('inspinia/plugins/wow.js/js/wow.min.js') : '/assets/inspinia/plugins/wow.js/js/wow.min.js' ?>"></script>
 <script src="<?= isset($asset) ? $asset('inspinia/plugins/lucide/js/lucide.min.js') : '/assets/inspinia/plugins/lucide/js/lucide.min.js' ?>"></script>
 <script src="<?= isset($asset) ? $asset('inspinia/js/inspinia.js') : 'assets/inspinia/js/inspinia.js' ?>"></script>
+
+<script src="<?= isset($asset) ? $asset('js/toasts.js') : 'assets/js/toasts.js' ?>"></script>
+<script src="<?= isset($asset) ? $asset('js/main.js') : 'assets/js/main.js' ?>"></script>
+
 
 <!-- Page-specific scripts -->
 <?= $scripts ?? '' ?>

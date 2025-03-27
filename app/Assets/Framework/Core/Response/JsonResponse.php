@@ -167,6 +167,7 @@ class JsonResponse extends Response
      * @param string|null $message Optional message
      * @param int $status HTTP status code
      * @param array $headers HTTP headers
+     * @param bool $noFlash
      * @return self New JsonResponse instance
      */
     public static function api(
@@ -174,12 +175,14 @@ class JsonResponse extends Response
         bool    $success = true,
         ?string $message = null,
         int     $status = 200,
-        array   $headers = []
+        array   $headers = [],
+        bool    $noFlash = true  // New parameter
     ): self
     {
         $result = [
             'success' => $success,
-            'data' => $data
+            'data' => $data,
+            'noFlash' => $noFlash  // Add this flag
         ];
 
         if ($message !== null) {

@@ -90,9 +90,7 @@ class RouteCompiler
         }
 
         // Ensure proper format and ensure trailing slashes are optional
-        $regex = '#^' . $regex . '/?$#';
-
-        return $regex;
+        return '#^' . $regex . '/?$#';
     }
 
     /**

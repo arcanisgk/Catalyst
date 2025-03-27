@@ -262,4 +262,50 @@ class Request
     {
         return $this->server;
     }
+
+    /**
+     * Get HTTP headers from the request
+     *
+     * @param string|null $name Specific header name to retrieve (optional)
+     * @return array|string|null All headers or specific header value if name provided
+     */
+    public function getHeaders(?string $name = null): array|string|null
+    {
+        // Use apache_request_headers() if available
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+        } else {
+            // Fallback to manual extraction from $_SERVER
+            $headers = [];
+            foreach ($_SERVER as $key => $value) {
+                if (str_starts_with($key, 'HTTP_')) {
+                    // Convert HTTP_ACCEPT_LANGUAGE to Accept-Language
+                    $headerName = str_replace('_', '-', substr($key, 5));
+                    $headerName = ucwords(strtolower($headerName), '-');
+                    $headers[$headerName] = $value;
+                } elseif (in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
+                    // Special case for these headers which don't have HTTP_ prefix
+                    $headerName = str_replace('_', '-', $key);
+                    $headerName = ucwords(strtolower($headerName), '-');
+                    $headers[$headerName] = $value;
+                }
+            }
+        }
+
+        // Normalize header names to have consistent capitalization
+        $normalizedHeaders = [];
+        foreach ($headers as $key => $value) {
+            $normalizedKey = str_replace(' ', '-', ucwords(str_replace('-', ' ', strtolower($key))));
+            $normalizedHeaders[$normalizedKey] = $value;
+        }
+
+        // Return specific header if requested
+        if ($name !== null) {
+            $normalizedName = str_replace(' ', '-', ucwords(str_replace('-', ' ', strtolower($name))));
+            return $normalizedHeaders[$normalizedName] ?? null;
+        }
+
+        return $normalizedHeaders;
+    }
+
 }

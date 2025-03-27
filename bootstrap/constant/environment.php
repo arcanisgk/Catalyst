@@ -179,3 +179,13 @@ if (!defined('GET_ENVIRONMENT')) {
      */
     define('GET_ENVIRONMENT', defined('APP_ENV') ? APP_ENV : 'unknown');
 }
+
+if (!defined('CATALYST_VERSION')) {
+    /**
+     * Defines a constant to indicate whether the application is running in development mode
+     *
+     * Checks if the APP_ENV environment variable is set to 'development'
+     * and creates a boolean constant 'IS_DEVELOPMENT' accordingly
+     */
+    define('CATALYST_VERSION', defined('APP_VERSION') ? APP_VERSION : 'unknown');
+}

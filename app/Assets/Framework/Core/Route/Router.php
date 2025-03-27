@@ -377,10 +377,16 @@ class Router
      */
     public function loadCachedRoutes(): bool
     {
+
         if (file_exists($this->cacheFile)) {
-            $this->routes = require $this->cacheFile;
-            $this->routesCached = true;
-            return true;
+            $routeCollection = require_once $this->cacheFile;
+            if ($routeCollection instanceof RouteCollection) {
+                $this->routes = $routeCollection;
+                $this->routesCached = true;
+                return true;
+            } else {
+                return false;
+            }
         }
         return false;
     }

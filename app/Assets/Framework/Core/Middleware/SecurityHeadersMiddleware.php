@@ -26,7 +26,13 @@ class SecurityHeadersMiddleware extends CoreMiddleware
         $response->setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
 
         if (IS_PRODUCTION) {
-            $response->setHeader('Content-Security-Policy', "default-src 'self'");
+            $response->setHeader('Content-Security-Policy',
+                "default-src 'self'; " .
+                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; " .
+                "script-src 'self' 'unsafe-inline'; " .
+                "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; " .
+                "img-src 'self' data:;"
+            );
         }
 
         return $response;

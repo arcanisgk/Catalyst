@@ -26,6 +26,7 @@ use Catalyst\Framework\Core\Response\RedirectResponse;
 use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Response\ViewResponse;
 use Catalyst\Framework\Core\Route\Router;
+use Catalyst\Framework\Core\Session\FlashMessage;
 use Catalyst\Framework\Core\Translation\TranslationManager;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
@@ -321,11 +322,25 @@ abstract class Controller
     protected function expectsJson(): bool
     {
         if ($this->request) {
-            // Use request object if available
-            $headers = function_exists('apache_request_headers') ? apache_request_headers() : [];
-            $accept = $headers['Accept'] ?? ($_SERVER['HTTP_ACCEPT'] ?? '');
-            return str_contains($accept, 'application/json');
+            // Check X-Requested-With header (standard AJAX indicator)
+            $requestedWith = $this->request->getHeaders('X-Requested-With');
+            if ($requestedWith && strtolower($requestedWith) === 'xmlhttprequest') {
+                return true;
+            }
+
+            // Check Accept header for application/json
+            $accept = $this->request->getHeaders('Accept');
+            if ($accept && str_contains($accept, 'application/json')) {
+                return true;
+            }
+
+            // Check Content-Type for application/json (indicates JSON request body)
+            $contentType = $this->request->getHeaders('Content-Type');
+            if ($contentType && str_contains($contentType, 'application/json')) {
+                return true;
+            }
         }
+
         return false;
     }
 
@@ -387,5 +402,99 @@ abstract class Controller
         $this->logger?->warning($message, array_merge([
             'controller' => static::class
         ], $context));
+    }
+
+    /**
+     * Get the flash message helper
+     *
+     * @return FlashMessage The flash message helper
+     */
+    protected function flash(): FlashMessage
+    {
+        return new FlashMessage();
+    }
+
+    /**
+     * Add a success flash message
+     *
+     * @param string $message The message to flash
+     * @return self For method chaining
+     */
+    protected function flashSuccess(string $message): self
+    {
+        $this->flash()->success($message);
+        return $this;
+    }
+
+    /**
+     * Add an error flash message
+     *
+     * @param string $message The message to flash
+     * @return self For method chaining
+     */
+    protected function flashError(string $message): self
+    {
+        $this->flash()->error($message);
+        return $this;
+    }
+
+    /**
+     * Add a warning flash message
+     *
+     * @param string $message The message to flash
+     * @return self For method chaining
+     */
+    protected function flashWarning(string $message): self
+    {
+        $this->flash()->warning($message);
+        return $this;
+    }
+
+    /**
+     * Add an info flash message
+     *
+     * @param string $message The message to flash
+     * @return self For method chaining
+     */
+    protected function flashInfo(string $message): self
+    {
+        $this->flash()->info($message);
+        return $this;
+    }
+
+    /**
+     * Crea una respuesta API estandarizada
+     *
+     * @param bool $success Indica si la operación fue exitosa
+     * @param string $message Mensaje para el usuario
+     * @param mixed $data Datos adicionales a incluir
+     * @param int $status Código HTTP
+     * @param array $headers Cabeceras HTTP
+     * @return JsonResponse Respuesta JSON estandarizada
+     */
+    protected function apiResponse(
+        bool   $success,
+        string $message,
+        mixed  $data = null,
+        int    $status = 200,
+        array  $headers = [],
+        bool   $noFlash = true    // Default to true to avoid duplicates
+    ): JsonResponse
+    {
+        // Only save flash message if explicitly requested for API requests
+        if (!$this->expectsJson() || !$noFlash) {
+            if ($success) {
+                $this->flashSuccess($message);
+            } else {
+                $this->flashError($message);
+            }
+        }
+
+        return new JsonResponse([
+            'success' => $success,
+            'message' => $message,
+            'data' => $data,
+            'noFlash' => $noFlash
+        ], $status, $headers);
     }
 }

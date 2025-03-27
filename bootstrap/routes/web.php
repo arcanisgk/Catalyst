@@ -19,30 +19,27 @@ declare(strict_types=1);
  */
 
 use Catalyst\Framework\Core\Route\Router;
+use Catalyst\Solution\Controllers\ConfigController;
 
 // Get router instance
 $router = Router::getInstance();
 
 
 $router->group(['namespace' => 'Catalyst\Solution\Controllers'], function ($router) {
-    // Define basic web routes
-    // $router->get('/', 'HomeController@index')->name('home');
-    $router->get('/', 'HomeController@landing')->name('landing');
-    $router->get('/home', 'HomeController@index')->name('home');
-    //$router->get('/about', 'HomeController@about')->name('about');
-    //$router->get('/contact', 'ContactController@index')->name('contact');
-    //$router->post('/contact', 'ContactController@submit')->name('contact.submit');
 
+    $router->get('/configure/oauth/credentials/{service}', 'ConfigController@getOAuthCredentials')->name('oauth.credentials');
+    $router->post('/configure/oauth/save', 'ConfigController@saveOAuthCredentials')->name('oauth.save');
+    $router->post('/configure/oauth/clear', 'ConfigController@clearOAuthCredentials')->name('oauth.clear');
 
-});
-
-// Configuration Panel Routes
-$router->group(['namespace' => 'Catalyst\Solution\Controllers'], function ($router) {
     $router->get('/configure', 'ConfigController@index')->name('config.index');
     $router->get('/configure/{section}', 'ConfigController@showSection')->name('config.section');
     $router->post('/configure/{section}/save', 'ConfigController@saveConfig')->name('config.save');
+    
     $router->post('/configure/test-connection', 'ConfigController@testConnection')->name('config.test');
     $router->post('/configure/change-environment', 'ConfigController@changeEnvironment')->name('config.environment');
+
+    $router->get('/', 'HomeController@landing')->name('landing');
+    $router->get('/home', 'HomeController@index')->name('home');
 });
 /*
 // Routes with parameters

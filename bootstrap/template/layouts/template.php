@@ -19,6 +19,8 @@
 <body>
 <!-- Main Content -->
 <div class="container my-4">
+    <!-- Insert flash messages here -->
+    <?php include implode(DS, [PD, 'bootstrap', 'template', 'partials', 'flash-messages.php']); ?>
     <?= $viewContent ?>
 </div>
 
@@ -29,6 +31,8 @@
 <?php if (function_exists('asset')): ?>
     <script src="<?= asset('js/main.js') ?>"></script>
 <?php endif; ?>
+
+<script src="<?= isset($asset) ? $asset('assets/js/toasts.js') : '/assets/js/toasts.js' ?>"></script>
 
 <!-- Additional scripts -->
 <?= $scripts ?? '' ?>

@@ -20,12 +20,11 @@ declare(strict_types=1);
 
 namespace Catalyst\Solution\Controllers;
 
+use Catalyst\Framework\Core\Database\ConnectionTester;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\ViewResponse;
 use Catalyst\Assets\Framework\Core\Http\Request;
 use Exception;
-use PDO;
-use PDOException;
 
 /**
  * Configuration Controller
@@ -39,7 +38,7 @@ class ConfigController extends Controller
     /**
      * @var string Path to configuration files
      */
-    private string $configPath = 'bootstrap/config/';
+    private string $configPath;
 
     /**
      * @var array Available environment names
@@ -56,6 +55,16 @@ class ConfigController extends Controller
      */
     private array $sections = ['app', 'session', 'db', 'ftp', 'mail', 'tools'];
 
+
+    /**
+     * Construct of Configuration Controller
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->configPath = implode(DS, [PD, 'bootstrap', 'config']);
+    }
+
     /**
      * Display the main configuration page
      *
@@ -67,6 +76,12 @@ class ConfigController extends Controller
     {
         $this->detectCurrentEnvironment();
 
+        // Check which sections have custom configurations
+        $customConfigs = [];
+        foreach ($this->sections as $section) {
+            $customConfigs[$section] = $this->hasCustomConfig($section);
+        }
+
         // Log access to configuration panel
         $this->logInfo('Configuration panel accessed', [
             'ip' => $request->getClientIp ?? 'unknown',
@@ -76,8 +91,21 @@ class ConfigController extends Controller
         return $this->viewWithLayout('Config.index', [
             'environments' => $this->environments,
             'currentEnvironment' => $this->currentEnvironment,
-            'sections' => $this->sections
+            'sections' => $this->sections,
+            'customConfigs' => $customConfigs
         ], 'config');
+    }
+
+    /**
+     * Check if a configuration section has custom settings
+     *
+     * @param string $section Configuration section to check
+     * @return bool True if custom settings exist, false if using defaults
+     */
+    private function hasCustomConfig(string $section): bool
+    {
+        $filePath = implode(DS, [$this->configPath, $this->currentEnvironment, $section . '.json']);
+        return file_exists($filePath);
     }
 
     /**
@@ -102,6 +130,11 @@ class ConfigController extends Controller
 
         $this->detectCurrentEnvironment();
         $configData = $this->loadConfigFile($section);
+
+        // If this is the session section, also load OAuth credentials
+        if ($section === 'session') {
+            $configData['oauth_credentials'] = $this->loadAllOAuthCredentials();
+        }
 
         // Log configuration section access
         $this->logInfo('Configuration section accessed', [
@@ -128,6 +161,19 @@ class ConfigController extends Controller
      */
     public function saveConfig(Request $request, string $section): JsonResponse
     {
+        // Determinar si es petición API
+        $isApiRequest = $this->expectsJson();
+
+        // Obtener datos según el formato de la petición
+        $contentType = $request->getHeaders('Content-Type');
+        if ($isApiRequest && $contentType && str_contains($contentType, 'application/json')) {
+            // Obtener datos del cuerpo JSON
+            $postData = json_decode($request->getContent(), true) ?? [];
+        } else {
+            // Obtener datos de POST tradicional
+            $postData = $request->getAllPost();
+        }
+
         if (!in_array($section, $this->sections)) {
             // Log invalid section save attempt
             $this->logWarning('Invalid configuration section save attempt', [
@@ -135,11 +181,16 @@ class ConfigController extends Controller
                 'ip' => $request->getClientIp ?? 'unknown'
             ]);
 
+            // Solo establecer flash message si NO es AJAX
+            if (!$this->expectsJson()) {
+                $this->flashError('Invalid configuration section');
+            }
+
             return new JsonResponse(['success' => false, 'message' => 'Invalid section'], 400);
         }
 
         $this->detectCurrentEnvironment();
-        $postData = $request->getAllPost();
+        //$postData = $request->getAllPost();
 
         // Process and validate data based on section
         $processedData = $this->processConfigData($section, $postData);
@@ -155,9 +206,20 @@ class ConfigController extends Controller
                 'ip' => $request->getClientIp ?? 'unknown'
             ]);
 
+            // Flash message solo para navegación tradicional
+            if (!$this->expectsJson()) {
+                $this->flashSuccess("Configuration for $section saved successfully");
+            }
+
+            // Solo establecer flash message si NO es AJAX
+            //if (!$this->expectsJson()) {
+            //    $this->flashSuccess("Configuration for $section saved successfully");
+            //}
+
             return new JsonResponse([
                 'success' => true,
-                'message' => "Configuration for $section saved successfully"
+                'message' => "Configuration for $section saved successfully",
+                'redirect' => "/configure/$section"
             ]);
         } else {
             // Log configuration save failure
@@ -167,12 +229,18 @@ class ConfigController extends Controller
                 'ip' => $request->getClientIp ?? 'unknown'
             ]);
 
+            // Solo establecer flash message si NO es AJAX
+            if (!$this->expectsJson()) {
+                $this->flashError("Failed to save configuration for $section");
+            }
+
             return new JsonResponse([
                 'success' => false,
                 'message' => "Failed to save configuration for $section"
             ], 500);
         }
     }
+
 
     /**
      * Test connection for database, mail or FTP servers
@@ -238,7 +306,8 @@ class ConfigController extends Controller
         $this->currentEnvironment = $newEnvironment;
 
         // Create environment directory if it doesn't exist
-        $envDir = $this->configPath . $newEnvironment;
+        $envDir = implode(DS, [$this->configPath, $newEnvironment]);
+
         if (!is_dir($envDir)) {
             mkdir($envDir, 0755, true);
         }
@@ -256,17 +325,165 @@ class ConfigController extends Controller
     }
 
     /**
+     * Get OAuth credentials for a specific service
+     *
+     * @param Request $request The current request
+     * @param string $service Service identifier
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function getOAuthCredentials(Request $request, string $service): JsonResponse
+    {
+        $this->detectCurrentEnvironment();
+
+        // Load OAuth credentials
+        $credentials = $this->loadOAuthCredentials($service);
+
+        // For security, mask the client secret if it exists
+        if (isset($credentials['client_secret']) && !empty($credentials['client_secret'])) {
+            // If returning actual credentials in production, you should decrypt here
+            // In development, we'll just return a placeholder
+            if (!IS_DEVELOPMENT) {
+                $credentials['client_secret'] = '********';
+            }
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'service' => $service,
+            'credentials' => $credentials
+        ]);
+    }
+
+    /**
+     * Save OAuth credentials for a service
+     *
+     * @param Request $request The current request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function saveOAuthCredentials(Request $request): JsonResponse
+    {
+        $serviceKey = $request->post('service_key', '');
+        if (empty($serviceKey)) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Service key is required'
+            ], 400);
+        }
+
+        // Get credentials from request
+        $credentials = [
+            'client_id' => $request->post('client_id', ''),
+            'client_secret' => $request->post('client_secret', ''),
+            'redirect_uri' => $request->post('redirect_uri', ''),
+            'scopes' => $request->post('scopes', '')
+        ];
+
+        // Add any service-specific fields
+        foreach ($request->getAllPost() as $key => $value) {
+            if (str_starts_with($key, 'service_specific_')) {
+                $credentials[substr($key, 16)] = $value;
+            }
+        }
+
+        // Save the credentials
+        $saved = $this->storeOAuthCredentials($serviceKey, $credentials);
+
+        if ($saved) {
+            $this->logInfo('OAuth credentials saved', [
+                'service' => $serviceKey,
+                'ip' => $request->getClientIp ?? 'unknown'
+            ]);
+
+            // Solo establecer flash message si NO es AJAX
+            if (!$this->expectsJson()) {
+                $this->flashSuccess("Credentials for $serviceKey saved successfully");
+            }
+
+            return new JsonResponse([
+                'success' => true,
+                'message' => "Credentials for $serviceKey saved successfully"
+            ]);
+        } else {
+            $this->logError('Failed to save OAuth credentials', [
+                'service' => $serviceKey,
+                'ip' => $request->getClientIp ?? 'unknown'
+            ]);
+
+            // Solo establecer flash message si NO es AJAX
+            if (!$this->expectsJson()) {
+                $this->flashError("Failed to save credentials for $serviceKey");
+            }
+
+            return new JsonResponse([
+                'success' => false,
+                'message' => "Failed to save credentials for $serviceKey"
+            ], 500);
+        }
+    }
+
+    /**
+     * Clear OAuth credentials for a service
+     *
+     * @param Request $request The current request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function clearOAuthCredentials(Request $request): JsonResponse
+    {
+        $serviceKey = $request->post('service_key', '');
+        if (empty($serviceKey)) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Service key is required'
+            ], 400);
+        }
+
+        // Clear the credentials
+        $cleared = $this->removeOAuthCredentials($serviceKey);
+
+        if ($cleared) {
+            $this->logInfo('OAuth credentials cleared', [
+                'service' => $serviceKey,
+                'ip' => $request->getClientIp ?? 'unknown'
+            ]);
+
+            return new JsonResponse([
+                'success' => true,
+                'message' => "Credentials for $serviceKey cleared successfully"
+            ]);
+        } else {
+            $this->logError('Failed to clear OAuth credentials', [
+                'service' => $serviceKey,
+                'ip' => $request->getClientIp ?? 'unknown'
+            ]);
+
+            return new JsonResponse([
+                'success' => false,
+                'message' => "Failed to clear credentials for $serviceKey"
+            ], 500);
+        }
+    }
+
+    /**
      * Detect current environment from config or set default
      *
      * @return void
      */
     private function detectCurrentEnvironment(): void
     {
-        // This could be enhanced to read from env files or other sources
-        $this->currentEnvironment = 'development';
+        // Get environment from APP_ENV variable or default to 'development'
+        $this->currentEnvironment = getenv('APP_ENV') ?: 'development';
+
+        // Ensure environment is valid (only 'development' or 'production' allowed)
+        if (!in_array($this->currentEnvironment, ['development', 'production'])) {
+            $this->currentEnvironment = 'development';
+        }
 
         // Ensure environment directory exists
-        $envDir = $this->configPath . $this->currentEnvironment;
+        $envDir = implode(DS, [$this->configPath, $this->currentEnvironment]);
+
         if (!is_dir($envDir)) {
             mkdir($envDir, 0755, true);
         }
@@ -280,11 +497,11 @@ class ConfigController extends Controller
      */
     private function loadConfigFile(string $section): array
     {
-        $filePath = $this->configPath . $this->currentEnvironment . '/' . $section . '.json';
+        $filePath = implode(DS, [$this->configPath, $this->currentEnvironment, $section . '.json']);
 
         // If the file doesn't exist in current environment, check backup
         if (!file_exists($filePath)) {
-            $filePath = $this->configPath . 'backup/' . $section . '.json';
+            $filePath = implode(DS, [$this->configPath, 'backup', $section . '.json']);
         }
 
         if (file_exists($filePath)) {
@@ -305,16 +522,128 @@ class ConfigController extends Controller
      */
     private function saveConfigFile(string $section, array $data): bool
     {
-        $dirPath = $this->configPath . $this->currentEnvironment;
+        $dirPath = implode(DS, [$this->configPath, $this->currentEnvironment]);
 
         // Ensure the directory exists
         if (!is_dir($dirPath)) {
             mkdir($dirPath, 0755, true);
         }
 
-        $filePath = $dirPath . '/' . $section . '.json';
+        $filePath = implode(DS, [$dirPath, $section . '.json']);
+
         $jsonData = json_encode($data, JSON_PRETTY_PRINT);
 
+        return file_put_contents($filePath, $jsonData) !== false;
+    }
+
+    /**
+     * Load all OAuth credentials
+     *
+     * @return array All OAuth credentials
+     */
+    private function loadAllOAuthCredentials(): array
+    {
+        $filePath = implode(DS, [$this->configPath, $this->currentEnvironment, 'oauth_credentials.json']);
+
+        if (file_exists($filePath)) {
+            $content = file_get_contents($filePath);
+            $decoded = json_decode($content, true);
+
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        return [];
+    }
+
+    /**
+     * Load OAuth credentials from file
+     *
+     * @param string $service Service identifier
+     * @return array Credentials
+     */
+    private function loadOAuthCredentials(string $service): array
+    {
+        $filePath = implode(DS, [$this->configPath, $this->currentEnvironment, 'oauth_credentials.json']);
+
+        if (file_exists($filePath)) {
+            $content = file_get_contents($filePath);
+            $decoded = json_decode($content, true);
+
+            if (is_array($decoded) && isset($decoded[$service])) {
+                return $decoded[$service];
+            }
+        }
+
+        return [];
+    }
+
+    /**
+     * Save OAuth credentials to file
+     *
+     * @param string $service Service identifier
+     * @param array $credentials Credentials to save
+     * @return bool Success status
+     */
+    private function storeOAuthCredentials(string $service, array $credentials): bool
+    {
+        $filePath = implode(DS, [$this->configPath, $this->currentEnvironment, 'oauth_credentials.json']);
+
+        // Create or load existing credentials
+        $allCredentials = [];
+        if (file_exists($filePath)) {
+            $content = file_get_contents($filePath);
+            $decoded = json_decode($content, true);
+            if (is_array($decoded)) {
+                $allCredentials = $decoded;
+            }
+        }
+
+        // Update credentials for this service
+        $allCredentials[$service] = $credentials;
+
+        // Save the file
+        $jsonData = json_encode($allCredentials, JSON_PRETTY_PRINT);
+
+        // Ensure the directory exists
+        $dirPath = implode(DS, [$this->configPath, $this->currentEnvironment]);
+        if (!is_dir($dirPath)) {
+            mkdir($dirPath, 0755, true);
+        }
+
+        return file_put_contents($filePath, $jsonData) !== false;
+    }
+
+    /**
+     * Remove OAuth credentials for a service
+     *
+     * @param string $service Service identifier
+     * @return bool Success status
+     */
+    private function removeOAuthCredentials(string $service): bool
+    {
+        $filePath = implode(DS, [$this->configPath, $this->currentEnvironment, 'oauth_credentials.json']);
+
+        // If file doesn't exist, nothing to remove
+        if (!file_exists($filePath)) {
+            return true;
+        }
+
+        // Load existing credentials
+        $content = file_get_contents($filePath);
+        $allCredentials = json_decode($content, true);
+
+        // If not an array or service doesn't exist, nothing to remove
+        if (!is_array($allCredentials) || !isset($allCredentials[$service])) {
+            return true;
+        }
+
+        // Remove the service credentials
+        unset($allCredentials[$service]);
+
+        // Save the file
+        $jsonData = json_encode($allCredentials, JSON_PRETTY_PRINT);
         return file_put_contents($filePath, $jsonData) !== false;
     }
 
@@ -432,7 +761,9 @@ class ConfigController extends Controller
                 'internal' => isset($data['register_internal']) && $data['register_internal'] === 'on',
                 'service' => isset($data['register_service']) && $data['register_service'] === 'on'
             ],
-            'service' => $this->processServiceConfig($data)
+            'service' => $this->processServiceConfig($data),
+            // Add reference to oauth credentials
+            'oauth_credentials_file' => 'oauth_credentials.json'
         ];
     }
 
@@ -590,27 +921,18 @@ class ConfigController extends Controller
             $user = $data["db_user_$connectionId"] ?? '';
             $password = $data["db_password_$connectionId"] ?? '';
 
-            // Create PDO connection
-            $dsn = "mysql:host=$host;port=$port;dbname=$dbname";
-            $options = [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ];
-
-            $pdo = new PDO($dsn, $user, $password, $options);
-
-            // Test query
-            $stmt = $pdo->query('SELECT 1');
-
-            return [
-                'success' => true,
-                'message' => "Successfully connected to database '$dbname' on '$host'"
-            ];
-        } catch (PDOException $e) {
+            // Use the new ConnectionTester
+            return ConnectionTester::test(
+                $host,
+                $port,
+                $dbname,
+                $user,
+                $password
+            );
+        } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => "Database connection failed: " . $e->getMessage()
+                'message' => "Database connection test failed: " . $e->getMessage()
             ];
         }
     }

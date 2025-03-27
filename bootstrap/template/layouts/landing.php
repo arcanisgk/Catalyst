@@ -32,6 +32,8 @@
 </head>
 
 <body class="landing-page">
+<!-- Insert flash messages here -->
+<?php include implode(DS, [PD, 'bootstrap', 'template', 'partials', 'flash-messages.php']); ?>
 <!-- Main content -->
 <?= $viewContent ?>
 
@@ -45,6 +47,8 @@
 
 <!-- Custom JavaScript for Landing Page - Using ES6+ module -->
 <script type="module" src="<?= isset($asset) ? $asset('js/landing.js') : '/assets/js/landing.js' ?>"></script>
+
+<script src="<?= isset($asset) ? $asset('assets/js/toasts.js') : '/assets/js/toasts.js' ?>"></script>
 
 <!-- Additional scripts -->
 <?= $scripts ?? '' ?>

@@ -177,6 +177,8 @@
 
         <!-- Main Content Wrapper -->
         <div class="wrapper wrapper-content animated fadeInRight">
+            <!-- Insert flash messages here -->
+            <?php include implode(DS, [PD, 'bootstrap', 'template', 'partials', 'flash-messages.php']); ?>
             <!-- Main View Content -->
             <?= $viewContent ?>
         </div>
@@ -213,6 +215,8 @@
 
 <!-- Custom Scripts -->
 <script src="<?= isset($asset) ? $asset('js/main.js') : '/assets/js/main.js' ?>"></script>
+
+<script src="<?= isset($asset) ? $asset('assets/js/toasts.js') : '/assets/js/toasts.js' ?>"></script>
 
 <!-- Page-specific scripts -->
 <?= $scripts ?? '' ?>
