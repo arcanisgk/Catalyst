@@ -2,10 +2,36 @@
 
 declare(strict_types=1);
 
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
 namespace Catalyst\Framework\Core\Http;
 
-use Catalyst\Assets\Framework\Core\Http\Request;
-
+/**************************************************************************************
+ * API Request Handler
+ *
+ * This class provides utilities for working with API requests in the Catalyst framework.
+ * It helps identify API requests and extract data from different request formats,
+ * supporting JSON, form-urlencoded and multipart form data content types.
+ *
+ * The class provides a standardized way to handle different types of API requests
+ * regardless of their source or format, simplifying API development within the framework.
+ *
+ * @package Catalyst\Framework\Core\Http
+ */
 class ApiRequest
 {
     /**

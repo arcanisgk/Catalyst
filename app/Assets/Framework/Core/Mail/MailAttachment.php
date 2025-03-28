@@ -17,18 +17,3 @@ declare(strict_types=1);
  * or FITNESS FOR A PARTICULAR PURPOSE.
  *
  */
-
-namespace Catalyst\Framework\Core\Exceptions;
-
-use RuntimeException;
-
-/**************************************************************************************
- * Database connection exception
- *
- * Thrown when a database connection error occurs.
- *
- * @package Catalyst\Framework\Core\Exceptions
- */
-class ConnectionException extends RuntimeException
-{
-}

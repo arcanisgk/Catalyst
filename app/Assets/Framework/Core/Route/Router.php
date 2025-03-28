@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Route;
 
-use Catalyst\Assets\Framework\Core\Exceptions\MethodNotAllowedException;
-use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Exceptions\MethodNotAllowedException;
+use Catalyst\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Middleware\MiddlewareStack;
 use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Response\ViewResponse;
@@ -36,7 +36,7 @@ use Exception;
  * Responsible for registering routes, matching URL patterns, and dispatching
  * to appropriate controllers or handlers.
  *
- * @package Catalyst\Framework\Core;
+ * @package Catalyst\Framework\Core\Route;
  */
 class Router
 {

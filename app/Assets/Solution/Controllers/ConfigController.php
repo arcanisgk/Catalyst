@@ -21,9 +21,10 @@ declare(strict_types=1);
 namespace Catalyst\Solution\Controllers;
 
 use Catalyst\Framework\Core\Database\ConnectionTester;
+use Catalyst\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Mail\DkimGenerator;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\ViewResponse;
-use Catalyst\Assets\Framework\Core\Http\Request;
 use Exception;
 
 /**
@@ -327,12 +328,11 @@ class ConfigController extends Controller
     /**
      * Get OAuth credentials for a specific service
      *
-     * @param Request $request The current request
      * @param string $service Service identifier
      * @return JsonResponse
      * @throws Exception
      */
-    public function getOAuthCredentials(Request $request, string $service): JsonResponse
+    public function getOAuthCredentials(string $service): JsonResponse
     {
         $this->detectCurrentEnvironment();
 
@@ -858,11 +858,34 @@ class ConfigController extends Controller
     {
         $mailConfig = [];
 
+        // First, load existing configuration to preserve fields not in the form
+        $existingConfig = $this->loadConfigFile('mail');
+
         // Process each mail connection
         foreach ($data as $key => $value) {
             if (str_starts_with($key, 'mail_name_')) {
                 $mailId = substr($key, 10);
-                $mailConfig["mail$mailId"] = [
+                $mailKey = "mail$mailId";
+
+                // Get domain source value
+                $domainSource = $data["dkim_domain_source_$mailId"] ?? 'email';
+
+                // Determine custom domain value based on source
+                $customDomain = '';
+                if ($domainSource === 'custom') {
+                    // If using current domain, determine what it is
+                    if (empty($data["mail_dkim_custom_domain_$mailId"])) {
+                        // Get the current domain from the request
+                        $request = new Request();
+                        $customDomain = $request->getCurrentDomain($request);
+                    } else {
+                        // Use the provided custom domain
+                        $customDomain = $data["mail_dkim_custom_domain_$mailId"];
+                    }
+                }
+
+                // Start with base configuration
+                $mailConfig[$mailKey] = [
                     'mail_name' => $value,
                     'mail_host' => $data["mail_host_$mailId"] ?? '',
                     'mail_port' => (int)($data["mail_port_$mailId"] ?? 587),
@@ -881,13 +904,23 @@ class ConfigController extends Controller
                     'mail_dkim_passphrase' => $data["mail_dkim_passphrase_$mailId"] ?? '',
                     'mail_dkim_copy_header_fields' => isset($data["mail_dkim_copy_header_fields_$mailId"]) && $data["mail_dkim_copy_header_fields_$mailId"] === 'on',
                     'mail_debug' => (int)($data["mail_debug_$mailId"] ?? 0),
-                    'mail_test' => isset($data["mail_test_$mailId"]) && $data["mail_test_$mailId"] === 'on'
+                    'mail_test' => isset($data["mail_test_$mailId"]) && $data["mail_test_$mailId"] === 'on',
+
+                    // Process DKIM domain source - this is the radio button value
+                    'mail_dkim_domain_source' => $domainSource,
+                    'mail_dkim_custom_domain' => $customDomain
                 ];
+
+                // Preserve the generated date from existing config if it exists
+                if (isset($existingConfig[$mailKey]['mail_dkim_generated'])) {
+                    $mailConfig[$mailKey]['mail_dkim_generated'] = $existingConfig[$mailKey]['mail_dkim_generated'];
+                }
             }
         }
 
         return $mailConfig;
     }
+
 
     /**
      * Process tools configuration data
@@ -1029,6 +1062,189 @@ class ConfigController extends Controller
                 'success' => false,
                 'message' => "FTP connection failed: " . $e->getMessage()
             ];
+        }
+    }
+
+    /**
+     * Generate DKIM keys for a mail connection
+     *
+     * @param Request $request The current request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function generateDkimKeys(Request $request): JsonResponse
+    {
+        $connectionId = $request->post('connection_id', '');
+        $emailDomain = $request->post('email_domain', '');
+        $domainSource = $request->post('domain_source', 'email');
+        $selector = $request->post('selector', 's1');
+
+        // Determine which domain to use based on domain_source
+        if ($domainSource === 'email') {
+            // Use the email domain provided by the frontend
+            $domain = $emailDomain;
+        } else {
+            // Use the current application domain
+            $domain = $request->getCurrentDomain($request);
+        }
+
+        if (empty($connectionId) || empty($domain)) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Missing connection ID or could not determine domain'
+            ], 400);
+        }
+
+        // Check if OpenSSL is available
+        if (!extension_loaded('openssl')) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'OpenSSL extension is not available on this server'
+            ], 500);
+        }
+
+        try {
+            // Use DkimGenerator to generate keys
+            $dkimGenerator = new DkimGenerator();
+            $result = $dkimGenerator->generateKeys($domain, $selector, $connectionId);
+
+            // Update the mail configuration with the new selector
+            $this->updateMailDkimConfig($connectionId, $selector, $domainSource, $domain);
+
+            // Log the successful key generation
+            $this->logInfo('DKIM keys generated successfully', [
+                'domain' => $domain,
+                'domainSource' => $domainSource,
+                'selector' => $selector,
+                'connection' => $connectionId,
+                'ip' => $request->getClientIp ?? 'unknown'
+            ]);
+
+            return new JsonResponse([
+                'success' => true,
+                'message' => 'DKIM keys generated successfully',
+                'data' => [
+                    'selector' => $result['selector'],
+                    'dnsRecord' => $result['dnsRecord'],
+                    'connectionId' => $connectionId,
+                    'domain' => $domain,
+                    'domainSource' => $domainSource,
+                    'keyPath' => $result['keyPath']
+                ]
+            ]);
+        } catch (Exception $e) {
+            $this->logError('Failed to generate DKIM keys', [
+                'domain' => $domain,
+                'error' => $e->getMessage(),
+                'ip' => $request->getClient ?? 'unknown'
+            ]);
+
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Failed to generate DKIM keys: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get existing DKIM keys for a domain
+     *
+     * @param string $domain Domain to check for keys
+     * @param string $connectionId Connection ID
+     * @return array List of available DKIM keys
+     */
+    private function getDkimKeys(string $domain, string $connectionId): array
+    {
+        $keyDirectory = implode(DS, [PD, 'bootstrap', 'dkim', $domain, $connectionId]);
+        $keys = [];
+
+        if (is_dir($keyDirectory)) {
+            $files = scandir($keyDirectory);
+            foreach ($files as $file) {
+                if (preg_match('/^(.+)_private\.key$/', $file, $matches)) {
+                    $selector = $matches[1];
+                    $keys[] = [
+                        'selector' => $selector,
+                        'path' => $keyDirectory . DS . $file,
+                        'created' => filemtime($keyDirectory . DS . $file)
+                    ];
+                }
+            }
+        }
+
+        return $keys;
+    }
+
+    /**
+     * Check for existing DKIM keys
+     *
+     * @param Request $request The current request
+     * @return JsonResponse
+     */
+    public function checkDkimKeys(Request $request): JsonResponse
+    {
+        $domain = $request->get('domain', '');
+        $connectionId = $request->get('connection_id', '');
+
+        if (empty($domain) || empty($connectionId)) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Missing domain or connection ID'
+            ], 400);
+        }
+
+        $keys = $this->getDkimKeys($domain, $connectionId);
+
+        // Get mail configuration to check domain source
+        $mailConfig = $this->loadConfigFile('mail');
+        $mailKey = "mail$connectionId";
+        $customDomain = '';
+        $domainSource = 'email';
+
+        if (isset($mailConfig[$mailKey])) {
+            $domainSource = $mailConfig[$mailKey]['mail_dkim_domain_source'] ?? 'email';
+            $customDomain = $mailConfig[$mailKey]['mail_dkim_custom_domain'] ?? '';
+        }
+
+        // If using custom domain and it's set, return that instead
+        $returnDomain = $domain;
+        if ($domainSource === 'custom' && !empty($customDomain)) {
+            $returnDomain = $customDomain;
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'keys' => $keys,
+            'domain' => $returnDomain,
+            'domainSource' => $domainSource
+        ]);
+    }
+
+
+    /**
+     * Update mail configuration with DKIM selector and domain information
+     *
+     * @param string $connectionId Connection ID
+     * @param string $selector DKIM selector
+     * @param string $domainSource Source of domain (email or current)
+     * @param string $domain The actual domain used
+     * @return void
+     */
+    private function updateMailDkimConfig(string $connectionId, string $selector, string $domainSource, string $domain): void
+    {
+        $this->detectCurrentEnvironment();
+        $mailConfig = $this->loadConfigFile('mail');
+
+        $mailKey = "mail$connectionId";
+        if (isset($mailConfig[$mailKey])) {
+            $mailConfig[$mailKey]['mail_dkim_sign'] = $selector;
+            $mailConfig[$mailKey]['mail_dkim_domain_source'] = $domainSource;
+            $mailConfig[$mailKey]['mail_dkim_custom_domain'] = $domainSource === 'custom' ? $domain : '';
+
+            // Add generation date
+            $mailConfig[$mailKey]['mail_dkim_generated'] = date('Y-m-d');
+
+            $this->saveConfigFile('mail', $mailConfig);
         }
     }
 }

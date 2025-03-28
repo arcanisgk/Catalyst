@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
 namespace Catalyst\Framework\Core\Session;
 
 /**
@@ -63,7 +79,7 @@ class FlashMessage
     /**
      * Add a flash message
      *
-     * @param string $type Message type (success, error, warning, info)
+     * @param string $type MailMessage type (success, error, warning, info)
      * @param string $message The message content
      * @return self For method chaining
      */
@@ -137,7 +153,7 @@ class FlashMessage
     /**
      * Get flash messages of a specific type
      *
-     * @param string $type Message type (success, error, warning, info)
+     * @param string $type MailMessage type (success, error, warning, info)
      * @return array Messages of the specified type
      */
     public function get(string $type): array

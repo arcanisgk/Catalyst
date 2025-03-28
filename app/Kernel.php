@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Catalyst;
 
-use Catalyst\Assets\Framework\Core\Exceptions\MethodNotAllowedException;
-use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Exceptions\MethodNotAllowedException;
+use Catalyst\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\Response;
 use Catalyst\Framework\Core\Route\Router;
 use Catalyst\Framework\Core\Session\SessionManager;
@@ -30,13 +30,13 @@ use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
 
-/**
+/**************************************************************************************
  * Kernel - Core application bootstrapper
  *
  * Responsible for initializing, configuring and running
  * the Catalyst PHP Framework application.
  *
- * @package App;
+ * @package Catalyst;
  */
 class Kernel
 {
@@ -217,7 +217,7 @@ class Kernel
             } else {
                 echo "<h1>404 - Page Not Found</h1>";
                 echo "<p>{$e->getMessage()}</p>";
-                echo "<p>Template file not found: $templatePath</p>";
+                echo "<p>MailTemplate file not found: $templatePath</p>";
             }
             $content = ob_get_clean();
 
@@ -250,7 +250,7 @@ class Kernel
             } else {
                 echo "<h1>405 - Method not allowed</h1>";
                 echo "<p>{$e->getMessage()}</p>";
-                echo "<p>Template file not found: $templatePath</p>";
+                echo "<p>MailTemplate file not found: $templatePath</p>";
             }
             $content = ob_get_clean();
 
@@ -274,7 +274,7 @@ class Kernel
         } else {
             $this->logger->error('Welcome template not found', ['path' => $templatePath]);
             echo "<h1>Welcome to Catalyst Framework</h1>";
-            echo "<p>Template file not found: $templatePath</p>";
+            echo "<p>MailTemplate file not found: $templatePath</p>";
         }
     }
 

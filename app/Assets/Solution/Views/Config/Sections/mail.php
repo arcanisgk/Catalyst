@@ -170,35 +170,57 @@
                         </div>
 
                         <div class="hr-line-dashed"></div>
-                        <h4>DKIM Options</h4>
+                        <div class="d-flex align-items-center mb-2">
+                            <h4 class="mb-0 me-2">DKIM Options</h4>
+                            <input type="hidden" class="form-check-input" id="mail_dkim_copy_header_fields___ID__"
+                                   name="mail_dkim_copy_header_fields___ID__" value="false">
+                            <div id="dkim-header-status-__ID__" class="dkim-header-status">
+                                <!-- Los badges se añadirán dinámicamente por JavaScript -->
+                            </div>
+                        </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="mail_dkim_sign___ID__">DKIM Selector</label>
-                                    <input type="text" class="form-control" id="mail_dkim_sign___ID__"
-                                           name="mail_dkim_sign___ID__">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="d-block">DKIM Domain Source</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="dkim_domain_source___ID__"
+                                               id="dkim_domain_source_email___ID__" value="email" checked>
+                                        <label class="form-check-label" for="dkim_domain_source_email___ID__">
+                                            Use Email Domain
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="dkim_domain_source___ID__"
+                                               id="dkim_domain_source_custom___ID__" value="custom">
+                                        <label class="form-check-label" for="dkim_domain_source_custom___ID__">
+                                            Use Current Domain
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label" for="mail_dkim_passphrase___ID__">DKIM Passphrase</label>
+
+                            <div class="col-md-5">
+                                <label class="form-label" for="mail_dkim_passphrase___ID__">DKIM Passphrase <small class="text-muted">(Optional)</small></label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="mail_dkim_passphrase___ID__" name="mail_dkim_passphrase___ID__">
+                                    <input type="password" class="form-control" id="mail_dkim_passphrase___ID__" name="mail_dkim_passphrase___ID__" placeholder="Only needed for encrypted keys">
                                     <button class="btn btn-outline-secondary toggle-password" type="button">
                                         <i class="bi bi-eye"></i>
                                     </button>
                                 </div>
+                                <small class="form-text text-muted">Leave empty unless your private key is encrypted with a passphrase.</small>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="mail_dkim_copy_header_fields___ID__"
-                                               name="mail_dkim_copy_header_fields___ID__">
-                                        <label class="form-check-label" for="mail_dkim_copy_header_fields___ID__">Copy Header Fields</label>
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label for="mail_dkim_sign___ID__">DKIM Selector</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="mail_dkim_sign___ID__"
+                                               name="mail_dkim_sign___ID__" placeholder="e.g. s1">
+                                        <button type="button" class="btn btn-primary generate-dkim-keys" data-connection-id="__ID__">
+                                            <i class="fa fa-key"></i> Generate Keys
+                                        </button>
                                     </div>
+                                    <small class="form-text text-muted">The system will use the domain from your email address on Username.</small>
                                 </div>
                             </div>
                         </div>
@@ -245,10 +267,7 @@
                             'mail_test' => false
                         ]];
                     }
-
-                    foreach ($connections
-
-                             as $id => $connection):
+                    foreach ($connections as $id => $connection):
                         $connectionId = substr($id, 4); // Extract the numeric part (mail1 -> 1)
                         ?>
                         <div class="mail-connection" id="connection-<?= $connectionId ?>">
@@ -429,37 +448,88 @@
                                         </div>
 
                                         <div class="hr-line-dashed"></div>
-                                        <h4>DKIM Options</h4>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label for="mail_dkim_sign_<?= $connectionId ?>">DKIM Selector</label>
-                                                    <input type="text" class="form-control" id="mail_dkim_sign_<?= $connectionId ?>"
-                                                           name="mail_dkim_sign_<?= $connectionId ?>" value="<?= $connection['mail_dkim_sign'] ?? '' ?>">
-                                                </div>
-                                            </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <h4 class="mb-0 me-2">DKIM Options</h4>
+                                            <input type="hidden" class="form-check-input" id="mail_dkim_copy_header_fields_<?= $connectionId ?>"
+                                                   name="mail_dkim_copy_header_fields_<?= $connectionId ?>" value="false">
+                                            <div id="dkim-header-status-<?= $connectionId ?>" class="dkim-header-status">
+                                                <?php if (!empty($connection['mail_dkim_sign'])): ?>
+                                                    <span class="badge bg-success dkim-badge text-white">
+                                                        <i class="bi bi-shield-check"></i> DKIM Active
+                                                        <?php if (!empty($connection['mail_dkim_generated'])): ?>
+                                                            (<?= date("m/d/Y", strtotime($connection['mail_dkim_generated'])) ?>)
+                                                        <?php endif; ?>
+                                                    </span>
 
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="mail_dkim_passphrase_<?= $connectionId ?>">DKIM Passphrase</label>
-                                                <div class="input-group">
-                                                    <input type="password" class="form-control" id="mail_dkim_passphrase_<?= $connectionId ?>" name="mail_dkim_passphrase_<?= $connectionId ?>"
-                                                           value="<?= $connection['mail_dkim_passphrase'] ?? '' ?>">
-                                                    <button class="btn btn-outline-secondary toggle-password" type="button">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                </div>
+                                                    <?php
+                                                    // Determine which domain to display
+                                                    $displayDomain = '';
+                                                    if (!empty($connection['mail_dkim_domain_source']) && $connection['mail_dkim_domain_source'] === 'custom') {
+                                                        $displayDomain = $connection['mail_dkim_custom_domain'] ?? '';
+                                                    } else {
+                                                        // Extract domain from email
+                                                        $email = $connection['mail_user'] ?? '';
+                                                        if (str_contains($email, '@')) {
+                                                            $parts = explode('@', $email);
+                                                            $displayDomain = end($parts);
+                                                        }
+                                                    }
+                                                    ?>
+
+                                                    <?php if (!empty($displayDomain)): ?>
+                                                        <span class="badge bg-info mt-1 text-white">
+                                                            <i class="bi bi-globe"></i> Domain: <?= $displayDomain ?>
+                                                        </span>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input" id="mail_dkim_copy_header_fields_<?= $connectionId ?>"
-                                                               name="mail_dkim_copy_header_fields_<?= $connectionId ?>"
-                                                            <?= isset($connection['mail_dkim_copy_header_fields']) && $connection['mail_dkim_copy_header_fields'] ? 'checked' : '' ?>>
-                                                        <label class="form-check-label" for="mail_dkim_copy_header_fields_<?= $connectionId ?>">Copy Header Fields</label>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="d-block">DKIM Domain Source</label>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="dkim_domain_source_<?= $connectionId ?>"
+                                                               id="dkim_domain_source_email_<?= $connectionId ?>" value="email"
+                                                            <?= (!isset($connection['mail_dkim_domain_source']) || $connection['mail_dkim_domain_source'] === 'email') ? 'checked' : '' ?>>
+                                                        <label class="form-check-label" for="dkim_domain_source_email_<?= $connectionId ?>">
+                                                            Use Email Domain
+                                                        </label>
                                                     </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="dkim_domain_source_<?= $connectionId ?>"
+                                                               id="dkim_domain_source_custom_<?= $connectionId ?>" value="custom"
+                                                            <?= (isset($connection['mail_dkim_domain_source']) && $connection['mail_dkim_domain_source'] === 'custom') ? 'checked' : '' ?>>
+                                                        <label class="form-check-label" for="dkim_domain_source_custom_<?= $connectionId ?>">
+                                                            Use Current Domain
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <label class="form-label" for="mail_dkim_passphrase_<?= $connectionId ?>">DKIM Passphrase <small class="text-muted">(Optional)</small></label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="mail_dkim_passphrase_<?= $connectionId ?>" name="mail_dkim_passphrase_<?= $connectionId ?>"
+                                                           value="<?= $connection['mail_dkim_passphrase'] ?? '' ?>" placeholder="Only needed for encrypted keys">
+                                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <small class="form-text text-muted">Leave empty unless your private key is encrypted with a passphrase.</small>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="mail_dkim_sign_<?= $connectionId ?>">DKIM Selector</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="mail_dkim_sign_<?= $connectionId ?>"
+                                                               name="mail_dkim_sign_<?= $connectionId ?>" value="<?= $connection['mail_dkim_sign'] ?? '' ?>" placeholder="e.g. s1">
+                                                        <button type="button" class="btn btn-primary generate-dkim-keys" data-connection-id="<?= $connectionId ?>">
+                                                            <i class="fa fa-key"></i> Generate Keys
+                                                        </button>
+                                                    </div>
+                                                    <small class="form-text text-muted">The system will use the domain from your email address on Username.</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -477,6 +547,27 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dkimDnsModal" tabindex="-1" aria-labelledby="dkimDnsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dkimDnsModalLabel">DKIM DNS Record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <p>Add this DNS record to your domain to enable DKIM authentication for your emails:</p>
+                </div>
+                <pre id="dkimDnsRecord" class="bg-light p-3"></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="copyDkimRecord">Copy to Clipboard</button>
             </div>
         </div>
     </div>
@@ -650,5 +741,203 @@
                 radioClass: 'iradio_square-green',
             });
         }
+    });
+
+    // Add to your existing DOMContentLoaded event handler
+    document.addEventListener('DOMContentLoaded', () => {
+        // DKIM key generation
+        document.addEventListener('click', (event) => {
+            if (event.target.closest('.generate-dkim-keys')) {
+                const button = event.target.closest('.generate-dkim-keys');
+                const connectionId = button.getAttribute('data-connection-id');
+                generateDkimKeys(connectionId);
+            }
+        });
+
+        // Copy DKIM record to clipboard
+        document.getElementById('copyDkimRecord').addEventListener('click', () => {
+            const recordText = document.getElementById('dkimDnsRecord').textContent;
+            navigator.clipboard.writeText(recordText).then(() => {
+                window.toasts.success('DNS record copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                window.toasts.error('Failed to copy DNS record');
+            });
+        });
+    });
+
+    /**
+     * Check for existing DKIM keys when opening connection form
+     * @param {string} connectionId - The connection ID to check
+     */
+    function checkExistingDkimKeys(connectionId) {
+        const mailUserField = document.getElementById(`mail_user_${connectionId}`);
+        if (!mailUserField || !mailUserField.value) return;
+
+        // Extract domain from email
+        const emailParts = mailUserField.value.split('@');
+        if (emailParts.length !== 2) return;
+        const domain = emailParts[1];
+
+        // Check if we have a custom domain source
+        const domainSourceCustom = document.getElementById(`dkim_domain_source_custom_${connectionId}`);
+        const domainSourceEmail = document.getElementById(`dkim_domain_source_email_${connectionId}`);
+
+        if (domainSourceCustom && domainSourceCustom.checked) {
+            // If we're using a custom domain, check configuration
+            // This is just to ensure the radio buttons are checked correctly
+            // The actual domain check will still happen via the API
+        } else if (domainSourceEmail) {
+            domainSourceEmail.checked = true;
+        }
+
+        // API endpoint to check existing keys
+        fetch(`/configure/check-dkim-keys?domain=${domain}&connection_id=${connectionId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.keys.length > 0) {
+                    // Update selector field with existing key info
+                    const selectorField = document.getElementById(`mail_dkim_sign_${connectionId}`);
+                    if (selectorField) {
+                        // Sort keys by creation time (newest first)
+                        data.keys.sort((a, b) => b.created - a.created);
+                        selectorField.value = data.keys[0].selector;
+
+                        // Format date for display
+                        const createDate = new Date(data.keys[0].created * 1000);
+                        const formattedDate = createDate.toLocaleDateString();
+
+                        // Update the header status indicator
+                        let headerStatus = document.getElementById(`dkim-header-status-${connectionId}`);
+                        if (headerStatus) {
+                            headerStatus.innerHTML = `
+                                <span class="badge bg-success dkim-badge text-white">
+                                    <i class="bi bi-shield-check"></i> DKIM Active (${formattedDate})
+                                </span>
+                                <span class="badge bg-info mt-1 text-white">
+                                    <i class="bi bi-globe"></i> Domain: ${data.domain || domain}
+                                </span>
+                            `;
+                        }
+                    }
+                }
+            })
+            .catch(error => console.error('Error checking DKIM keys:', error));
+    }
+
+
+    /**
+     * Generate DKIM keys for a mail connection
+     * @param {string} connectionId - The connection ID
+     */
+    async function generateDkimKeys(connectionId) {
+        try {
+            // Get mail address (domain) from the connection form
+            const mailUserField = document.getElementById(`mail_user_${connectionId}`);
+            if (!mailUserField || !mailUserField.value) {
+                window.toasts.error('Please enter a valid email address in the Username field first');
+                return;
+            }
+
+            // Extract domain from email
+            const emailParts = mailUserField.value.split('@');
+            if (emailParts.length !== 2) {
+                window.toasts.error('Invalid email format in the Username field');
+                return;
+            }
+            const emailDomain = emailParts[1];
+
+            // Get domain source selection
+            const domainSourceEmail = document.getElementById(`dkim_domain_source_email_${connectionId}`);
+            const domainSource = domainSourceEmail.checked ? 'email' : 'custom';
+
+            // Get selector (use value from input or default to 's1')
+            const selectorField = document.getElementById(`mail_dkim_sign_${connectionId}`);
+            const selector = selectorField && selectorField.value ? selectorField.value : 's1';
+
+            // Show loading indicator
+            const button = document.querySelector(`.generate-dkim-keys[data-connection-id="${connectionId}"]`);
+            const originalContent = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generating...';
+
+            // Send request to generate keys
+            const formData = new FormData();
+            formData.append('connection_id', connectionId);
+            formData.append('email_domain', emailDomain);
+            formData.append('domain_source', domainSource);
+            formData.append('selector', selector);
+
+            const response = await fetch('/configure/generate-dkim-keys', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            // Restore button
+            button.disabled = false;
+            button.innerHTML = originalContent;
+
+            // En la parte donde se procesa la respuesta exitosa en generateDkimKeys:
+            if (result.success) {
+                // Update the selector field with the generated selector
+                if (selectorField && result.data.selector) {
+                    selectorField.value = result.data.selector;
+
+                    // Update the header status indicator
+                    const headerStatus = document.getElementById(`dkim-header-status-${connectionId}`);
+                    if (headerStatus) {
+                        headerStatus.innerHTML = `
+                            <span class="badge bg-success dkim-badge text-white">
+                                <i class="bi bi-shield-check"></i> DKIM Active (${new Date().toLocaleDateString()})
+                            </span>
+                            <span class="badge bg-info mt-1 text-white">
+                                <i class="bi bi-globe"></i> Domain: ${result.data.domain}
+                            </span>
+                        `;
+                    }
+                }
+
+                // Show DNS record in modal
+                document.getElementById('dkimDnsRecord').textContent = result.data.dnsRecord;
+                const dkimModal = new bootstrap.Modal(document.getElementById('dkimDnsModal'));
+                dkimModal.show();
+
+                window.toasts.success(result.message);
+            } else {
+                window.toasts.error(result.message);
+            }
+
+        } catch (error) {
+            console.error('DKIM generation error:', error);
+            window.toasts.error('An error occurred while generating DKIM keys');
+
+            // Restore button state on error
+            const button = document.querySelector(`.generate-dkim-keys[data-connection-id="${connectionId}"]`);
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = '<i class="fa fa-key"></i> Generate Keys';
+            }
+        }
+    }
+
+    // Add this to initialize the DKIM key checking when mail connections are shown
+    document.getElementById('add-mail-connection').addEventListener('click', () => {
+        // Wait for DOM to update with new connection
+        setTimeout(() => {
+            const newConnection = document.querySelector('.mail-connection:last-child');
+            if (newConnection) {
+                const connectionId = newConnection.id.replace('connection-', '');
+
+                // Wait for user to enter email before checking
+                const mailUserField = document.getElementById(`mail_user_${connectionId}`);
+                if (mailUserField) {
+                    mailUserField.addEventListener('blur', () => {
+                        checkExistingDkimKeys(connectionId);
+                    });
+                }
+            }
+        }, 500);
     });
 </script>

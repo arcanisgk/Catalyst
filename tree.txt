@@ -9,21 +9,31 @@ Project-Root
 │
 ├───app
 │   │   Kernel.php
-│   │
+│   │   
 │   ├───Assets
 │   │   ├───Framework
 │   │   │   ├───Core
 │   │   │   │   │   Argument.php
 │   │   │   │   │   UrlGenerator.php
-│   │   │   │   │
+│   │   │   │   │   
+│   │   │   │   ├───Database
+│   │   │   │   │       Connection.php
+│   │   │   │   │       ConnectionTester.php
+│   │   │   │   │       DatabaseManager.php
+│   │   │   │   │       QueryBuilder.php
+│   │   │   │   │       Transaction.php
+│   │   │   │   │       
 │   │   │   │   ├───Exceptions
+│   │   │   │   │       ConnectionException.php
 │   │   │   │   │       FileSystemException.php
 │   │   │   │   │       MethodNotAllowedException.php
+│   │   │   │   │       QueryException.php
 │   │   │   │   │       RouteNotFoundException.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Http
+│   │   │   │   │       ApiRequest.php
 │   │   │   │   │       Request.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Middleware
 │   │   │   │   │       CallableMiddleware.php
 │   │   │   │   │       CoreMiddleware.php
@@ -32,18 +42,18 @@ Project-Root
 │   │   │   │   │       MiddlewareStack.php
 │   │   │   │   │       RequestThrottlingMiddleware.php
 │   │   │   │   │       SecurityHeadersMiddleware.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Providers
 │   │   │   │   │       TranslationServiceProvider.php
 │   │   │   │   │       ViewServiceProvider.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Response
 │   │   │   │   │       HtmlResponse.php
 │   │   │   │   │       JsonResponse.php
 │   │   │   │   │       RedirectResponse.php
 │   │   │   │   │       Response.php
 │   │   │   │   │       ViewResponse.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   ├───Route
 │   │   │   │   │       Route.php
 │   │   │   │   │       RouteCollection.php
@@ -51,26 +61,33 @@ Project-Root
 │   │   │   │   │       RouteDispatcher.php
 │   │   │   │   │       RouteGroup.php
 │   │   │   │   │       Router.php
-│   │   │   │   │
+│   │   │   │   │       
+│   │   │   │   ├───Session
+│   │   │   │   │       FlashMessage.php
+│   │   │   │   │       SessionManager.php
+│   │   │   │   │       
 │   │   │   │   ├───Translation
 │   │   │   │   │       TranslationCache.php
 │   │   │   │   │       TranslationManager.php
 │   │   │   │   │       TranslationService.php
-│   │   │   │   │
+│   │   │   │   │       
 │   │   │   │   └───View
 │   │   │   │           LayoutManager.php
 │   │   │   │           ViewFactory.php
 │   │   │   │           ViewFinder.php
 │   │   │   │           ViewRenderer.php
-│   │   │   │
+│   │   │   │           
 │   │   │   └───Traits
 │   │   │           OutputCleanerTrait.php
 │   │   │           SingletonTrait.php
-│   │   │
+│   │   │           
 │   │   ├───Helpers
+│   │   │   ├───Config
+│   │   │   │       ConfigManager.php
+│   │   │   │       
 │   │   │   ├───Debug
 │   │   │   │       Dumper.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───Error
 │   │   │   │       BugCatcher.php
 │   │   │   │       BugLogger.php
@@ -78,16 +95,16 @@ Project-Root
 │   │   │   │       ErrorHandler.php
 │   │   │   │       ExceptionHandler.php
 │   │   │   │       ShutdownHandler.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───IO
 │   │   │   │       FileOutput.php
-│   │   │   │
+│   │   │   │       
 │   │   │   ├───Log
 │   │   │   │       Logger.php
-│   │   │   │
+│   │   │   │       
 │   │   │   └───ToolBox
 │   │   │           DrawBox.php
-│   │   │
+│   │   │           
 │   │   ├───Locale
 │   │   │   ├───en
 │   │   │   │       auth.json
@@ -95,26 +112,41 @@ Project-Root
 │   │   │   │       contact.json
 │   │   │   │       home.json
 │   │   │   │       profile.json
-│   │   │   │
-│   │   │   └───es
-│   │   │           auth.json
-│   │   │           common.json
-│   │   │           contact.json
-│   │   │           home.json
-│   │   │           profile.json
-│   │   │
+│   │   │   │       
+│   │   │   ├───es
+│   │   │   │       auth.json
+│   │   │   │       common.json
+│   │   │   │       contact.json
+│   │   │   │       home.json
+│   │   │   │       profile.json
+│   │   │   │       
+│   │   │   ├───fr
+│   │   │   └───pt
 │   │   └───Solution
 │   │       ├───Controllers
 │   │       │       AuthenticationController.php
+│   │       │       ConfigController.php
 │   │       │       ContactController.php
 │   │       │       Controller.php
 │   │       │       HomeController.php
-│   │       │
+│   │       │       
 │   │       ├───Models
 │   │       └───Views
+│   │           ├───Config
+│   │           │   │   index.php
+│   │           │   │   
+│   │           │   └───Sections
+│   │           │           app.php
+│   │           │           db.php
+│   │           │           ftp.php
+│   │           │           mail.php
+│   │           │           session.php
+│   │           │           tools.php
+│   │           │           
 │   │           └───Home
 │   │                   index.php
-│   │
+│   │                   landing.php
+│   │                   
 │   ├───Entity
 │   │   ├───Default
 │   │   └───Project
@@ -126,94 +158,130 @@ Project-Root
 ├───bootstrap
 │   ├───bin
 │   │       index.php
-│   │
+│   │       
 │   ├───config
 │   │   ├───backup
 │   │   │       app.json
 │   │   │       db.json
 │   │   │       ftp.json
 │   │   │       mail.json
+│   │   │       oauth_credentials.json
 │   │   │       session.json
 │   │   │       tools.json
-│   │   │
+│   │   │       
 │   │   ├───development
 │   │   │       app.json
 │   │   │       db.json
 │   │   │       ftp.json
 │   │   │       mail.json
+│   │   │       oauth_credentials.json
 │   │   │       session.json
 │   │   │       tools.json
-│   │   │
-│   │   └───production
-│   │           app.json
-│   │           db.json
-│   │           ftp.json
-│   │           mail.json
-│   │           session.json
-│   │           tools.json
-│   │
+│   │   │       
+│   │   ├───production
+│   │   └───test
+│   │       ├───backup
+│   │       │       app.json
+│   │       │       db.json
+│   │       │       ftp.json
+│   │       │       mail.json
+│   │       │       session.json
+│   │       │       tools.json
+│   │       │       
+│   │       └───development
+│   │               app.json
+│   │               db.json
+│   │               ftp.json
+│   │               mail.json
+│   │               session.json
+│   │               tools.json
+│   │               
 │   ├───constant
 │   │       default.php
 │   │       environment.php
 │   │       log.php
 │   │       request.php
 │   │       terminal.php
-│   │
+│   │       
 │   ├───loaders
 │   │   │   ld-bug-catcher.php
 │   │   │   ld-constant.php
 │   │   │   ld-function.php
+│   │   │   ld-logger.php
 │   │   │   ld-router.php
-│   │   │
+│   │   │   
 │   │   └───globals
+│   │           func-env-init.php
 │   │           func-router.php
 │   │           func-translation.php
-│   │
+│   │           
 │   ├───routes
 │   │       admin.php
 │   │       api.php
 │   │       web.php
-│   │
+│   │       
 │   └───template
 │       ├───error
+│       │       404.php
+│       │       405.php
 │       │       handler_error.php
 │       │       handler_error_no.php
-│       │
+│       │       
 │       ├───layouts
+│       │       config.php
 │       │       default.php
+│       │       landing.php
 │       │       template.php
-│       │
+│       │       wellcome.php
+│       │       
 │       └───partials
 │               alert.php
-│
+│               flash-messages.php
+│               
 ├───cache
-│       routes.cache.php
-│
+│   │   routes.cache.php
+│   │   
+│   └───translations
+│           en_common.php
+│           
 ├───logs
 │   ├───errors
-│   ├───events
+│   ├───events 
 │   └───info
-│
+│           
 ├───public
 │   │   .htaccess
 │   │   .user.ini
 │   │   cli.php
-│   │   index.html
 │   │   index.php
 │   │   php.ini
-│   │
+│   │   
 │   ├───.well-known
 │   │       assetlinks.json
 │   │       mta-sts.txt
-│   │
+│   │       
 │   ├───assets
 │   │   ├───audio
 │   │   ├───css
+│   │   │       config.css
+│   │   │       landing.css
+│   │   │               
 │   │   ├───img
+│   │   │   ├───favicon
+│   │   │   └───landing
+│   │   │           catalyst.png
+│   │   │           header_one.png
+│   │   │           
 │   │   ├───inspinia
 │   │   ├───js
+│   │   │       bd-test.js
+│   │   │       landing.js
+│   │   │       main.js
+│   │   │       toasts.js
+│   │   │       
 │   │   └───json
-│   │
+│   │           manifest.json
+│   │           
 │   ├───resources
 │   └───uploads
 └───test

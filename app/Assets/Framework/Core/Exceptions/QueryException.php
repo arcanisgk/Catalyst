@@ -2,16 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Catalyst\Assets\Framework\Core\Exceptions;
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
+namespace Catalyst\Framework\Core\Exceptions;
 
 use RuntimeException;
 
-/**
+/**************************************************************************************
  * Database query exception
  *
  * Thrown when a database query error occurs.
  *
- * @package Catalyst\Framework\Core\Database\Exceptions
+ * @package Catalyst\Framework\Core\Exceptions
  */
 class QueryException extends RuntimeException
 {

@@ -65,7 +65,8 @@
     "ext-libxml": "*",
     "ext-gd": "*",
     "ext-intl": "*",
-    "ext-ftp": "*"
+    "ext-ftp": "*",
+    "ext-openssl": "*"
   },
   "scripts": {
     "post-update-cmd": [

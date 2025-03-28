@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Helpers\Log;
 
-use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
+use Catalyst\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\ToolBox\DrawBox;
 use Exception;
@@ -238,7 +238,7 @@ class Logger
             ];
         }
 
-        // Format: [Timestamp] [Level] [IP] [User:ID] Message Context
+        // Format: [Timestamp] [Level] [IP] [User:ID] MailMessage Context
         $logEntry = sprintf(
             "[%s] [%s] [%s] [User:%s] %s",
             $timestamp,
@@ -436,7 +436,7 @@ class Logger
     /**
      * Log an emergency message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Additional context
      * @return void Success status
      * @throws Exception
@@ -449,7 +449,7 @@ class Logger
     /**
      * Log an alert message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Additional context
      * @return void Success status
      * @throws Exception
@@ -462,7 +462,7 @@ class Logger
     /**
      * Log a critical message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Additional context
      * @return void Success status
      * @throws Exception
@@ -475,7 +475,7 @@ class Logger
     /**
      * Log an error message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Additional context
      * @return void Success status
      * @throws Exception
@@ -488,7 +488,7 @@ class Logger
     /**
      * Log a warning message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Additional context
      * @return void Success status
      * @throws Exception
@@ -501,7 +501,7 @@ class Logger
     /**
      * Log a notice message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Additional context
      * @return void Success status
      * @throws Exception
@@ -514,7 +514,7 @@ class Logger
     /**
      * Log an info message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Additional context
      * @return void Success status
      * @throws Exception
@@ -527,7 +527,7 @@ class Logger
     /**
      * Log a debug message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Additional context
      * @return void Success status
      * @throws Exception

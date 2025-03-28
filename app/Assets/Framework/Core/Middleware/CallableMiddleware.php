@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Middleware;
 
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\Response;
 use Closure;
 

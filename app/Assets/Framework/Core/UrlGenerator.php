@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core;
 
-use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\Exceptions\RouteNotFoundException;
 use Catalyst\Framework\Core\Route\RouteCollection;
 
 /**************************************************************************************

@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace Catalyst\Solution\Controllers;
 
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response;
+use Exception;
 
-/**
+/**************************************************************************************
  * Authentication Controller
  *
  * Handles user authentication, registration and session management
@@ -66,6 +67,7 @@ class AuthenticationController extends Controller
      *
      * @param Request $request Request containing login credentials
      * @return Response\RedirectResponse|Response\JsonResponse
+     * @throws Exception
      */
     public function login(Request $request): Response\RedirectResponse|Response\JsonResponse
     {
@@ -147,6 +149,7 @@ class AuthenticationController extends Controller
      *
      * @param Request $request Request containing registration data
      * @return Response\RedirectResponse|Response\JsonResponse
+     * @throws Exception
      */
     public function register(Request $request): Response\RedirectResponse|Response\JsonResponse
     {
@@ -216,6 +219,7 @@ class AuthenticationController extends Controller
      *
      * @param Request $request Current request
      * @return Response\RedirectResponse|Response\JsonResponse
+     * @throws Exception
      */
     public function logout(Request $request): Response\RedirectResponse|Response\JsonResponse
     {
@@ -432,6 +436,7 @@ class AuthenticationController extends Controller
      * @param string $email User email
      * @param string $password User password (plaintext, will be hashed)
      * @return int|false User ID if successful, false on failure
+     * @throws Exception
      */
     private function createUser(string $name, string $email, string $password): false|int
     {

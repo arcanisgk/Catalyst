@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Assets\Framework\Core\Exceptions;
+namespace Catalyst\Framework\Core\Exceptions;
 
 use RuntimeException;
 use Throwable;
@@ -29,7 +29,7 @@ use Throwable;
  * This exception is thrown when a route matching the requested URI is not found
  * or when a named route doesn't exist.
  *
- * @package Catalyst\Framework\Exceptions;
+ * @package Catalyst\Framework\Core\Exceptions;
  */
 class RouteNotFoundException extends RuntimeException
 {

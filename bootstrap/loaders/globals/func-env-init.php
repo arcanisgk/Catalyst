@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use Catalyst\Helpers\Config\ConfigManager;
 
-
 if (!defined('APP_CONFIGURATION')) {
 
     define('APP_CONFIGURATION', ConfigManager::getInstance());

@@ -40,11 +40,11 @@
                                 </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a class="dropdown-item" href="profile.html"><?= isset($t) ? $t('common.navigation.profile') : 'Profile' ?></a></li>
-                            <li><a class="dropdown-item" href="contacts.html"><?= isset($t) ? $t('contact.title') : 'Contacts' ?></a></li>
-                            <li><a class="dropdown-item" href="mailbox.html"><?= isset($t) ? $t('common.navigation.messages') ?? 'Mailbox' : 'Mailbox' ?></a></li>
+                            <li><a class="dropdown-item" href="/profile"><?= isset($t) ? $t('common.navigation.profile') : 'Profile' ?></a></li>
+                            <li><a class="dropdown-item" href="/contacts"><?= isset($t) ? $t('contact.title') : 'Contacts' ?></a></li>
+                            <li><a class="dropdown-item" href="/mailbox"><?= isset($t) ? $t('common.navigation.messages') ?? 'Mailbox' : 'Mailbox' ?></a></li>
                             <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="login.html"><?= isset($t) ? $t('common.navigation.logout') : 'Logout' ?></a></li>
+                            <li><a class="dropdown-item" href="/login"><?= isset($t) ? $t('common.navigation.logout') : 'Logout' ?></a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
@@ -134,7 +134,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="login.html">
+                        <a href="/login">
                             <i class="fa fa-sign-out"></i> <?= isset($t) ? $t('common.navigation.logout') : 'Log out' ?>
                         </a>
                     </li>

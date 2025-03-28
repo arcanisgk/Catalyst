@@ -26,7 +26,7 @@ namespace Catalyst\Framework\Core\Route;
  * Responsible for parsing route patterns with parameters and generating
  * efficient regular expressions for matching URIs against routes.
  *
- * @package Catalyst\Framework\Core;
+ * @package Catalyst\Framework\Core\Route;
  */
 class RouteCompiler
 {

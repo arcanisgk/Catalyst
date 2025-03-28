@@ -25,7 +25,7 @@ use Catalyst\Helpers\Log\Logger;
  * Helper function for logging messages
  *
  * @param string $level Log level (emergency, alert, critical, error, warning, notice, info, debug)
- * @param string $message Message to log
+ * @param string $message MailMessage to log
  * @param array $context Additional context information
  * @return void Success status
  * @throws Exception

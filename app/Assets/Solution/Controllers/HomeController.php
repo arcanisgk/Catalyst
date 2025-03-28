@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Solution\Controllers;
 
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\ViewResponse;
 use Exception;
 

@@ -14,7 +14,7 @@
                 <div class="ibox-content">
                     <div class="d-flex align-items-center mb-3">
                         <h4 class="no-margins">Current Environment:
-                            <span class="badge bg-primary"><?= $currentEnvironment ?></span>
+                            <span class="label label-primary fs-6"><?= $currentEnvironment ?></span>
                         </h4>
                     </div>
                     <div class="alert alert-info">

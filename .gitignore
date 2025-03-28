@@ -11,3 +11,4 @@ bootstrap/config/production/*.json
 bootstrap/config/test/*
 /public/index.html
 /public/jx.js
+/bootstrap/dkim/*

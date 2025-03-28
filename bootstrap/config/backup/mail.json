@@ -18,6 +18,9 @@
     "mail_dkim_passphrase": "",
     "mail_dkim_copy_header_fields": false,
     "mail_debug": false,
-    "mail_test": false
+    "mail_test": false,
+    "mail_dkim_domain_source": "email",
+    "mail_dkim_custom_domain": "",
+    "mail_dkim_generated": ""
   }
 }

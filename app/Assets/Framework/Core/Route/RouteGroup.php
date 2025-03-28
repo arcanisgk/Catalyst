@@ -26,7 +26,7 @@ namespace Catalyst\Framework\Core\Route;
  * Manages grouping of routes with shared attributes like prefixes, middleware,
  * and namespaces.
  *
- * @package Catalyst\Framework\Core;
+ * @package Catalyst\Framework\Core\Route;
  */
 class RouteGroup
 {

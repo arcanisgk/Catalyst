@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Route;
 
-use Catalyst\Assets\Framework\Core\Exceptions\MethodNotAllowedException;
-use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Exceptions\MethodNotAllowedException;
+use Catalyst\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Middleware\MiddlewareStack;
 use Catalyst\Framework\Core\Response\HtmlResponse;
 use Catalyst\Framework\Core\Response\JsonResponse;
@@ -40,7 +40,7 @@ use ReflectionMethod;
  * Handles route matching, controller resolution, parameter binding, and
  * middleware execution.
  *
- * @package Catalyst\Framework\Core;
+ * @package Catalyst\Framework\Core\Route;
  */
 class RouteDispatcher
 {
@@ -72,7 +72,7 @@ class RouteDispatcher
         $routeParams = [];
         $matchedRoute = $routes->match($uri, $method, $routeParams);
 
-        // If no route matched but we have allowed methods, it's a 405 Method Not Allowed
+        // If no route matched, but we have allowed methods, it's a 405 Method Not Allowed
         if ($matchedRoute === null && isset($routeParams['_allowed_methods'])) {
             throw new MethodNotAllowedException(
                 "Method '$method' not allowed for route '$uri'",

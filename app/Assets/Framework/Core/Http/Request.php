@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Assets\Framework\Core\Http;
+namespace Catalyst\Framework\Core\Http;
 
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\Log\Logger;
@@ -30,7 +30,7 @@ use Exception;
  * Provides methods for accessing and sanitizing request data
  * from various sources ($_GET, $_POST, $_REQUEST, etc.)
  *
- * @package Catalyst\Helpers\Http;
+ * @package Catalyst\Framework\Core\Http;
  */
 class Request
 {
@@ -306,6 +306,34 @@ class Request
         }
 
         return $normalizedHeaders;
+    }
+
+    /**
+     * Get the current domain of the application
+     *
+     * @param Request $request The current request
+     * @return string The current domain
+     */
+    public function getCurrentDomain(Request $request): string
+    {
+        // Try to get domain from HTTP_HOST
+        $host = $request->server('HTTP_HOST', '');
+
+        // Remove port if present
+        $domain = preg_replace('/:\d+$/', '', $host);
+
+        // If empty, try SERVER_NAME
+        if (empty($domain)) {
+            $domain = $request->server('SERVER_NAME', '');
+        }
+
+        // If still empty, fallback to a default
+        if (empty($domain)) {
+            // You might want to define a default domain or throw an exception here
+            $domain = 'localhost';
+        }
+
+        return $domain;
     }
 
 }

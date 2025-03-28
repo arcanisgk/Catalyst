@@ -2,9 +2,26 @@
 
 declare(strict_types=1);
 
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
 namespace Catalyst\Framework\Core\Middleware;
 
-use Catalyst\Assets\Framework\Core\Http\Request;
+
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\Response;
 use Closure;
 use Exception;

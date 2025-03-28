@@ -2411,7 +2411,7 @@
 
   winHopscotch = new Hopscotch();
 
-  // Template includes, placed inside a closure to ensure we don't
+  // MailTemplate includes, placed inside a closure to ensure we don't
   // end up declaring our shim globally.
   (function () {
     var _ = {};

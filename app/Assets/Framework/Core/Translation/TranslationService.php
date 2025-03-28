@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Framework\Core\Translation;
 
-use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
+use Catalyst\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
 

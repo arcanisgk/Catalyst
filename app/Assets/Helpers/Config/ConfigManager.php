@@ -26,6 +26,8 @@ use Catalyst\Framework\Traits\SingletonTrait;
  * ConfigManager - Configuration manager class
  *
  * Loads and provides access to application configuration from JSON files
+ *
+ * @package Catalyst\Helpers\Config;
  */
 class ConfigManager
 {

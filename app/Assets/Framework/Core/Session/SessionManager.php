@@ -2,9 +2,27 @@
 
 declare(strict_types=1);
 
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
 namespace Catalyst\Framework\Core\Session;
 
 use Catalyst\Framework\Traits\SingletonTrait;
+use Catalyst\Helpers\Log\Logger;
+use Exception;
 use RuntimeException;
 
 /**
@@ -67,12 +85,30 @@ class SessionManager
      *
      * @param array $config Configuration options
      * @return self For method chaining
-     * @throws RuntimeException If session cannot be started
+     * @throws RuntimeException|Exception If session cannot be started
      */
     public function init(array $config = []): self
     {
         if ($this->initialized) {
             return $this;
+        }
+
+        // If no explicit config provided, load from configuration system
+        if (empty($config) && defined('APP_CONFIGURATION')) {
+            $sessionConfig = APP_CONFIGURATION->get('session.session', []);
+
+            // Map session.json keys to SessionManager config keys
+            if (!empty($sessionConfig)) {
+                $config = [
+                    'name' => $sessionConfig['session_name'] ?? $this->config['name'],
+                    'lifetime' => $sessionConfig['session_life_time'] ?? $this->config['lifetime'],
+                    'activity_timeout' => $sessionConfig['session_activity_expire'] ?? $this->config['activity_timeout'],
+                    'use_activity_timeout' => $sessionConfig['session_inactivity'] ?? $this->config['use_activity_timeout'],
+                    'secure' => $sessionConfig['session_secure'] ?? $this->config['secure'],
+                    'httponly' => $sessionConfig['session_http_only'] ?? $this->config['httponly'],
+                    'samesite' => $sessionConfig['session_same_site'] ?? $this->config['samesite']
+                ];
+            }
         }
 
         if (!empty($config)) {
@@ -111,6 +147,16 @@ class SessionManager
         $_SESSION['_last_activity'] = time();
 
         $this->initialized = true;
+
+        // Log session initialization if in development mode
+        if (defined('IS_DEVELOPMENT') && IS_DEVELOPMENT && class_exists('\Catalyst\Helpers\Log\Logger')) {
+            Logger::getInstance()->debug('Session initialized', [
+                'name' => $this->config['name'],
+                'lifetime' => $this->config['lifetime'],
+                'use_activity_timeout' => $this->config['use_activity_timeout']
+            ]);
+        }
+
         return $this;
     }
 

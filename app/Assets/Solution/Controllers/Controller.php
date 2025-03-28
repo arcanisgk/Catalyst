@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Solution\Controllers;
 
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\RedirectResponse;
 use Catalyst\Framework\Core\Response\Response;
@@ -347,7 +347,7 @@ abstract class Controller
     /**
      * Log an informational message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Context data
      * @return void
      * @throws Exception
@@ -362,7 +362,7 @@ abstract class Controller
     /**
      * Log an error message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Context data
      * @return void
      * @throws Exception
@@ -377,7 +377,7 @@ abstract class Controller
     /**
      * Log a debug message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Context data
      * @return void
      * @throws Exception
@@ -392,7 +392,7 @@ abstract class Controller
     /**
      * Log a warning message
      *
-     * @param string $message Message to log
+     * @param string $message MailMessage to log
      * @param array $context Context data
      * @return void
      * @throws Exception

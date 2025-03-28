@@ -23,6 +23,7 @@ namespace Catalyst\Helpers\ToolBox;
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\IO\FileOutput;
 use Exception;
+use function mb_strlen;
 
 /**************************************************************************************
  * DrawBox class for creating formatted text boxes in terminal or HTML

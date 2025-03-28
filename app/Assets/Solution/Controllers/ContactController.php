@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Catalyst\Solution\Controllers;
 
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\RedirectResponse;
 use Catalyst\Framework\Core\Response\ViewResponse;
@@ -38,8 +38,9 @@ class ContactController extends Controller
     /**
      * Display the contact form
      *
-     * @param \Catalyst\Assets\Framework\Core\Http\Request $request The current request
+     * @param Request $request The current request
      * @return ViewResponse
+     * @throws Exception
      */
     public function index(Request $request): ViewResponse
     {
@@ -78,7 +79,7 @@ class ContactController extends Controller
     /**
      * Process contact form submission
      *
-     * @param \Catalyst\Assets\Framework\Core\Http\Request $request The current request with form data
+     * @param Request $request The current request with form data
      * @return RedirectResponse|JsonResponse
      * @throws Exception
      */
@@ -133,7 +134,7 @@ class ContactController extends Controller
      *
      * @param string|null $name Name input
      * @param string|null $email Email input
-     * @param string|null $message Message input
+     * @param string|null $message MailMessage input
      * @return array Array of validation errors
      */
     private function validateContactForm(?string $name, ?string $email, ?string $message): array
@@ -158,7 +159,7 @@ class ContactController extends Controller
         if (empty($message)) {
             $errors['message'] = 'Please enter your message';
         } elseif (strlen($message) < 10) {
-            $errors['message'] = 'Message must be at least 10 characters';
+            $errors['message'] = 'MailMessage must be at least 10 characters';
         }
 
         return $errors;
@@ -169,8 +170,8 @@ class ContactController extends Controller
      *
      * @param string $name Sender's name
      * @param string $email Sender's email
-     * @param string $subject Message subject
-     * @param string $message Message content
+     * @param string $subject MailMessage subject
+     * @param string $message MailMessage content
      * @return void Success status
      * @throws Exception
      */
@@ -196,7 +197,7 @@ class ContactController extends Controller
     /**
      * API endpoint to validate contact form fields in real-time
      *
-     * @param \Catalyst\Assets\Framework\Core\Http\Request $request The current request
+     * @param Request $request The current request
      * @return JsonResponse JSON response with validation result
      */
     public function validateField(Request $request): JsonResponse
@@ -232,7 +233,7 @@ class ContactController extends Controller
                 if (empty($value)) {
                     $error = 'Please enter your message';
                 } elseif (strlen($value) < 10) {
-                    $error = 'Message must be at least 10 characters';
+                    $error = 'MailMessage must be at least 10 characters';
                 }
                 break;
         }

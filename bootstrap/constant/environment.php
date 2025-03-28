@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
+use Catalyst\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Helpers\Log\Logger;
 
 /**************************************************************************************
@@ -131,7 +131,7 @@ if (!defined('IS_DEVELOPMENT')) {
 
 
     if (IS_DEVELOPMENT && !IS_CLI) {
-        // OPcache (more comprehensive settings)
+        // opcache (more comprehensive settings)
         ini_set('opcache.enable', '0');
         ini_set('opcache.enable_cli', '0');
         ini_set('opcache.revalidate_freq', '0');

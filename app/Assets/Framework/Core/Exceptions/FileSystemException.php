@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-namespace Catalyst\Assets\Framework\Core\Exceptions;
+namespace Catalyst\Framework\Core\Exceptions;
 
 use RuntimeException;
 
@@ -26,6 +26,8 @@ use RuntimeException;
  * Exception class for file system related errors
  *
  * Provides factory methods for common file system error scenarios
+ *
+ * @package Catalyst\Framework\Core\Exceptions
  */
 class FileSystemException extends RuntimeException
 {

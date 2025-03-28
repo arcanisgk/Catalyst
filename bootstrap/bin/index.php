@@ -18,21 +18,49 @@ declare(strict_types=1);
  *
  */
 
+use Catalyst\Framework\Core\Argument\Argument;
 use Catalyst\Kernel;
 
 require_once realpath(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), '..', '..', 'vendor', 'autoload.php']));
 
 // Bootstrap the application
 $app = new Kernel();
+
 try {
     $app->bootstrap();
 
-    //ex(get_defined_constants(true)['user']);
+    // Parse command line arguments
+    $args = new Argument();
 
-    //$app->run();
+    // Register commands
+    // Format: command:action => [handler class, method]
+    $commands = [];
+
+    // Get the command from arguments
+    $command = $args->getCommand();
+
+    if (empty($command)) {
+        // List available commands if none specified
+        echo "Available commands:\n";
+        foreach (array_keys($commands) as $cmd) {
+            echo "  $cmd\n";
+        }
+        echo "\nUse 'php cli.php command --help' for more information on a command.\n";
+        exit(0);
+    }
+
+    // Execute the command if registered
+    if (isset($commands[$command])) {
+        [$handlerClass, $method] = $commands[$command];
+        $handler = new $handlerClass();
+        $handler->$method($args);
+    } else {
+        echo "Unknown command: $command\n";
+        echo "Use 'php cli.php' to see available commands.\n";
+        exit(1);
+    }
+
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage() . NL;
     exit(1);
 }
-
-

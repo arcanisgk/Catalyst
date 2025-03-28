@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  */
 
-use Catalyst\Assets\Framework\Core\Http\Request;
+use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Helpers\Log\Logger;
 
 // Ensure this file is executed only once

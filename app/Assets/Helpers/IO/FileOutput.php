@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Catalyst\Helpers\IO;
 
-use Catalyst\Assets\Framework\Core\Exceptions\FileSystemException;
-use Catalyst\Framework\Core\Argument;
+use Catalyst\Framework\Core\Argument\Argument;
+use Catalyst\Framework\Core\Exceptions\FileSystemException;
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
@@ -42,7 +42,7 @@ class FileOutput
      */
     public function isFileOutputRequested(): bool
     {
-        $arguments = Argument::getArguments();
+        $arguments = (new Argument)->getArguments();
         return isset($arguments['f']);
     }
 
@@ -53,7 +53,7 @@ class FileOutput
      */
     public function getOutputFilename(): ?string
     {
-        $arguments = Argument::getArguments();
+        $arguments = (new Argument)->getArguments();
         return $arguments['f'] ?? null;
     }
 

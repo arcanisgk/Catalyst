@@ -18,8 +18,7 @@ declare(strict_types=1);
  *
  */
 
-
-use Catalyst\Assets\Framework\Core\Exceptions\RouteNotFoundException;
+use Catalyst\Framework\Core\Exceptions\RouteNotFoundException;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\RedirectResponse;
 use Catalyst\Framework\Core\Response\Response;

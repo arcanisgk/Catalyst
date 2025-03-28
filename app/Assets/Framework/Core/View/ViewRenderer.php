@@ -120,7 +120,7 @@ class ViewRenderer
      *
      * Useful for rendering small inline templates or user-defined templates
      *
-     * @param string $template Template string to render
+     * @param string $template MailTemplate string to render
      * @param array $data Data to make available to the template
      * @return string Rendered template content
      * @throws Exception If rendering fails
