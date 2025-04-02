@@ -1,4 +1,30 @@
-/**
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework - JavaScript Component
+ * ES6+/ES7 Standard
+ *
+ * @package   Catalyst
+ * @subpackage Js
+ * @see       https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2025
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
+ * @note      This program is distributed in the hope that it will be useful
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * Landing component for the Catalyst Framework
+ *
+ */
+ 
+ /**
  * Catalyst Framework - Landing Page
  * Modern ES6+ implementation
  */

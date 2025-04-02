@@ -1,1 +1,0 @@
-document.addEventListener("DOMContentLoaded",function(){new class{constructor(){this.init()}init(){new SimpleMDE({element:document.getElementById("simplemde1"),spellChecker:!1,autosave:{enabled:!1,unique_id:"simplemde1"}})}}});

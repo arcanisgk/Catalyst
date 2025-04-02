@@ -7,14 +7,24 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * HomeController component for the Catalyst Framework
  *
  */
 
@@ -44,7 +54,7 @@ class HomeController extends Controller
     {
         // Log page access
         $this->logInfo('Home page accessed', [
-            'ip' => $request->getClientIp ?? 'unknown'
+            'ip' => $request->getClientIp() ?? 'unknown'
         ]);
 
         // Return view with data and explicitly set layout
@@ -87,7 +97,7 @@ class HomeController extends Controller
     {
         // Log page access
         $this->logInfo('About page accessed', [
-            'ip' => $request->getClientIp ?? 'unknown'
+            'ip' => $request->getClientIp() ?? 'unknown'
         ]);
 
         return $this->viewWithLayout('Home.about', [
@@ -112,7 +122,7 @@ class HomeController extends Controller
     {
         // Log page access
         $this->logInfo('Landing page accessed', [
-            'ip' => $this->request ? ($this->request->getClientIp ?? 'unknown') : 'unknown'
+            'ip' => $this->request ? ($this->request->getClientIp() ?? 'unknown') : 'unknown'
         ]);
 
         // Return view with data but using the landing layout

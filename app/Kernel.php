@@ -7,14 +7,24 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Kernel.php
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * Kernel component for the Catalyst Framework
  *
  */
 
@@ -30,13 +40,16 @@ use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\Log\Logger;
 use Exception;
 
-/**************************************************************************************
+/**
  * Kernel - Core application bootstrapper
  *
  * Responsible for initializing, configuring and running
  * the Catalyst PHP Framework application.
  *
- * @package Catalyst;
+ * @package   Catalyst
+ * @subpackage Core
+ * @version   1.0.0
+ * @since     1.0.0
  */
 class Kernel
 {

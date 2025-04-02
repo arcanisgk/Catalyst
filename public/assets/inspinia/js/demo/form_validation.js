@@ -1,1 +1,0 @@
-$(document).ready(function(){$("#form").validate({rules:{password:{required:!0,minlength:3},url:{required:!0,url:!0},number:{required:!0,number:!0},min:{required:!0,minlength:6},max:{required:!0,maxlength:4}}})});

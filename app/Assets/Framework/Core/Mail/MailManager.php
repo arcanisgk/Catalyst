@@ -7,14 +7,24 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * MailManager component for the Catalyst Framework
  *
  */
 
@@ -23,6 +33,7 @@ namespace Catalyst\Framework\Core\Mail;
 use Catalyst\Framework\Core\Exceptions\MailException;
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\Log\Logger;
+use Catalyst\Helpers\Security\Crypt;
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
@@ -78,12 +89,12 @@ class MailManager
     protected bool $initialized = false;
 
     /**
-     * Initialize the mail manager with provided configuration
+     * Initialize the mail manager with the provided configuration
      *
      * @param array $config Configuration options
      * @param string|null $profile Mail profile to use
      * @return self For method chaining
-     * @throws MailException If configuration is invalid
+     * @throws MailException If the configuration is invalid
      * @throws Exception
      */
     public function init(array $config = [], ?string $profile = null): self
@@ -92,12 +103,12 @@ class MailManager
             return $this;
         }
 
-        // If profile is provided, set it as current
+        // If a profile is provided, set it as current
         if ($profile !== null) {
             $this->currentProfile = $profile;
         }
 
-        // If no explicit config provided, load from configuration system
+        // If no explicit config provided, load from a configuration system
         if (empty($config) && defined('APP_CONFIGURATION')) {
             $mailConfig = APP_CONFIGURATION->get("mail.$this->currentProfile", []);
 
@@ -107,7 +118,7 @@ class MailManager
                     'host' => $mailConfig['mail_host'] ?? $this->config['host'],
                     'port' => $mailConfig['mail_port'] ?? $this->config['port'],
                     'username' => $mailConfig['mail_user'] ?? $this->config['username'],
-                    'password' => $mailConfig['mail_password'] ?? $this->config['password'],
+                    'password' => Crypt::decryptPassword($mailConfig['mail_password'] ?? $this->config['password']),
                     'encryption' => $mailConfig['mail_protocol'] ?? $this->config['encryption'],
                     'auth' => $mailConfig['mail_authentication'] ?? $this->config['auth'],
                     'debug' => $mailConfig['mail_debug'] ?? $this->config['debug'],
@@ -123,19 +134,19 @@ class MailManager
                     'allow_self_signed' => $mailConfig['mail_self_signed'] ?? $this->config['allow_self_signed'],
                     //'dkim_domain' => $this->extractDomain($mailConfig['mail_user'] ?? ''),
                     'dkim_selector' => $mailConfig['mail_dkim_sign'] ?? $this->config['dkim_selector'],
-                    'dkim_passphrase' => $mailConfig['mail_dkim_passphrase'] ?? $this->config['dkim_passphrase'],
+                    'dkim_passphrase' => Crypt::decryptPassword($mailConfig['mail_dkim_passphrase'] ?? $this->config['dkim_passphrase']),
                     'dkim_identity' => $mailConfig['mail_user'] ?? $this->config['dkim_identity'],
                     'dkim_copy_header_fields' => $mailConfig['mail_dkim_copy_header_fields'] ?? $this->config['dkim_copy_header_fields']
                 ];
 
-                // Extract domain from email or use custom domain if configured
+                // Extract domain from email or use a custom domain if configured
                 if (!empty($mailConfig['mail_dkim_domain_source']) && $mailConfig['mail_dkim_domain_source'] === 'custom' && !empty($mailConfig['mail_dkim_custom_domain'])) {
                     $config['dkim_domain'] = $mailConfig['mail_dkim_custom_domain'];
                 } else {
                     $config['dkim_domain'] = $this->extractDomain($mailConfig['mail_user'] ?? '');
                 }
 
-                // Determine private key path for DKIM if selector is provided
+                // Determine a private key path for DKIM if a selector is provided
                 if (!empty($config['dkim_selector']) && !empty($config['dkim_domain'])) {
                     $connectionId = substr($this->currentProfile, 4); // Extract numeric ID from "mail1"
                     $config['dkim_private_key'] = implode(DS, [
@@ -177,7 +188,7 @@ class MailManager
      * Create a new message instance
      *
      * @return MailMessage New message instance
-     * @throws MailException If mail manager is not initialized
+     * @throws MailException If the mail manager is not initialized
      */
     public function createMessage(): MailMessage
     {
@@ -222,7 +233,7 @@ class MailManager
             if (!empty($replyTo)) {
                 $mailer->addReplyTo($replyTo['email'], $replyTo['name'] ?? '');
             } elseif (!empty($this->config['reply_to'])) {
-                // Use configured reply-to if message doesn't have one
+                // Use configured reply-to if the message doesn't have one
                 $mailer->addReplyTo($this->config['reply_to']);
             }
 
@@ -257,6 +268,14 @@ class MailManager
                     );
                 }
             }
+
+            // Crear un Message-ID personalizado que no revele el hostname interno
+            $randomId = md5(uniqid((string)mt_rand(), true));
+            $domain = $this->config['from_address'] ? substr(strrchr($this->config['from_address'], "@"), 1) : 'example.com';
+            $mailer->MessageID = "<$randomId@$domain>";
+
+            //reset Header
+            $mailer->XMailer = ' ';
 
             // Add custom headers
             foreach ($message->getHeaders() as $name => $value) {
@@ -310,8 +329,44 @@ class MailManager
      */
     protected function configureMailer(PHPMailer $mailer): void
     {
-        // Set debug level
+        // Set the debug level
         $mailer->SMTPDebug = $this->config['debug'];
+
+        $mailSessionId = uniqid('id', true);
+
+        // IMPORTANTE: Capturar la salida de depuración con nuestro callback
+        $mailer->Debugoutput = function ($str, $level) use ($mailSessionId) {
+            // Crear directorio si no existe
+            $logDir = implode(DS, [PD, 'logs', 'mail']);
+            if (!is_dir($logDir)) {
+                mkdir($logDir, 0755, true);
+            }
+
+            // Generar nombre de archivo basado en la fecha y el ID de sesión
+            $logFile = $logDir . DS . 'mail-debug-' . date('Y-m-d') . '-' . $mailSessionId . '.log';
+
+            // Definir prefijos según el nivel
+            $levelPrefixes = [
+                0 => '[INFO] ',
+                1 => '[CLIENT] ',
+                2 => '[SERVER] ',
+                3 => '[CONNECTION] ',
+                4 => '[DATA] '
+            ];
+            $levelPrefix = $levelPrefixes[$level] ?? '[LEVEL:' . $level . '] ';
+
+            // Añadir timestamp si no está presente
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}/', $str)) {
+                $str = date('Y-m-d H:i:s') . "\t" . $levelPrefix . $str;
+            } else {
+                // Si ya tiene timestamp, solo añadir el prefijo de nivel
+                $str = preg_replace('/^(\d{4}-\d{2}-\d{2}.*?\t)/', '$1' . $levelPrefix, $str);
+            }
+
+            // Guardar en archivo de log
+            file_put_contents($logFile, trim($str) . PHP_EOL, FILE_APPEND);
+        };
+
 
         // Configure SMTP
         $mailer->isSMTP();
@@ -363,7 +418,7 @@ class MailManager
             return;
         }
 
-        // Check if private key exists
+        // Check if a private key exists
         if (!file_exists($this->config['dkim_private_key'])) {
             // Log warning but don't throw exception as email can still be sent without DKIM
             if (defined('IS_DEVELOPMENT') && IS_DEVELOPMENT) {
@@ -392,7 +447,7 @@ class MailManager
                 ]);
             }
         } catch (Exception $e) {
-            // Log error but don't throw exception
+            // Log error but don't throw an exception
             if (defined('IS_DEVELOPMENT') && IS_DEVELOPMENT) {
                 Logger::getInstance()->error('DKIM configuration error', [
                     'error' => $e->getMessage()
@@ -468,6 +523,45 @@ class MailManager
             if (!$this->initialized) {
                 throw MailException::configurationError('Mail manager not initialized. Call init() first.');
             }
+        }
+    }
+
+    /**
+     * Test mail connection by sending a test email
+     *
+     * @param array $config Mail configuration
+     * @return array Result with success status and message
+     */
+    public function testConnection(array $config): array
+    {
+        try {
+            // Guardar configuración original
+            $originalConfig = $this->config;
+
+            // Aplicar configuración de prueba temporalmente
+            $this->config = array_merge($this->config, $config);
+
+            // Crear mensaje de prueba
+            $message = $this->createMessage()
+                ->to($config['test_recipient'] ?? $config['mail_user'])
+                ->subject('Test Email from Catalyst')
+                ->body('<h1>Test Email</h1><p>This is a test email from Catalyst Framework.</p>');
+
+            // Intentar enviar
+            $result = $message->send();
+
+            // Restaurar configuración original
+            $this->config = $originalConfig;
+
+            return [
+                'success' => $result,
+                'message' => 'Test email sent successfully'
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to send test email: ' . $e->getMessage()
+            ];
         }
     }
 }

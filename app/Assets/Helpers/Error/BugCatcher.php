@@ -7,14 +7,24 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * BugCatcher component for the Catalyst Framework
  *
  */
 
@@ -33,12 +43,24 @@ class BugCatcher
     use SingletonTrait;
 
     /**
+     * Flag to track if the error handling system has been initialized
+     *
+     * @var bool
+     */
+    private bool $initialized = false;
+
+    /**
      * Initialize the error handling system
      *
      * @return void
      */
     public function initialize(): void
     {
+        // Prevent double initialization
+        if ($this->initialized) {
+            return;
+        }
+
         // Configure error display based on environment
         $this->configureErrorDisplay();
 
@@ -51,8 +73,21 @@ class BugCatcher
         if (ob_get_level() === 0) {
             ob_start();
         }
+
+        // Mark as initialized
+        $this->initialized = true;
     }
 
+    /**
+     * Check if the error handling system has been initialized
+     *
+     * @return bool True if initialized, false otherwise
+     */
+    /*public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+    */
     /**
      * Configure PHP error display settings based on environment
      *
@@ -71,6 +106,17 @@ class BugCatcher
     }
 }
 
-if (!defined('BUG_CATCHER_LOADED')) {
+// Initialize BugCatcher if the class is loaded
+// This serves as a fallback initialization when loaded through Composer's autoloader
+if (defined('LOADED_BUG_CATCHER')) {
+    // Only initialize if not already initialized
+    if (!defined('INITIALIZED_BUG_CATCHER')) {
+        define('INITIALIZED_BUG_CATCHER', true);
+        BugCatcher::getInstance()->initialize();
+    }
+} else {
+    // Direct initialization when loaded individually (should not happen in normal flow)
+    define('LOADED_BUG_CATCHER', true);
+    define('INITIALIZED_BUG_CATCHER', true);
     BugCatcher::getInstance()->initialize();
 }

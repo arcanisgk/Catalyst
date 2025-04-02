@@ -12,3 +12,4 @@ bootstrap/config/test/*
 /public/index.html
 /public/jx.js
 /bootstrap/dkim/*
+/public/assets/inspinia/*

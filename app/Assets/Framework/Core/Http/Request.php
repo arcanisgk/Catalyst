@@ -7,14 +7,24 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * Request component for the Catalyst Framework
  *
  */
 
@@ -334,6 +344,53 @@ class Request
         }
 
         return $domain;
+    }
+
+
+    /**
+     * Get the client IP address
+     *
+     * @param bool $trustProxy Whether to trust proxy headers (default: true)
+     * @return string Client IP address
+     */
+    public function getClientIp(bool $trustProxy = true): string
+    {
+        // If we don't trust proxy headers, just return REMOTE_ADDR
+        if (!$trustProxy) {
+            return $this->server('REMOTE_ADDR', '0.0.0.0');
+        }
+
+        // Check for various proxy headers in order of reliability
+        $headers = [
+            'HTTP_CLIENT_IP',
+            'HTTP_X_FORWARDED_FOR',
+            'HTTP_X_FORWARDED',
+            'HTTP_X_CLUSTER_CLIENT_IP',
+            'HTTP_FORWARDED_FOR',
+            'HTTP_FORWARDED',
+            'REMOTE_ADDR'
+        ];
+
+        foreach ($headers as $header) {
+            $ip = $this->server($header);
+
+            if ($ip) {
+                // HTTP_X_FORWARDED_FOR can contain multiple IPs separated by commas
+                // In this case, the first IP is the original client
+                if ($header === 'HTTP_X_FORWARDED_FOR') {
+                    $ips = explode(',', $ip);
+                    $ip = trim($ips[0]);
+                }
+
+                // Validate IP format
+                if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                    return $ip;
+                }
+            }
+        }
+
+        // Default fallback
+        return '0.0.0.0';
     }
 
 }

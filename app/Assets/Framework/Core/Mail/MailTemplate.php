@@ -7,20 +7,32 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * MailTemplate component for the Catalyst Framework
  *
  */
 
 namespace Catalyst\Framework\Core\Mail;
 
 use Catalyst\Framework\Core\Exceptions\MailException;
+use RuntimeException;
+use Throwable;
 
 /**************************************************************************************
  * Email template processor
@@ -147,11 +159,11 @@ class MailTemplate
             $content = ob_get_clean();
 
             if ($content === false) {
-                throw new \RuntimeException('Failed to process template');
+                throw new RuntimeException('Failed to process template');
             }
 
             return $content;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw MailException::templateError($path, $e->getMessage());
         }
     }

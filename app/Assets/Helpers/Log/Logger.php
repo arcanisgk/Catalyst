@@ -7,14 +7,24 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * Logger component for the Catalyst Framework
  *
  */
 
@@ -369,6 +379,20 @@ class Logger
             }
             // In production, fail silently but ensure error is logged somewhere
         }
+    }
+
+    /**
+     * @param string $event
+     * @param string $message
+     * @param array $context
+     * @return void
+     * @throws Exception
+     */
+    public function mail(string $event, string $message, array $context): void
+    {
+        $context['event_type'] = 'user';
+        $context['event_name'] = $event;
+        $this->info($message, $context);
     }
 
     /**

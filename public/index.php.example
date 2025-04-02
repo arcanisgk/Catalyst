@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @see https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2024
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @note      This program is distributed in the hope that it will be useful
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
+/**
+ * Application Entry Point
+ * 
+ * This file serves as the main entry point for the Catalyst PHP Framework.
+ * It initializes the error handling system before loading the Composer autoloader
+ * and bootstrapping the application.
+ */
+
+// Step 1: Load the error handling system first
+// This ensures errors are caught from the very beginning
+require_once __DIR__ . '/../bootstrap/loaders/ld-bug-catcher.php';
+
+// Step 2: Load Composer's autoloader
+// This will also include the fallback error handler via composer-error-handler.php
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
+
+// Step 3: Define application environment if not already defined
+if (!defined('IS_DEVELOPMENT')) {
+    define('IS_DEVELOPMENT', true); // Set to false for production
+}
+
+// Step 4: Bootstrap the application
+// This is where you would initialize your framework components, routing, etc.
+// ...
+
+// Example: Trigger an error to test the error handling system
+// Uncomment the following line to test:
+// trigger_error("Test error from index.php", E_USER_WARNING);
+
+// Example: Throw an exception to test the exception handling
+// Uncomment the following line to test:
+// throw new \Exception("Test exception from index.php");
+
+// Continue with your application logic
+// ...

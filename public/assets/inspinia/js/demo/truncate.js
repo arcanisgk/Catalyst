@@ -1,1 +1,0 @@
-$(document).ready(function(){shave(".truncate",70),shave(".truncate1",60,{character:" ///..."}),shave(".truncate2",50)});

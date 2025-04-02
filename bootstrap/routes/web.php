@@ -7,23 +7,45 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Public
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
  *
  */
 
+
 use Catalyst\Framework\Core\Route\Router;
 
-// Get router instance
 $router = Router::getInstance();
 
+$router->group(['namespace' => 'Catalyst\Solution\Controllers'], function ($router) {
+    $router->get('/', 'HomeController@landing')->name('landing');
+    $router->group(['prefix' => 'configure', 'middleware' => 'Catalyst\Framework\Core\Middleware\BasicAuthMiddleware'], function ($router) {
+        $router->get('/', 'ConfigController@index')->name('config.index');
+        $router->get('/{section}', 'ConfigController@showSection')->name('config.section');
+        $router->post('/{section}/save', 'ConfigController@saveConfig')->name('config.save');
+        $router->get('/check-dkim-keys', 'ConfigController@checkDkimKeys');
+        $router->post('/generate-dkim-keys', 'ConfigController@generateDkimKeys');
+        $router->post('/test-connection', 'ConfigController@testConnection')->name('config.test');
+        $router->post('/change-environment', 'ConfigController@changeEnvironment')->name('config.environment');
+    });
+});
 
+
+/*
 $router->group(['namespace' => 'Catalyst\Solution\Controllers'], function ($router) {
 
     $router->get('/configure/oauth/credentials/{service}', 'ConfigController@getOAuthCredentials')->name('oauth.credentials');

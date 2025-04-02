@@ -7,14 +7,24 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * DatabaseManager component for the Catalyst Framework
  *
  */
 
@@ -23,6 +33,7 @@ namespace Catalyst\Framework\Core\Database;
 use Catalyst\Framework\Core\Exceptions\ConnectionException;
 use Catalyst\Framework\Traits\SingletonTrait;
 use Catalyst\Helpers\Log\Logger;
+use Catalyst\Helpers\Security\Crypt;
 use Exception;
 
 /**************************************************************************************
@@ -137,7 +148,7 @@ class DatabaseManager
             $config['db_port'] ?? 3306,
             $config['db_name'] ?? '',
             $config['db_user'] ?? '',
-            $config['db_password'] ?? '',
+            Crypt::decryptPassword($config['db_password'] ?? ''),
             $connectionName
         );
 

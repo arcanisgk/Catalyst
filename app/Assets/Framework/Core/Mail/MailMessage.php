@@ -7,20 +7,31 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * MailMessage component for the Catalyst Framework
  *
  */
 
 namespace Catalyst\Framework\Core\Mail;
 
 use Catalyst\Framework\Core\Exceptions\MailException;
+use InvalidArgumentException;
 
 /**************************************************************************************
  * Email message class
@@ -92,6 +103,27 @@ class MailMessage
     }
 
     /**
+     * Validate email format
+     *
+     * @param string $email Email to validate
+     * @throws InvalidArgumentException If email format is invalid
+     */
+    protected function validateEmailFormat(string $email): void
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException("Invalid email format: $email");
+        }
+
+        // Opcional: validación adicional de dominio para evitar dominios internos
+        $domain = substr(strrchr($email, '@'), 1);
+        $invalidDomains = ['localhost', 'example.com', 'example.org', 'test.com'];
+
+        if (in_array(strtolower($domain), $invalidDomains)) {
+            throw new InvalidArgumentException("Email domain not allowed: $domain");
+        }
+    }
+
+    /**
      * Set recipient(s)
      *
      * @param array|string $address Email address or array of [email => name]
@@ -103,13 +135,17 @@ class MailMessage
     {
         if (is_array($address)) {
             foreach ($address as $email => $recipientName) {
+
                 if (is_numeric($email)) {
+                    $this->validateEmailFormat($recipientName);
                     $this->addRecipient($this->to, $recipientName);
                 } else {
+                    $this->validateEmailFormat($email);
                     $this->addRecipient($this->to, $email, $recipientName);
                 }
             }
         } else {
+            $this->validateEmailFormat($address);
             $this->addRecipient($this->to, $address, $name);
         }
 

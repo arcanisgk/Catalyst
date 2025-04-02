@@ -1,1 +1,0 @@
-$(document).ready(function(){$(".scroll_content").slimscroll({height:"200px"})});

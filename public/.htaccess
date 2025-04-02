@@ -298,5 +298,7 @@ IndexIgnore *
 php_value display_errors On
 
 <IfModule php_module>
+    # Primary loading mechanism for bug catcher to catch early fatal errors
+    # This is intentionally loaded before Composer to catch autoloader errors
     php_value auto_prepend_file "./../bootstrap/loaders/ld-bug-catcher.php"
 </IfModule>

@@ -1,4 +1,30 @@
-/**
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework - JavaScript Component
+ * ES6+/ES7 Standard
+ *
+ * @package   Catalyst
+ * @subpackage Js
+ * @see       https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2025
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
+ * @note      This program is distributed in the hope that it will be useful
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * Main component for the Catalyst Framework
+ *
+ */
+ 
+ /**
  * Handle OAuth credential operations with specialized UI updates
  *
  * @param {string} action - The action to perform ('save' or 'clear')
@@ -97,68 +123,99 @@ async function handleConfigSubmit(form, endpoint, options = {}) {
 
     options = {...defaults, ...options};
 
-    console.log(options)
-
     // Get the form element if a selector was provided
     if (typeof form === 'string') {
         form = document.querySelector(form);
     }
 
-    let submitButton = form.querySelector(options.submitSelector);
-    if (!submitButton) {
-        submitButton = document.querySelector(options.submitSelector);
-        if (!submitButton) {
-            console.error('Submit button not found:', options.submitSelector);
-            return;
-        }
+    if (!form) {
+        console.error('Form not found');
+        return false;
     }
 
-    // Store original button state
-    const originalText = submitButton.innerHTML;
+    // Find submit button
+    const submitButton = options.submitSelector instanceof HTMLElement
+        ? options.submitSelector
+        : form.querySelector(options.submitSelector);
+
+    // Store original button content
+    const originalButtonContent = submitButton ? submitButton.innerHTML : '';
 
     try {
-        // Update button to loading state
-        submitButton.disabled = true;
-        submitButton.innerHTML = options.loadingText;
+        // Disable submit button and show loading indicator
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.innerHTML = options.loadingText;
+        }
 
-        // Collect data from multiple forms if specified
-        let data = {};
+        // Collect form data
+        let formData = new FormData(form);
 
+        // If we need to collect data from multiple forms
         if (options.collectFromForms) {
-            const forms = document.querySelectorAll(options.collectFromForms);
-            forms.forEach(formElement => {
-                new FormData(formElement).forEach((value, key) => {
-                    data[key] = value;
-                });
-            });
-        } else {
-            // Otherwise just use the main form
-            const formData = new FormData(form);
-            formData.forEach((value, key) => {
-                data[key] = value;
+            const additionalForms = document.querySelectorAll(options.collectFromForms);
+            additionalForms.forEach(additionalForm => {
+                const additionalFormData = new FormData(additionalForm);
+                for (const [key, value] of additionalFormData.entries()) {
+                    formData.append(key, value);
+                }
             });
         }
 
-        // Apply pre-processing function if provided
+        // Get CSRF token from the form or document
+        const csrfToken = form.querySelector('input[name="csrf_token"]')?.value ||
+            document.querySelector('input[name="csrf_token"]')?.value;
+
+        // Ensure CSRF token is included
+        if (csrfToken && !formData.has('csrf_token')) {
+            formData.append('csrf_token', csrfToken);
+        }
+
+        // Allow pre-processing of form data if needed
         if (typeof options.preProcess === 'function') {
-            data = options.preProcess(data);
+            formData = options.preProcess(formData);
         }
 
-        // Make API request
-        const result = await apiPost(endpoint, data, {
-            redirectDelay: options.redirectDelay
+        // Send the request
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken || '',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
         });
 
-        console.log('Response data:', result);
-        return result;
+        // Parse the response
+        const result = await response.json();
+
+        // Handle the result
+        if (result.success) {
+            window.toasts.success(result.message || 'Configuration saved successfully');
+
+            // Redirect if specified
+            if (result.redirect) {
+                setTimeout(() => {
+                    window.location.href = result.redirect;
+                }, options.redirectDelay);
+            }
+
+            return true;
+        } else {
+            window.toasts.error(result.message || 'Failed to save configuration');
+            console.error('Form submission error:', result);
+            return false;
+        }
     } catch (error) {
-        console.error('Error submitting form:', error);
-        window.toasts.error('An error occurred while saving the configuration');
-        throw error;
+        console.error('Form submission error:', error);
+        window.toasts.error('An unexpected error occurred');
+        return false;
     } finally {
-        // Restore button state
-        submitButton.disabled = false;
-        submitButton.innerHTML = originalText;
+        // Restore submit button
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonContent;
+        }
     }
 }
 
@@ -172,12 +229,25 @@ async function handleConfigSubmit(form, endpoint, options = {}) {
  */
 async function apiPost(url, data, options = {redirectDelay: 1000, handleRedirect: true}) {
     try {
+
+        // Add CSRF token to the data if it doesn't already exist
+        if (typeof data === 'object' && data !== null) {
+            // Get CSRF token from any form or meta tag on the page
+            const csrfTokenElement = document.querySelector('input[name="csrf_token"]');
+            const csrfToken = csrfTokenElement ? csrfTokenElement.value : null;
+
+            if (csrfToken && !data.csrf_token) {
+                data.csrf_token = csrfToken;
+            }
+        }
+
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="csrf_token"]')?.value || ''
             },
             body: JSON.stringify(data)
         });
@@ -265,3 +335,48 @@ async function apiPost(url, data, options = {redirectDelay: 1000, handleRedirect
         initPasswordToggle();
     }
 })();
+
+
+// Add global CSRF protection for all fetch requests
+(function () {
+    // Store the original fetch function
+    const originalFetch = window.fetch;
+
+    // Override fetch with our version that adds CSRF tokens
+    window.fetch = function (url, options = {}) {
+        // Don't modify GET requests or requests that already have a body
+        if (options.method && options.method.toUpperCase() !== 'GET') {
+            const csrfToken = document.querySelector('input[name="csrf_token"]')?.value;
+
+            if (csrfToken) {
+                // If it's a FormData object, append the token
+                if (options.body instanceof FormData) {
+                    if (!options.body.has('csrf_token')) {
+                        options.body.append('csrf_token', csrfToken);
+                    }
+                } else if (typeof options.body === 'string' && options.headers?.['Content-Type'] === 'application/json') {
+                    // If it's JSON, parse and add token
+                    try {
+                        const bodyData = JSON.parse(options.body);
+                        if (!bodyData.csrf_token) {
+                            bodyData.csrf_token = csrfToken;
+                            options.body = JSON.stringify(bodyData);
+                        }
+                    } catch (e) {
+                        // Not valid JSON, leave as is
+                    }
+                }
+
+                // Add CSRF header for all non-GET requests
+                options.headers = options.headers || {};
+                if (!options.headers['X-CSRF-TOKEN']) {
+                    options.headers['X-CSRF-TOKEN'] = csrfToken;
+                }
+            }
+        }
+
+        // Call the original fetch with our modified options
+        return originalFetch(url, options);
+    };
+})();
+

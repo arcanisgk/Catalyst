@@ -1,88 +1,91 @@
 {
-  "name": "wnunez/catalyst",
-  "description": "Catalyst PHP Framework.",
-  "type": "project",
-  "keywords": [
-    "catalyst",
-    "framework",
-    "mvc",
-    "rapid-development",
-    "dry",
-    "oop",
-    "php"
-  ],
-  "homepage": "https://catalyst.lh-2.net",
-  "license": "GNU",
-  "config": {
-    "optimize-autoloader": true,
-    "platform": {
-      "php": "8.3"
-    },
-    "platform-check": false,
-    "sort-packages": true,
-    "process-timeout": 0
-  },
-  "autoload": {
-    "files": [
-      "bootstrap/loaders/ld-bug-catcher.php",
-      "bootstrap/loaders/ld-function.php",
-      "bootstrap/loaders/ld-logger.php",
-      "bootstrap/loaders/ld-router.php",
-      "bootstrap/loaders/globals/func-router.php",
-      "bootstrap/loaders/globals/func-translation.php",
-      "bootstrap/loaders/globals/func-env-init.php"
+    "name": "wnunez/catalyst",
+    "description": "Catalyst PHP Framework.",
+    "type": "project",
+    "keywords": [
+        "catalyst",
+        "framework",
+        "mvc",
+        "rapid-development",
+        "dry",
+        "oop",
+        "php"
     ],
-    "psr-4": {
-      "Catalyst\\": "app/",
-      "Catalyst\\Framework\\": "app/Assets/Framework/",
-      "Catalyst\\Helpers\\": "app/Assets/Helpers/",
-      "Catalyst\\Solution\\": "app/Assets/Solution/",
-      "Tests\\": "test/"
-    }
-  },
-  "authors": [
-    {
-      "name": "Walter Nuñez",
-      "email": "wnunez@lh-2.net"
+    "homepage": "https://catalyst.lh-2.net",
+    "license": "GNU",
+    "config": {
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.3"
+        },
+        "platform-check": false,
+        "sort-packages": true,
+        "process-timeout": 0
     },
-    {
-      "name": "Catalyst Community",
-      "homepage": "https://catalyst.lh-2.net/contributors"
-    }
-  ],
-  "require": {
-    "php": ">=8.3",
-    "phpmailer/phpmailer": ">=6.9.3",
-    "robthree/twofactorauth": ">=3.0.2",
-    "mpdf/mpdf": ">=8.2.5",
-    "ext-mbstring": "*",
-    "ext-xml": "*",
-    "ext-json": "*",
-    "ext-pdo": "*",
-    "ext-fileinfo": "*",
-    "ext-ctype": "*",
-    "ext-dom": "*",
-    "ext-libxml": "*",
-    "ext-gd": "*",
-    "ext-intl": "*",
-    "ext-ftp": "*",
-    "ext-openssl": "*"
-  },
-  "scripts": {
-    "post-update-cmd": [
-      "@composer dump-autoload"
-    ]
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "support": {
-    "issues": "https://catalyst.lh-2.net/help-desk",
-    "forum": "https://catalyst.lh-2.net/forum",
-    "source": "https://github.com/arcanisgk/Catalyst"
-  },
-  "scripts-descriptions": {
-    "serve": "Start the PHP development server",
-    "check": "Check PHP syntax in project files",
-    "clear-cache": "Clear application cache"
-  }
+    "autoload": {
+        "files": [
+            "bootstrap/loaders/ld-bug-catcher.php",
+            "bootstrap/loaders/ld-commons-function.php",
+            "bootstrap/loaders/ld-dump-function.php",
+            "bootstrap/loaders/ld-logger-init.php",
+            "bootstrap/loaders/ld-logger-function.php",
+            "bootstrap/loaders/globals/func-router.php",
+            "bootstrap/loaders/ld-router.php",
+            "bootstrap/loaders/globals/func-env-init.php",
+            "bootstrap/loaders/globals/func-translation.php"
+        ],
+        "psr-4": {
+            "Catalyst\\": "app/",
+            "Catalyst\\Framework\\": "app/Assets/Framework/",
+            "Catalyst\\Helpers\\": "app/Assets/Helpers/",
+            "Catalyst\\Solution\\": "app/Assets/Solution/",
+            "Tests\\": "test/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Walter Nu\u00f1ez",
+            "email": "wnunez@lh-2.net"
+        },
+        {
+            "name": "Catalyst Community",
+            "homepage": "https://catalyst.lh-2.net/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "phpmailer/phpmailer": ">=6.9.3",
+        "robthree/twofactorauth": ">=3.0.2",
+        "mpdf/mpdf": ">=8.2.5",
+        "ext-mbstring": "*",
+        "ext-xml": "*",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "ext-fileinfo": "*",
+        "ext-ctype": "*",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-gd": "*",
+        "ext-intl": "*",
+        "ext-ftp": "*",
+        "ext-openssl": "*"
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "@composer dump-autoload"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "support": {
+        "issues": "https://catalyst.lh-2.net/help-desk",
+        "forum": "https://catalyst.lh-2.net/forum",
+        "source": "https://github.com/arcanisgk/Catalyst"
+    },
+    "scripts-descriptions": {
+        "serve": "Start the PHP development server",
+        "check": "Check PHP syntax in project files",
+        "clear-cache": "Clear application cache"
+    },
+    "version": "1.0.1"
 }

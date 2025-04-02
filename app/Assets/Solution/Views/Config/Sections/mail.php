@@ -1,3 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+/**************************************************************************************
+ *
+ * Catalyst PHP Framework
+ * PHP Version 8.3 (Required).
+ *
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
+ *
+ * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
+ * @copyright 2023 - 2025
+ * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
+ * @note      This program is distributed in the hope that it will be useful
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ */
+
+use Catalyst\Helpers\Security\CsrfProtection;
+
+$csrfProtection = CsrfProtection::getInstance();
+?>
 <div class="row">
     <!-- Template for new mail connections -->
     <template id="mail-connection-template">
@@ -16,6 +48,7 @@
                 </div>
                 <div class="ibox-content">
                     <form class="mail-config-form" data-connection-id="__ID__">
+                        <?= $csrfProtection->getTokenField('mail_config'); ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -287,6 +320,7 @@
                                 </div>
                                 <div class="ibox-content">
                                     <form class="mail-config-form" data-connection-id="<?= $connectionId ?>">
+                                        <?= $csrfProtection->getTokenField('mail_config'); ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group mb-3">
@@ -671,13 +705,13 @@
                 }
 
                 if (data.success) {
-                    toastr.success('Connection successful: ' + data.message);
+                    window.toasts.success('Connection successful: ' + data.message);
                 } else {
-                    toastr.error('Connection failed: ' + data.message);
+                    window.toasts.error('Connection failed: ' + data.message);
                 }
             } catch (error) {
                 console.error('Test connection error:', error);
-                toastr.error('An error occurred while testing the connection');
+                window.toasts.error('An error occurred while testing the connection');
 
                 // Restore button state on error
                 const testButton = document.querySelector(`.test-connection[data-connection-id="${connectionId}"]`);

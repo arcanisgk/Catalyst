@@ -7,19 +7,30 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * ConnectionTester component for the Catalyst Framework
  *
  */
 
 namespace Catalyst\Framework\Core\Database;
 
+use Catalyst\Helpers\Security\Crypt;
 use PDO;
 use PDOException;
 
@@ -54,6 +65,8 @@ class ConnectionTester
         try {
             // Create DSN
             $dsn = "mysql:host=$host;port=$port;dbname=$database";
+
+            $password = Crypt::decryptPassword($password);
 
             // Define options for PDO
             $options = [

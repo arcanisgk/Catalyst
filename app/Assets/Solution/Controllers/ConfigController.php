@@ -7,14 +7,24 @@ declare(strict_types=1);
  * Catalyst PHP Framework
  * PHP Version 8.3 (Required).
  *
- * @see https://github.com/arcanisgk/catalyst
+ * @package   Catalyst
+ * @subpackage Assets
+ * @see       https://github.com/arcanisgk/catalyst
  *
  * @author    Walter Nuñez (arcanisgk/original founder) <icarosnet@gmail.com>
- * @copyright 2023 - 2024
+ * @copyright 2023 - 2025
  * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ *
  * @note      This program is distributed in the hope that it will be useful
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
+ *            WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ *            or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  Framework
+ * @filesource
+ *
+ * @link      https://catalyst.dock Local development URL
+ *
+ * ConfigController component for the Catalyst Framework
  *
  */
 
@@ -23,8 +33,11 @@ namespace Catalyst\Solution\Controllers;
 use Catalyst\Framework\Core\Database\ConnectionTester;
 use Catalyst\Framework\Core\Http\Request;
 use Catalyst\Framework\Core\Mail\DkimGenerator;
+use Catalyst\Framework\Core\Mail\MailManager;
 use Catalyst\Framework\Core\Response\JsonResponse;
 use Catalyst\Framework\Core\Response\ViewResponse;
+use Catalyst\Helpers\Security\Crypt;
+use Catalyst\Helpers\Security\CsrfProtection;
 use Exception;
 
 /**
@@ -56,6 +69,12 @@ class ConfigController extends Controller
      */
     private array $sections = ['app', 'session', 'db', 'ftp', 'mail', 'tools'];
 
+    const array SECRETS_FIELDS = [
+        'mail' => ['mail_password', 'mail_dkim_passphrase'],
+        'db' => ['db_password', 'db_password_re'],
+        'ftp' => ['ftp_password', 'ftp_password_re']
+    ];
+
 
     /**
      * Construct of Configuration Controller
@@ -85,7 +104,7 @@ class ConfigController extends Controller
 
         // Log access to configuration panel
         $this->logInfo('Configuration panel accessed', [
-            'ip' => $request->getClientIp ?? 'unknown',
+            'ip' => $request->getClientIp() ?? 'unknown',
             'environment' => $this->currentEnvironment
         ]);
 
@@ -123,7 +142,7 @@ class ConfigController extends Controller
             // Log invalid section access attempt
             $this->logWarning('Invalid configuration section access attempt', [
                 'section' => $section,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             return $this->viewWithLayout('errors.404', [], 'default', 404);
@@ -131,6 +150,11 @@ class ConfigController extends Controller
 
         $this->detectCurrentEnvironment();
         $configData = $this->loadConfigFile($section);
+
+        // Si esta sección es mail, descifrar campos sensibles para la vista
+        if (isset(self::SECRETS_FIELDS[$section])) {
+            $configData = $this->decryptConfigFields($configData, self::SECRETS_FIELDS[$section]);
+        }
 
         // If this is the session section, also load OAuth credentials
         if ($section === 'session') {
@@ -141,7 +165,7 @@ class ConfigController extends Controller
         $this->logInfo('Configuration section accessed', [
             'section' => $section,
             'environment' => $this->currentEnvironment,
-            'ip' => $request->getClientIp ?? 'unknown'
+            'ip' => $request->getClientIp() ?? 'unknown'
         ]);
 
         return $this->viewWithLayout("Config.Sections.$section", [
@@ -162,6 +186,15 @@ class ConfigController extends Controller
      */
     public function saveConfig(Request $request, string $section): JsonResponse
     {
+
+        // Verify the token
+        if (!$this->verifyCsrfToken($request, "{$section}_config")) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Invalid security token. Please refresh the page and try again.'
+            ], 403);
+        }
+
         // Determinar si es petición API
         $isApiRequest = $this->expectsJson();
 
@@ -179,7 +212,7 @@ class ConfigController extends Controller
             // Log invalid section save attempt
             $this->logWarning('Invalid configuration section save attempt', [
                 'section' => $section,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             // Solo establecer flash message si NO es AJAX
@@ -204,7 +237,7 @@ class ConfigController extends Controller
             $this->logInfo('Configuration saved successfully', [
                 'section' => $section,
                 'environment' => $this->currentEnvironment,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             // Flash message solo para navegación tradicional
@@ -227,7 +260,7 @@ class ConfigController extends Controller
             $this->logError('Failed to save configuration', [
                 'section' => $section,
                 'environment' => $this->currentEnvironment,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             // Solo establecer flash message si NO es AJAX
@@ -252,6 +285,15 @@ class ConfigController extends Controller
      */
     public function testConnection(Request $request): JsonResponse
     {
+
+        // Verify the CSRF token from the request
+        if (!$this->verifyCsrfToken($request, 'test_connection')) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Invalid security token. Please refresh the page and try again.'
+            ], 403);
+        }
+
         $type = $request->post('type', '');
         $connectionId = $request->post('connection_id', '');
 
@@ -259,7 +301,7 @@ class ConfigController extends Controller
             $this->logWarning('Missing parameters in connection test', [
                 'type' => $type,
                 'connectionId' => $connectionId,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             return new JsonResponse(['success' => false, 'message' => 'Missing parameters'], 400);
@@ -297,7 +339,7 @@ class ConfigController extends Controller
         if (!in_array($newEnvironment, $this->environments)) {
             $this->logWarning('Invalid environment change attempt', [
                 'requestedEnvironment' => $newEnvironment,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             return new JsonResponse(['success' => false, 'message' => 'Invalid environment'], 400);
@@ -315,7 +357,7 @@ class ConfigController extends Controller
 
         $this->logInfo('Environment changed successfully', [
             'environment' => $newEnvironment,
-            'ip' => $request->getClientIp ?? 'unknown'
+            'ip' => $request->getClientIp() ?? 'unknown'
         ]);
 
         return new JsonResponse([
@@ -393,7 +435,7 @@ class ConfigController extends Controller
         if ($saved) {
             $this->logInfo('OAuth credentials saved', [
                 'service' => $serviceKey,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             // Solo establecer flash message si NO es AJAX
@@ -408,7 +450,7 @@ class ConfigController extends Controller
         } else {
             $this->logError('Failed to save OAuth credentials', [
                 'service' => $serviceKey,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             // Solo establecer flash message si NO es AJAX
@@ -446,7 +488,7 @@ class ConfigController extends Controller
         if ($cleared) {
             $this->logInfo('OAuth credentials cleared', [
                 'service' => $serviceKey,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             return new JsonResponse([
@@ -456,7 +498,7 @@ class ConfigController extends Controller
         } else {
             $this->logError('Failed to clear OAuth credentials', [
                 'service' => $serviceKey,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             return new JsonResponse([
@@ -656,7 +698,7 @@ class ConfigController extends Controller
      */
     private function processConfigData(string $section, array $data): array
     {
-        return match ($section) {
+        $processedData = match ($section) {
             'app' => $this->processAppConfig($data),
             'session' => $this->processSessionConfig($data),
             'db' => $this->processDatabaseConfig($data),
@@ -665,6 +707,13 @@ class ConfigController extends Controller
             'tools' => $this->processToolsConfig($data),
             default => $data,
         };
+
+        if (isset(self::SECRETS_FIELDS[$section])) {
+            $processedData = $this->encryptConfigFields($processedData, self::SECRETS_FIELDS[$section]);
+        }
+
+        return $processedData;
+
     }
 
     /**
@@ -815,7 +864,7 @@ class ConfigController extends Controller
             }
         }
 
-        return $dbConfig;
+        return $dbConfig;//$this->encryptConfigFields($dbConfig, ['db_password', 'db_password_re']);
     }
 
     /**
@@ -845,7 +894,7 @@ class ConfigController extends Controller
             }
         }
 
-        return $ftpConfig;
+        return $ftpConfig;//$this->encryptConfigFields($ftpConfig, ['ftp_password', 'ftp_password_re']);
     }
 
     /**
@@ -911,6 +960,7 @@ class ConfigController extends Controller
                     'mail_dkim_custom_domain' => $customDomain
                 ];
 
+
                 // Preserve the generated date from existing config if it exists
                 if (isset($existingConfig[$mailKey]['mail_dkim_generated'])) {
                     $mailConfig[$mailKey]['mail_dkim_generated'] = $existingConfig[$mailKey]['mail_dkim_generated'];
@@ -918,7 +968,8 @@ class ConfigController extends Controller
             }
         }
 
-        return $mailConfig;
+        return $mailConfig; //$this->encryptConfigFields($mailConfig, ['mail_password', 'mail_dkim_passphrase']);
+
     }
 
 
@@ -934,7 +985,10 @@ class ConfigController extends Controller
             'app_setting' => isset($data['app_setting']) && $data['app_setting'] === 'on',
             'dev_tool' => isset($data['dev_tool']) && $data['dev_tool'] === 'on',
             'translate_tool' => $data['translate_tool'] ?? '',
-            'security_tool' => isset($data['security_tool']) && $data['security_tool'] === 'on'
+            'config' => [
+                'username' => $data['config_username'] ?? 'admin',
+                'password' => $data['config_password'] ?? 'admin'
+            ]
         ];
     }
 
@@ -952,7 +1006,7 @@ class ConfigController extends Controller
             $port = (int)($data["db_port_$connectionId"] ?? 3306);
             $dbname = $data["db_name_$connectionId"] ?? '';
             $user = $data["db_user_$connectionId"] ?? '';
-            $password = $data["db_password_$connectionId"] ?? '';
+            $password = Crypt::decryptPassword($data["db_password_$connectionId"] ?? '');
 
             // Use the new ConnectionTester
             return ConnectionTester::test(
@@ -979,30 +1033,25 @@ class ConfigController extends Controller
      */
     private function testMailConnection(string $connectionId, array $data): array
     {
-        // Note: In a real implementation, you would want to use a proper mail library
-        // like PHPMailer or Swift Mailer to test the connection
         try {
-            $host = $data["mail_host_$connectionId"] ?? '';
-            $port = (int)($data["mail_port_$connectionId"] ?? 587);
-            $user = $data["mail_user_$connectionId"] ?? '';
-            $password = $data["mail_password_$connectionId"] ?? '';
-
-            // Simple connection test - this is not a full email test
-            $socket = @fsockopen($host, $port, $errno, $errstr, 5);
-
-            if (!$socket) {
-                return [
-                    'success' => false,
-                    'message' => "Mail server connection failed: $errstr ($errno)"
-                ];
-            }
-
-            fclose($socket);
-
-            return [
-                'success' => true,
-                'message' => "Successfully connected to mail server at '$host:$port'. For a full test, send a test email."
+            $config = [
+                'host' => $data["mail_host_$connectionId"] ?? '',
+                'port' => (int)($data["mail_port_$connectionId"] ?? 587),
+                'username' => $data["mail_user_$connectionId"] ?? '',
+                'password' => $data["mail_password_$connectionId"] ?? '',
+                'encryption' => $data["mail_protocol_$connectionId"] ?? 'tls',
+                'auth' => isset($data["mail_authentication_$connectionId"]) && $data["mail_authentication_$connectionId"] === 'on',
+                'from_address' => $data["mail_user_$connectionId"] ?? '',
+                'from_name' => $data["mail_name_$connectionId"] ?? '',
+                'test_recipient' => $data["mail_user_$connectionId"] ?? '',
+                'verify_peer' => isset($data["mail_verify_$connectionId"]) && $data["mail_verify_$connectionId"] === 'on',
+                'verify_peer_name' => isset($data["mail_verify_peer_name_$connectionId"]) && $data["mail_verify_peer_name_$connectionId"] === 'on',
+                'allow_self_signed' => isset($data["mail_self_signed_$connectionId"]) && $data["mail_self_signed_$connectionId"] === 'on'
             ];
+
+            // Usar MailManager para probar realmente el envío
+            $mailManager = MailManager::getInstance();
+            return $mailManager->testConnection($config);
         } catch (Exception $e) {
             return [
                 'success' => false,
@@ -1024,7 +1073,7 @@ class ConfigController extends Controller
             $host = $data["ftp_host_$connectionId"] ?? '';
             $port = (int)($data["ftp_port_$connectionId"] ?? 21);
             $user = $data["ftp_user_$connectionId"] ?? '';
-            $password = $data["ftp_password_$connectionId"] ?? '';
+            $password = Crypt::decryptPassword($data["ftp_password_$connectionId"] ?? '');
             $passiveMode = isset($data["ftp_passive_mode_$connectionId"]) && $data["ftp_passive_mode_$connectionId"] === 'on';
 
             // Connect to FTP server
@@ -1074,6 +1123,15 @@ class ConfigController extends Controller
      */
     public function generateDkimKeys(Request $request): JsonResponse
     {
+
+        // Verify the CSRF token from the request
+        if (!$this->verifyCsrfToken($request, 'generate_dkim')) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Invalid security token. Please refresh the page and try again.'
+            ], 403);
+        }
+
         $connectionId = $request->post('connection_id', '');
         $emailDomain = $request->post('email_domain', '');
         $domainSource = $request->post('domain_source', 'email');
@@ -1117,7 +1175,7 @@ class ConfigController extends Controller
                 'domainSource' => $domainSource,
                 'selector' => $selector,
                 'connection' => $connectionId,
-                'ip' => $request->getClientIp ?? 'unknown'
+                'ip' => $request->getClientIp() ?? 'unknown'
             ]);
 
             return new JsonResponse([
@@ -1197,6 +1255,7 @@ class ConfigController extends Controller
 
         // Get mail configuration to check domain source
         $mailConfig = $this->loadConfigFile('mail');
+
         $mailKey = "mail$connectionId";
         $customDomain = '';
         $domainSource = 'email';
@@ -1247,4 +1306,68 @@ class ConfigController extends Controller
             $this->saveConfigFile('mail', $mailConfig);
         }
     }
+
+    /**
+     * Decrypt confidential fields in configuration data
+     *
+     * @param array $configData Configuration data
+     * @param array $fieldsToDecrypt List of field names to decrypt
+     * @return array Processed configuration with decrypted fields
+     */
+    private function decryptConfigFields(array $configData, array $fieldsToDecrypt): array
+    {
+        // Importar Crypt
+        foreach ($configData as $connectionId => $connection) {
+            foreach ($fieldsToDecrypt as $field) {
+                if (isset($connection[$field])) {
+                    $configData[$connectionId][$field] = Crypt::decryptPassword($connection[$field]);
+                }
+            }
+        }
+
+        return $configData;
+    }
+
+    /**
+     * Encrypt confidential fields in configuration data
+     *
+     * @param array $configData Configuration data
+     * @param array $fieldsToEncrypt List of field names to encrypt
+     * @return array Processed configuration with encrypted fields
+     */
+    private function encryptConfigFields(array $configData, array $fieldsToEncrypt): array
+    {
+        // Importar Crypt
+        foreach ($configData as $connectionId => $connection) {
+            foreach ($fieldsToEncrypt as $field) {
+                if (isset($connection[$field]) && !empty($connection[$field])) {
+                    $configData[$connectionId][$field] = Crypt::encryptPassword($connection[$field]);
+                }
+            }
+        }
+
+        return $configData;
+    }
+
+
+    /**
+     * Verify CSRF token from request
+     *
+     * @param Request $request The request object
+     * @param string|null $action Optional action context
+     * @return bool Whether the token is valid
+     * @throws Exception
+     */
+    protected function verifyCsrfToken(Request $request, ?string $action = null): bool
+    {
+        // Get token from request using the post method
+        $token = $request->post('csrf_token');
+
+        if (!$token) {
+            return false;
+        }
+
+        return CsrfProtection::getInstance()->validateToken($token, $action);
+    }
+
 }
